@@ -146,6 +146,10 @@ ol.steps{padding-left:22px;display:grid;gap:8px}ol.steps li::marker{color:var(--
 details.fq{border:1px solid var(--line);border-radius:12px;margin-bottom:8px;background:#fff}details.fq summary{padding:13px 16px;cursor:pointer;font-weight:700;color:var(--dark);list-style:none;display:flex;justify-content:space-between;gap:10px}
 details.fq summary::-webkit-details-marker{display:none}details.fq div{padding:0 16px 14px;color:var(--muted)}details.fq[open] summary i{transform:rotate(180deg)}details.fq summary i{transition:.3s;color:var(--gold-h)}
 .kv{display:grid;grid-template-columns:130px 1fr;gap:6px 12px;font-size:14.5px}.kv dt{color:var(--muted);font-weight:600}.kv dd{word-break:break-word;color:var(--text)}
+/* content editor */
+.ct-h{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px}.ct-h b{color:var(--dark);line-height:1.35}.ct-h small{display:block;color:var(--muted);font-family:Inter,monospace;font-size:11.5px;font-weight:500}
+.ct-it .fld{margin-bottom:10px}.ct-it textarea{min-height:60px;font-size:15.5px}
+.hc{display:grid;gap:8px;margin-top:12px}.hc div{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:var(--cream);font-size:14.5px}.hc i{margin-top:4px}.hc .y{color:var(--green)}.hc .n{color:var(--red)}.hc .w{color:#c77a0a}.hc small{display:block;color:var(--muted)}
 /* media upload */
 .mbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .mbtns .up{cursor:pointer}
@@ -214,12 +218,18 @@ details.fq summary::-webkit-details-marker{display:none}details.fq div{padding:0
 </div></section>
 
 <!-- DENIED -->
-<section id="denied" class="center authbg" hidden><div class="acard">
-  <div class="alogo" style="color:#ffb4a8"><i class="fa-solid fa-user-lock"></i></div><h1>অ্যাডমিন অনুমতি নেই</h1>
+<section id="denied" class="center authbg" hidden><div class="acard" style="width:min(100%,520px)">
+  <div class="alogo" style="color:#ffb4a8"><i class="fa-solid fa-user-lock"></i></div><h1>অ্যাডমিন সংযোগ বাকি</h1>
   <p class="sub" id="d-mail"></p>
-  <p style="font-size:14px;color:var(--muted)">লগইন সফল, কিন্তু এই অ্যাকাউন্টকে অ্যাডমিন হিসেবে যুক্ত করা হয়নি। Firebase Console → Firestore-এ <b>admins</b> নামে একটি collection খুলে নিচের UID-কে <b>Document ID</b> দিয়ে একটি ডকুমেন্ট বানান (যেকোনো একটি ফিল্ড দিন, যেমন <code>role: "admin"</code>)।</p>
-  <div class="uid" id="d-uid"></div>
-  <div style="display:grid;gap:10px;margin-top:12px"><button class="btn btn-line btn-w" data-copy-text-from="#d-uid"><i class="fa-regular fa-copy"></i>UID কপি করুন</button><button class="btn btn-dark btn-w" id="d-retry"><i class="fa-solid fa-rotate"></i>আবার পরীক্ষা করুন</button><button class="btn btn-line btn-w" id="d-out"><i class="fa-solid fa-right-from-bracket"></i>লগআউট</button></div>
+  <div class="msg warn" id="d-msg"></div>
+  <div class="msg no" id="d-err" hidden></div>
+  <div style="display:grid;gap:10px">
+    <button type="button" class="btn btn-gold btn-w" id="d-claim"><i class="fa-solid fa-plug-circle-bolt"></i>আমাকে অ্যাডমিন হিসেবে সংযুক্ত করুন (এক ক্লিকে)</button>
+    <button type="button" class="btn btn-dark btn-w" id="d-retry"><i class="fa-solid fa-rotate"></i>আবার পরীক্ষা করুন</button>
+  </div>
+  <details class="fq" id="d-rd" style="margin-top:14px"><summary>Firestore Rules (পাবলিশ করতে হবে) <i class="fa-solid fa-chevron-down"></i></summary><div><p style="margin-bottom:8px">Firebase Console → Firestore Database → <b>Rules</b> ট্যাব → সব মুছে এটি পেস্ট → <b>Publish</b>।</p><button type="button" class="btn btn-line btn-sm" data-copy-rules><i class="fa-regular fa-copy"></i>Rules কপি করুন</button><pre class="code" id="d-rules" style="margin-top:10px;max-height:240px"></pre></div></details>
+  <details class="fq"><summary>হাতে করতে চাইলে (বিকল্প) <i class="fa-solid fa-chevron-down"></i></summary><div>Firestore → <b>Start collection</b> → Collection ID: <code>admins</code> (UID নয়!) → Document ID: নিচের UID → Field: <code>role</code> = <code>admin</code>।<div class="uid" id="d-uid"></div><button type="button" class="btn btn-line btn-sm" data-copy-text-from="#d-uid"><i class="fa-regular fa-copy"></i>UID কপি করুন</button></div></details>
+  <button type="button" class="btn btn-line btn-w" id="d-out" style="margin-top:6px"><i class="fa-solid fa-right-from-bracket"></i>লগআউট</button>
 </div></section>
 
 <!-- APP -->
@@ -227,11 +237,11 @@ details.fq summary::-webkit-details-marker{display:none}details.fq div{padding:0
   <aside class="side" id="side" aria-label="মেনু">
     <div class="brand"><i class="fa-solid fa-hands-holding-child"></i><div><b>মানব প্রয়াস</b><small>অ্যাডমিন প্যানেল</small></div></div>
     <nav id="snav"></nav>
-    <div class="side-f"><div class="who" id="who"></div><a class="btn" href="./" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i>সাইট দেখুন</a><button class="btn" id="logout"><i class="fa-solid fa-right-from-bracket"></i>লগআউট</button></div>
+    <div class="side-f"><div class="who" id="who"></div><a class="btn" href="./" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i>সাইট দেখুন</a><button type="button" class="btn" id="logout"><i class="fa-solid fa-right-from-bracket"></i>লগআউট</button></div>
   </aside>
   <div class="ov" id="ov"></div>
   <div class="mainwrap">
-    <header class="top"><button class="ib burger" id="burger" aria-label="মেনু"><i class="fa-solid fa-bars"></i></button><h1 id="ptitle">ড্যাশবোর্ড</h1><a class="btn btn-line btn-sm" href="./" target="_blank" rel="noopener"><i class="fa-solid fa-eye"></i><span>সাইট</span></a></header>
+    <header class="top"><button type="button" class="ib burger" id="burger" aria-label="মেনু"><i class="fa-solid fa-bars"></i></button><h1 id="ptitle">ড্যাশবোর্ড</h1><a class="btn btn-line btn-sm" href="./" target="_blank" rel="noopener"><i class="fa-solid fa-eye"></i><span>সাইট</span></a></header>
     <main><div id="view" class="view"></div></main>
   </div>
   <nav class="bnav" id="bnav" aria-label="দ্রুত মেনু"></nav>
@@ -319,7 +329,7 @@ async function uploadFile(file,kind,folder,onProg){
 async function trashIds(ids){ids=[...new Set(ids.filter(Boolean))];if(!ids.length||!DRIVE_ON())return;try{await driveCall({action:'trash',ids})}catch(e){console.warn('trash failed',e)}}
 function stillUsed(id,ex={}){return ENTK.some(k=>D[k].some(x=>!(ex.k===k&&ex.id===x.id)&&JSON.stringify(x).includes(id)))||(!ex.site&&JSON.stringify(D.site||{}).includes(id))}
 let FS=null;const newFS=k=>({k,trash:new Set(),up:new Set(),saved:false});
-function endFS(){const f=FS;FS=null;if(f&&!f.saved&&f.up.size)trashIds([...f.up])}
+function endFS(){const f=FS;FS=null;if(f&&!f.saved&&f.up.size){trashIds([...f.up]);if(typeof CT!=='undefined')CT.img=null}}
 function noteChange(oldVal,newId){const old=driveId(oldVal);if(old&&FS){if(FS.up.has(old)){FS.up.delete(old);trashIds([old])}else FS.trash.add(old)}if(newId&&FS)FS.up.add(newId)}
 
 /* ---------- modal ---------- */
@@ -328,12 +338,12 @@ function openModal(html){lastFocus=document.activeElement;sheet.innerHTML=html;m
 function closeModal(){if(!modal.classList.contains('open'))return;if(modalCleanup){const c=modalCleanup;modalCleanup=null;c()}modal.classList.add('out');setTimeout(()=>{modal.classList.remove('open','out');if(!$('#side').classList.contains('open'))document.body.classList.remove('lock');if(lastFocus&&lastFocus.focus)lastFocus.focus()},reduce?0:210)}
 modal.addEventListener('mousedown',e=>{if(e.target===modal)closeModal()});
 addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeSide()}});
-function askConfirm(title,text,okLabel='মুছে ফেলুন'){return new Promise(res=>{openModal(`<div class="grab"></div><div class="cfm"><i class="fa-solid fa-triangle-exclamation"></i><h3>${esc(title)}</h3><p>${esc(text)}</p></div><div class="sh-f" style="position:static;justify-content:center"><button class="btn btn-line" id="cf-no">বাতিল</button><button class="btn btn-red" id="cf-yes">${esc(okLabel)}</button></div>`);
+function askConfirm(title,text,okLabel='মুছে ফেলুন'){return new Promise(res=>{openModal(`<div class="grab"></div><div class="cfm"><i class="fa-solid fa-triangle-exclamation"></i><h3>${esc(title)}</h3><p>${esc(text)}</p></div><div class="sh-f" style="position:static;justify-content:center"><button type="button" class="btn btn-line" id="cf-no">বাতিল</button><button type="button" class="btn btn-red" id="cf-yes">${esc(okLabel)}</button></div>`);
   $('#cf-no').onclick=()=>{closeModal();res(false)};$('#cf-yes').onclick=()=>{closeModal();res(true)}})}
 
 /* ---------- data model ---------- */
 const COL={projects:'projects',gallery:'gallery',news:'news',team:'team',stories:'testimonials',volunteers:'volunteers',messages:'messages'};
-const D={projects:[],gallery:[],news:[],team:[],stories:[],volunteers:[],messages:[],site:{}};
+const D={projects:[],gallery:[],news:[],team:[],stories:[],volunteers:[],messages:[],site:{},content:{t:{},img:{}}};
 const L={};// loaded flags
 const STATUS=[['ongoing','চলমান'],['completed','সম্পন্ন'],['planned','পরিকল্পিত']];
 const stLabel=Object.fromEntries(STATUS);
@@ -382,28 +392,29 @@ const Q={},F={volunteers:'all',messages:'all'};
 let route='dashboard',dirty=false,statsAnim=false;
 
 /* ---------- navigation ---------- */
-const NAV=[['dashboard','fa-gauge-high','ড্যাশবোর্ড'],['projects','fa-diagram-project','প্রকল্প'],['gallery','fa-images','গ্যালারি'],['news','fa-newspaper','সংবাদ ও ইভেন্ট'],['team','fa-users','নেতৃত্ব'],['stories','fa-comments','মানুষের কথা'],['volunteers','fa-hand-holding-heart','স্বেচ্ছাসেবক আবেদন'],['messages','fa-envelope','বার্তা'],['settings','fa-gear','সাইট সেটিংস'],['help','fa-circle-question','সেটআপ গাইড']];
+const NAV=[['dashboard','fa-gauge-high','ড্যাশবোর্ড'],['projects','fa-diagram-project','প্রকল্প'],['gallery','fa-images','গ্যালারি'],['news','fa-newspaper','সংবাদ ও ইভেন্ট'],['team','fa-users','নেতৃত্ব'],['stories','fa-comments','মানুষের কথা'],['volunteers','fa-hand-holding-heart','স্বেচ্ছাসেবক আবেদন'],['messages','fa-envelope','বার্তা'],['content','fa-pen-nib','সাইটের লেখা ও ছবি'],['settings','fa-gear','সাইট সেটিংস'],['help','fa-circle-question','সেটআপ গাইড']];
 const BN_NAV=['dashboard','projects','volunteers','settings'];
 const newCount=k=>D[k].filter(x=>x.status==='new').length;
 function renderNav(){const c={volunteers:newCount('volunteers'),messages:newCount('messages')};
   $('#snav').innerHTML=NAV.map(([r,ic,l])=>`<a class="nv ${route===r?'on':''}" href="#/${r}"><i class="fa-solid ${ic}"></i>${l}${c[r]?`<span class="cnt">${bn(c[r])}</span>`:''}</a>`).join('');
-  $('#bnav').innerHTML=BN_NAV.map(r=>{const n=NAV.find(x=>x[0]===r);return `<a class="bn ${route===r?'on':''}" href="#/${r}"><i class="fa-solid ${n[1]}"></i>${n[2].split(' ')[0]}${c[r]?`<span class="cnt">${bn(c[r])}</span>`:''}</a>`}).join('')+`<button class="bn" id="bn-more"><i class="fa-solid fa-bars"></i>আরও</button>`;
+  $('#bnav').innerHTML=BN_NAV.map(r=>{const n=NAV.find(x=>x[0]===r);return `<a class="bn ${route===r?'on':''}" href="#/${r}"><i class="fa-solid ${n[1]}"></i>${n[2].split(' ')[0]}${c[r]?`<span class="cnt">${bn(c[r])}</span>`:''}</a>`}).join('')+`<button type="button" class="bn" id="bn-more"><i class="fa-solid fa-bars"></i>আরও</button>`;
   const more=$('#bn-more');if(more)more.onclick=openSide}
 function openSide(){$('#side').classList.add('open');$('#ov').classList.add('open');document.body.classList.add('lock')}
 function closeSide(){$('#side').classList.remove('open');$('#ov').classList.remove('open');if(!modal.classList.contains('open'))document.body.classList.remove('lock')}
 $('#burger').onclick=openSide;$('#ov').onclick=closeSide;
-function go(){const r=location.hash.replace(/^#\/?/,'')||'dashboard';endFS();route=NAV.some(n=>n[0]===r)?r:'dashboard';if(route==='settings')FS=newFS('site');dirty=false;closeSide();renderNav();$('#ptitle').textContent=NAV.find(n=>n[0]===route)[2];scrollTo(0,0);renderView(true)}
+function go(){const r=location.hash.replace(/^#\/?/,'')||'dashboard';endFS();route=NAV.some(n=>n[0]===r)?r:'dashboard';if(route==='settings'||route==='content')FS=newFS('site');dirty=false;closeSide();renderNav();$('#ptitle').textContent=NAV.find(n=>n[0]===route)[2];scrollTo(0,0);renderView(true)}
 addEventListener('hashchange',()=>{if(user&&!$('#app').hidden)go()});
 
 /* ---------- views ---------- */
 let rq=0;function schedule(){if(rq)return;rq=requestAnimationFrame(()=>{rq=0;renderNav();renderView(false)})}
 function renderView(force){const v=$('#view');
+  if(route==='content'){renderContent(force);return}
   if(route==='settings'){if(force||!dirty&&L.site&&!v.dataset.siteLoaded){v.dataset.siteLoaded=L.site?1:'';v.innerHTML=viewSettings()}return}
   v.dataset.siteLoaded='';
   if(route==='dashboard')v.innerHTML=viewDash();
   else if(ENT[route]){if(force||!$('#items',v)){v.innerHTML=viewEntityShell(route)}else{renderCount(route)}renderItems(route)}
   else if(route==='volunteers'||route==='messages')v.innerHTML=viewInbox(route);
-  else if(route==='help')v.innerHTML=viewHelp();
+  else if(route==='help'){if(force||!$('#hc-res',v))v.innerHTML=viewHelp()}
   if(force&&route==='dashboard')animateCounts()}
 const skel=n=>Array.from({length:n},()=>'<div class="sk"></div>').join('');
 
@@ -414,14 +425,14 @@ function viewDash(){const nv=newCount('volunteers'),nm=newCount('messages');
  const chk=[[!!S.phone&&!!S.email,'ফোন ও ইমেইল দেওয়া হয়েছে','settings'],[!!S.address_bn,'অফিসের ঠিকানা দেওয়া হয়েছে','settings'],[!!S.hero_img,'হোমপেজের মূল ছবি (Drive) দেওয়া হয়েছে','settings'],[!!(P.bkash||P.nagad||P.rocket||P.bank_acc_no),'সহায়তা গ্রহণের অফিসিয়াল নম্বর/অ্যাকাউন্ট দেওয়া হয়েছে','settings'],[!!S.facebook,'ফেসবুক পেজের লিংক দেওয়া হয়েছে','settings'],[!!S.reg_no,'সংস্থার নিবন্ধন নম্বর দেওয়া হয়েছে','settings'],[D.projects.length>0,'অন্তত একটি প্রকল্প যোগ হয়েছে','projects'],[D.gallery.length>=4,'গ্যালারিতে ৪+ ছবি আছে','gallery'],[D.team.length>0,'নেতৃত্বের তালিকা দেওয়া হয়েছে','team'],[(S.reports||[]).length>0,'বার্ষিক প্রতিবেদন (PDF) যুক্ত হয়েছে','settings']];
  const done=chk.filter(c=>c[0]).length,pct=Math.round(done/chk.length*100);
  const recent=[...D.volunteers.map(x=>({...x,_k:'volunteers'})),...D.messages.map(x=>({...x,_k:'messages'}))].sort((a,b)=>tsec(b)-tsec(a)).slice(0,6);
- return `<div class="sec-h"><div><h2>স্বাগতম 👋</h2><small>আপনার সাইটের সারাংশ</small></div><div class="tools"><button class="btn btn-gold btn-sm" data-new="projects"><i class="fa-solid fa-plus"></i>নতুন প্রকল্প</button><button class="btn btn-dark btn-sm" data-new="news"><i class="fa-solid fa-plus"></i>সংবাদ</button><button class="btn btn-line btn-sm" data-bulk><i class="fa-solid fa-images"></i>ছবি যোগ</button></div></div>
+ return `<div class="sec-h"><div><h2>স্বাগতম 👋</h2><small>আপনার সাইটের সারাংশ</small></div><div class="tools"><button type="button" class="btn btn-gold btn-sm" data-new="projects"><i class="fa-solid fa-plus"></i>নতুন প্রকল্প</button><button type="button" class="btn btn-dark btn-sm" data-new="news"><i class="fa-solid fa-plus"></i>সংবাদ</button><button type="button" class="btn btn-line btn-sm" data-bulk><i class="fa-solid fa-images"></i>ছবি যোগ</button></div></div>
  <div class="stats">${stat('projects','fa-diagram-project','প্রকল্প',D.projects.length)}${stat('gallery','fa-images','গ্যালারি ছবি',D.gallery.length)}${stat('news','fa-newspaper','সংবাদ',D.news.length)}${stat('team','fa-users','নেতৃত্ব',D.team.length)}${stat('volunteers','fa-hand-holding-heart','নতুন আবেদন',nv,1)}${stat('messages','fa-envelope','নতুন বার্তা',nm,1)}</div>
  <div class="two"><div class="card pad"><h3 style="color:var(--dark);margin-bottom:10px"><i class="fa-solid fa-inbox" style="color:var(--gold-h)"></i> সাম্প্রতিক আবেদন ও বার্তা</h3>${recent.length?recent.map(r=>`<div class="row ${r.status==='new'?'unread':''}" data-open="${r._k}:${esc(r.id)}"><div class="av">${esc((r.name||'?').trim().charAt(0))}</div><div class="tx"><b>${esc(r.name)}</b><small>${r._k==='volunteers'?'স্বেচ্ছাসেবক আবেদন':'বার্তা'} • ${esc(fmtTime(r.createdAt))}</small></div>${r.status==='new'?'<span class="pill p-new" style="margin:0">নতুন</span>':''}</div>`).join(''):'<p style="color:var(--muted);padding:14px 4px">এখনো কোনো আবেদন বা বার্তা আসেনি।</p>'}</div>
  <div class="card pad"><h3 style="color:var(--dark);margin-bottom:8px"><i class="fa-solid fa-list-check" style="color:var(--gold-h)"></i> সাইট সম্পূর্ণতা — ${bn(pct)}%</h3><div class="bar" style="margin-bottom:10px"><i style="width:${pct}%"></i></div>${chk.map(c=>`<div class="ck"><i class="fa-solid ${c[0]?'fa-circle-check y':'fa-circle n'}"></i><span>${c[1]}</span>${c[0]?'':`<a class="link" href="#/${c[2]}">করুন</a>`}</div>`).join('')}</div></div>`}
 function animateCounts(){statsAnim=true;$$('[data-n]').forEach(el=>{const to=+el.dataset.n;if(reduce||!to){el.textContent=bn(to);return}const t0=performance.now();const f=n=>{const p=Math.min(1,(n-t0)/900);el.textContent=bn(Math.round(to*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}
 
 /* entity list */
-function viewEntityShell(k){const E=ENT[k];return `<div class="sec-h"><div><h2><i class="fa-solid ${E.icon}" style="color:var(--gold-h)"></i> ${E.title}</h2><small id="cnt"></small></div><div class="tools">${E.bulk?'<button class="btn btn-line btn-sm" data-bulk><i class="fa-solid fa-layer-group"></i>একসাথে অনেক ছবি</button>':''}<button class="btn btn-gold" data-new="${k}"><i class="fa-solid fa-plus"></i>নতুন ${E.one}</button></div></div>
+function viewEntityShell(k){const E=ENT[k];return `<div class="sec-h"><div><h2><i class="fa-solid ${E.icon}" style="color:var(--gold-h)"></i> ${E.title}</h2><small id="cnt"></small></div><div class="tools">${E.bulk?'<button type="button" class="btn btn-line btn-sm" data-bulk><i class="fa-solid fa-layer-group"></i>একসাথে অনেক ছবি</button>':''}<button type="button" class="btn btn-gold" data-new="${k}"><i class="fa-solid fa-plus"></i>নতুন ${E.one}</button></div></div>
  <div class="tools" style="margin-bottom:16px"><label class="search"><i class="fa-solid fa-magnifying-glass"></i><input id="q" type="search" placeholder="খুঁজুন…" value="${esc(Q[k]||'')}"></label></div><div class="items" id="items"></div>`}
 function renderCount(k){const c=$('#cnt');if(c)c.textContent=L[k]?`মোট ${bn(D[k].length)}টি`:'লোড হচ্ছে…'}
 function renderItems(k){const E=ENT[k],box=$('#items');if(!box)return;renderCount(k);
@@ -430,20 +441,20 @@ function renderItems(k){const E=ENT[k],box=$('#items');if(!box)return;renderCoun
   const mv=E.order!=='date'&&!q;
   box.innerHTML=list.length?list.map((d,i)=>{const it=E.item(d);const idx=D[k].indexOf(d);
    return `<article class="card it" style="--i:${Math.min(i,12)}"><div class="th">${it.th&&thumb(it.th)||`<i class="fa-solid ${E.icon}"></i>`}</div><div class="bd">${it.pill?`<span class="pill ${it.pill[1]}">${esc(it.pill[2])}</span>`:''}<h3>${esc(it.t)}</h3>${it.s?`<p>${esc(it.s)}</p>`:''}</div>
-   <div class="ac"><button class="btn btn-dark btn-sm" data-edit="${k}:${esc(d.id)}"><i class="fa-solid fa-pen"></i>সম্পাদনা</button><span class="sp"></span>${mv?`<button class="ib" data-mv="${k}:${esc(d.id)}:-1" aria-label="উপরে" ${idx===0?'disabled':''}><i class="fa-solid fa-arrow-up"></i></button><button class="ib" data-mv="${k}:${esc(d.id)}:1" aria-label="নিচে" ${idx===D[k].length-1?'disabled':''}><i class="fa-solid fa-arrow-down"></i></button>`:''}<button class="ib red" data-del="${k}:${esc(d.id)}" aria-label="মুছুন"><i class="fa-solid fa-trash-can"></i></button></div></article>`}).join(''):`<div class="empty"><i class="fa-regular fa-folder-open"></i>${q?'কিছু পাওয়া যায়নি।':`এখনো কিছু যোগ করা হয়নি। উপরের "নতুন ${E.one}" বাটনে চাপ দিন।`}</div>`}
+   <div class="ac"><button type="button" class="btn btn-dark btn-sm" data-edit="${k}:${esc(d.id)}"><i class="fa-solid fa-pen"></i>সম্পাদনা</button><span class="sp"></span>${mv?`<button type="button" class="ib" data-mv="${k}:${esc(d.id)}:-1" aria-label="উপরে" ${idx===0?'disabled':''}><i class="fa-solid fa-arrow-up"></i></button><button type="button" class="ib" data-mv="${k}:${esc(d.id)}:1" aria-label="নিচে" ${idx===D[k].length-1?'disabled':''}><i class="fa-solid fa-arrow-down"></i></button>`:''}<button type="button" class="ib red" data-del="${k}:${esc(d.id)}" aria-label="মুছুন"><i class="fa-solid fa-trash-can"></i></button></div></article>`}).join(''):`<div class="empty"><i class="fa-regular fa-folder-open"></i>${q?'কিছু পাওয়া যায়নি।':`এখনো কিছু যোগ করা হয়নি। উপরের "নতুন ${E.one}" বাটনে চাপ দিন।`}</div>`}
 document.addEventListener('input',e=>{if(e.target.id==='q'){Q[route]=e.target.value;renderItems(route)}});
 
 /* inbox */
 function viewInbox(k){const list=D[k],f=F[k],isV=k==='volunteers',shown=list.filter(x=>f==='all'||x.status==='new');
- return `<div class="sec-h"><div><h2><i class="fa-solid ${isV?'fa-hand-holding-heart':'fa-envelope'}" style="color:var(--gold-h)"></i> ${isV?'স্বেচ্ছাসেবক আবেদন':'যোগাযোগ বার্তা'}</h2><small>মোট ${bn(list.length)}টি • নতুন ${bn(newCount(k))}টি</small></div>${isV?'<button class="btn btn-line btn-sm" data-csv><i class="fa-solid fa-file-csv"></i>CSV ডাউনলোড</button>':''}</div>
- <div class="chips" style="margin-bottom:12px"><button class="chip ${f==='all'?'on':''}" data-flt="${k}:all">সব</button><button class="chip ${f==='new'?'on':''}" data-flt="${k}:new">শুধু নতুন</button></div>
+ return `<div class="sec-h"><div><h2><i class="fa-solid ${isV?'fa-hand-holding-heart':'fa-envelope'}" style="color:var(--gold-h)"></i> ${isV?'স্বেচ্ছাসেবক আবেদন':'যোগাযোগ বার্তা'}</h2><small>মোট ${bn(list.length)}টি • নতুন ${bn(newCount(k))}টি</small></div>${isV?'<button type="button" class="btn btn-line btn-sm" data-csv><i class="fa-solid fa-file-csv"></i>CSV ডাউনলোড</button>':''}</div>
+ <div class="chips" style="margin-bottom:12px"><button type="button" class="chip ${f==='all'?'on':''}" data-flt="${k}:all">সব</button><button type="button" class="chip ${f==='new'?'on':''}" data-flt="${k}:new">শুধু নতুন</button></div>
  <div class="card pad" style="padding:8px 14px">${!L[k]?skel(2):shown.length?shown.map(r=>`<div class="row ${r.status==='new'?'unread':''}" data-open="${k}:${esc(r.id)}"><div class="av">${esc((r.name||'?').trim().charAt(0))}</div><div class="tx"><b>${esc(r.name)}</b><small>${isV?esc(r.phone||'')+' • '+esc(INTEREST[r.interest]||''):esc(r.subject||(r.message||'').slice(0,60))}</small><br><small>${esc(fmtTime(r.createdAt))}</small></div>${r.status==='new'?'<span class="pill p-new" style="margin:0">নতুন</span>':'<i class="fa-solid fa-circle-check" style="color:var(--green)"></i>'}</div>`).join(''):'<div class="empty" style="border:0"><i class="fa-regular fa-inbox"></i>কিছু নেই।</div>'}</div>`}
 function openInbox(k,id){const r=D[k].find(x=>x.id===id);if(!r)return;const isV=k==='volunteers';
  if(r.status==='new'&&!isV)updateDoc(doc(db,COL[k],id),{status:'read'}).catch(()=>{});
  let wa=String(r.phone||'').replace(/[^\d]/g,'');if(/^01/.test(wa))wa='88'+wa;
  const rows=isV?[['নাম',r.name],['মোবাইল',r.phone],['ইমেইল',r.email||'—'],['ঠিকানা',r.address],['আগ্রহের ক্ষেত্র',INTEREST[r.interest]||r.interest],['সময়',fmtTime(r.createdAt)]]:[['নাম',r.name],['ইমেইল',r.email],['বিষয়',r.subject||'—'],['বার্তা',r.message],['সময়',fmtTime(r.createdAt)]];
- openModal(`<div class="grab"></div><div class="sh-h"><h2>${isV?'আবেদনের বিবরণ':'বার্তার বিবরণ'}</h2><button class="ib" data-close aria-label="বন্ধ"><i class="fa-solid fa-xmark"></i></button></div><dl class="kv">${rows.map(([a,b])=>`<dt>${a}</dt><dd style="white-space:pre-wrap">${esc(b)}</dd>`).join('')}</dl>
- <div class="sh-f" style="justify-content:flex-start;position:static;margin-top:16px">${isV&&r.phone?`<a class="btn btn-dark btn-sm" href="tel:${esc(r.phone)}"><i class="fa-solid fa-phone"></i>কল</a><a class="btn btn-gold btn-sm" href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>`:''}${r.email?`<a class="btn btn-line btn-sm" href="mailto:${esc(r.email)}${isV?'':'?subject='+encodeURIComponent('Re: '+(r.subject||''))}"><i class="fa-solid fa-envelope"></i>ইমেইল</a>`:''}${isV&&r.status==='new'?`<button class="btn btn-line btn-sm" id="mk"><i class="fa-solid fa-check"></i>যোগাযোগ করা হয়েছে</button>`:''}<button class="btn btn-red btn-sm" id="rm" style="margin-left:auto"><i class="fa-solid fa-trash-can"></i>মুছুন</button></div>`);
+ openModal(`<div class="grab"></div><div class="sh-h"><h2>${isV?'আবেদনের বিবরণ':'বার্তার বিবরণ'}</h2><button type="button" class="ib" data-close aria-label="বন্ধ"><i class="fa-solid fa-xmark"></i></button></div><dl class="kv">${rows.map(([a,b])=>`<dt>${a}</dt><dd style="white-space:pre-wrap">${esc(b)}</dd>`).join('')}</dl>
+ <div class="sh-f" style="justify-content:flex-start;position:static;margin-top:16px">${isV&&r.phone?`<a class="btn btn-dark btn-sm" href="tel:${esc(r.phone)}"><i class="fa-solid fa-phone"></i>কল</a><a class="btn btn-gold btn-sm" href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>`:''}${r.email?`<a class="btn btn-line btn-sm" href="mailto:${esc(r.email)}${isV?'':'?subject='+encodeURIComponent('Re: '+(r.subject||''))}"><i class="fa-solid fa-envelope"></i>ইমেইল</a>`:''}${isV&&r.status==='new'?`<button type="button" class="btn btn-line btn-sm" id="mk"><i class="fa-solid fa-check"></i>যোগাযোগ করা হয়েছে</button>`:''}<button type="button" class="btn btn-red btn-sm" id="rm" style="margin-left:auto"><i class="fa-solid fa-trash-can"></i>মুছুন</button></div>`);
  const mk=$('#mk');if(mk)mk.onclick=async()=>{try{await updateDoc(doc(db,COL[k],id),{status:'done'});toast('চিহ্নিত হয়েছে');closeModal()}catch(e){fail(e)}};
  $('#rm').onclick=async()=>{closeModal();await sleep(260);if(await askConfirm('মুছে ফেলবেন?','এটি স্থায়ীভাবে মুছে যাবে।')){try{await deleteDoc(doc(db,COL[k],id));toast('মুছে ফেলা হয়েছে')}catch(e){fail(e)}}}}
 function exportCSV(){const rows=[['সময়','নাম','মোবাইল','ইমেইল','ঠিকানা','আগ্রহের ক্ষেত্র','অবস্থা']].concat(D.volunteers.map(r=>[fmtTime(r.createdAt),r.name,r.phone,r.email||'',r.address,INTEREST[r.interest]||r.interest,r.status==='new'?'নতুন':'যোগাযোগ হয়েছে']));
@@ -507,7 +518,7 @@ const fail=e=>{console.error(e);toast(/permission|insufficient/i.test(e&&e.messa
 
 /* open create/edit form */
 function openForm(k,id){const E=ENT[k],d=id?D[k].find(x=>x.id===id):null;if(id&&!d)return;
- openModal(`<div class="grab"></div><div class="sh-h"><h2>${d?'সম্পাদনা':'নতুন'}: ${E.one}</h2><button class="ib" data-close aria-label="বন্ধ"><i class="fa-solid fa-xmark"></i></button></div>
+ openModal(`<div class="grab"></div><div class="sh-h"><h2>${d?'সম্পাদনা':'নতুন'}: ${E.one}</h2><button type="button" class="ib" data-close aria-label="বন্ধ"><i class="fa-solid fa-xmark"></i></button></div>
  <form id="ef" novalidate><div class="fgrid">${E.fields.map(f=>fld(f,d?(f.type==='date'?iso(d[f.k]):getP(d,f.k)):(f.type==='date'?iso(new Date()):f.def))).join('')}</div><div class="ferr"></div>
  <div class="sh-f"><button type="button" class="btn btn-line" data-close>বাতিল</button><button class="btn btn-gold" type="submit"><i class="fa-solid fa-floppy-disk"></i>সংরক্ষণ করুন</button></div></form>`);
  FS=newFS(k);modalCleanup=endFS;wireImgs(sheet);
@@ -526,11 +537,11 @@ async function removeItem(k,id){const d=D[k].find(x=>x.id===id);if(!d)return;con
 async function moveItem(k,id,dir){const list=[...D[k]],i=list.findIndex(x=>x.id===id),j=i+dir;if(i<0||j<0||j>=list.length)return;[list[i],list[j]]=[list[j],list[i]];
   try{const b=writeBatch(db);list.forEach((x,n)=>{if(x.order!==n+1)b.update(doc(db,COL[k],x.id),{order:n+1})});await b.commit()}catch(e){fail(e)}}
 /* bulk gallery */
-function openBulk(){openModal(`<div class="grab"></div><div class="sh-h"><h2>একসাথে অনেক ছবি যোগ করুন</h2><button class="ib" data-close aria-label="বন্ধ"><i class="fa-solid fa-xmark"></i></button></div>
+function openBulk(){openModal(`<div class="grab"></div><div class="sh-h"><h2>একসাথে অনেক ছবি যোগ করুন</h2><button type="button" class="ib" data-close aria-label="বন্ধ"><i class="fa-solid fa-xmark"></i></button></div>
  <label class="btn btn-gold btn-w up ${DRIVE_ON()?'':'dis'}" id="bk-pick" style="margin-bottom:10px"><i class="fa-solid fa-cloud-arrow-up"></i><span>ফোন/কম্পিউটার থেকে ছবি বাছুন (একাধিক)</span><input type="file" accept="image/*" multiple hidden id="bk-files"></label><div class="bkl" id="bk-l" hidden></div>
  <p style="color:var(--muted);margin:14px 0 8px"><b>অথবা</b> Drive লিংক দিয়ে — প্রতি লাইনে একটি ছবি। ফরম্যাট: <b>Drive লিংক | বাংলা ক্যাপশন | English caption</b> (ক্যাপশন ঐচ্ছিক)।</p>
  <div class="fld"><textarea id="bk" rows="9" style="font-size:14px" placeholder="https://drive.google.com/file/d/AAA/view | ত্রাণ বিতরণ | Relief distribution&#10;https://drive.google.com/file/d/BBB/view | বৃক্ষরোপণ"></textarea></div><div id="bk-i" class="msg warn" hidden></div>
- <div class="sh-f"><button class="btn btn-line" data-close>বাতিল</button><button class="btn btn-gold" id="bk-go"><i class="fa-solid fa-cloud-arrow-up"></i>যোগ করুন</button></div>`);
+ <div class="sh-f"><button type="button" class="btn btn-line" data-close>বাতিল</button><button type="button" class="btn btn-gold" id="bk-go"><i class="fa-solid fa-cloud-arrow-up"></i>যোগ করুন</button></div>`);
  $('#bk-files').onchange=async ev=>{const files=[...ev.target.files].filter(f=>/^image\//.test(f.type));ev.target.value='';if(!files.length)return;const box=$('#bk-l');box.hidden=false;box.innerHTML=files.map((f,i)=>`<div id="bi${i}"><i class="fa-regular fa-clock"></i><span>${esc(f.name)}</span></div>`).join('');
   $('#bk-pick').classList.add('busy');const items=[];
   for(let i=0;i<files.length;i++){const row=$('#bi'+i);row.innerHTML=`<i class="fa-solid fa-spinner fa-spin"></i><span>${bn(i+1)}/${bn(files.length)} — ${esc(files[i].name)}</span>`;
@@ -544,6 +555,63 @@ function openBulk(){openModal(`<div class="grab"></div><div class="sh-h"><h2>এ
   try{const os=D.gallery.map(x=>x.order).filter(n=>typeof n==='number'),base=(os.length?Math.min(...os):1)-items.length;
    for(let i=0;i<items.length;i+=400){const b=writeBatch(db);items.slice(i,i+400).forEach((it,n)=>b.set(doc(collection(db,COL.gallery)),{...it,order:base+i+n,createdAt:serverTimestamp()}));await b.commit()}
    toast(bn(items.length)+'টি ছবি যোগ হয়েছে ✓');closeModal()}catch(e){fail(e)}finally{btn.classList.remove('busy')}}}
+
+/* ---------- content editor (সাইটের সব লেখা ও ছবি) ---------- */
+const CT={defs:null,err:'',cur:'img',q:'',vals:{},img:null,dirty:false};
+async function loadDefs(){try{const r=await fetch('./content-defaults.json?v='+Date.now());if(!r.ok)throw new Error(r.status);CT.defs=await r.json();CT.err=''}catch(e){CT.err='content-defaults.json লোড হয়নি — এই ফাইলটি admin.html-এর পাশের ফোল্ডারে (GitHub-এ একই জায়গায়) আপলোড করুন।'}if(route==='content')renderContent(true)}
+const ctOv=(k,l)=>{const o=D.content.t&&D.content.t[k];return o&&o[l]?String(o[l]):''};
+const ctVal=(k,l)=>(CT.vals[k]&&CT.vals[k][l]!=null)?CT.vals[k][l]:(ctOv(k,l)||CT.defs.defs[k][l]||'');
+const ctChanged=k=>{const d=CT.defs.defs[k];return['bn','en'].some(l=>(!d.only||d.only===l)&&ctVal(k,l)!==(d[l]||''))};
+const ctRows=v=>Math.max(2,Math.min(9,Math.ceil(String(v).length/52)+String(v).split('\n').length-1));
+function ctDirty(){CT.dirty=true;const e=$('#ct-s');if(e)e.textContent='অসংরক্ষিত পরিবর্তন আছে'}
+function ctCard(k){const d=CT.defs.defs[k],mk=l=>`<div class="fld"><label>${l==='bn'?'বাংলা':'English'}</label><textarea class="ct-ta" data-ctk="${esc(k)}" data-ctl="${l}" rows="${ctRows(ctVal(k,l))}" maxlength="3000">${esc(ctVal(k,l))}</textarea></div>`;
+  return `<div class="card pad ct-it" data-ctc="${esc(k)}" style="margin-bottom:12px"><div class="ct-h"><div><b>${esc((d.bn||d.en||k).slice(0,52))}</b><small>${esc(k)}</small></div><span class="pill p-ongoing ct-chg" ${ctChanged(k)?'':'hidden'}>পরিবর্তিত</span></div><div class="fgrid">${d.only!=='en'?mk('bn'):''}${d.only!=='bn'?mk('en'):''}</div><button type="button" class="btn btn-line btn-sm" data-ct-reset="${esc(k)}"><i class="fa-solid fa-rotate-left"></i>ডিফল্টে ফেরান</button></div>`}
+function renderCtBody(){const body=$('#ct-body');if(!body)return;const q=CT.q.trim().toLowerCase();
+  if(CT.cur==='img'&&!q){body.innerHTML=`<div class="card pad"><div class="msg warn" style="margin-bottom:14px"><i class="fa-solid fa-circle-info" style="margin-top:4px"></i><span>ছবি আপলোড বা Drive লিংক দিন। ঘর খালি রাখলে সাইটের ডিফল্ট ছবি থাকবে। <b>হোমপেজের বড় ছবি</b> বদলাতে <a class="link" href="#/settings">সাইট সেটিংস</a> দেখুন; প্রকল্প, গ্যালারি, সংবাদ ও নেতৃত্বের ছবি নিজ নিজ পেজ থেকে।</span></div><div class="fgrid">${CT.defs.images.map(im=>fld({k:'img_'+im.k,label:im.label,type:'image',full:1},CT.img[im.k]||'')).join('')}</div></div>`;
+    wireImgs(body);$$('[data-img]',body).forEach(inp=>inp.addEventListener('input',()=>{CT.img[inp.dataset.k.slice(4)]=inp.value;ctDirty()}));return}
+  const keys=q?Object.keys(CT.defs.defs).filter(k=>k.toLowerCase().includes(q)||['bn','en'].some(l=>ctVal(k,l).toLowerCase().includes(q))):CT.defs.groups.find(g=>g.id===CT.cur).keys;
+  body.innerHTML=keys.length?keys.map(ctCard).join(''):'<div class="empty"><i class="fa-regular fa-folder-open"></i>কিছু পাওয়া যায়নি।</div>'}
+function renderContent(force){const v=$('#view');
+  if(CT.err){v.innerHTML=`<div class="msg no"><i class="fa-solid fa-triangle-exclamation" style="margin-top:4px"></i><span>${esc(CT.err)}</span></div>`;return}
+  if(!CT.defs||!L.content){v.innerHTML=`<div class="sec-h"><h2>সাইটের লেখা ও ছবি</h2></div>${skel(2)}`;if(!CT.defs&&!CT.loading){CT.loading=true;loadDefs().finally(()=>{CT.loading=false})}return}
+  if(!force&&$('#ct-body',v))return;
+  if(!CT.img||!CT.dirty)CT.img={...(D.content.img||{})};
+  v.innerHTML=`<div class="sec-h"><div><h2><i class="fa-solid fa-pen-nib" style="color:var(--gold-h)"></i> সাইটের লেখা ও ছবি</h2><small>এখানে যা বদলাবেন সাইটে সাথে সাথে বদলে যাবে। ঘর ডিফল্টের মতো রাখলে ডিফল্টই থাকবে।</small></div></div>
+  <div class="tools" style="margin-bottom:12px"><label class="search"><i class="fa-solid fa-magnifying-glass"></i><input id="ct-q" type="search" placeholder="যেকোনো লেখা খুঁজুন…" value="${esc(CT.q)}"></label></div>
+  <div class="chips" id="ct-chips" style="margin-bottom:14px"><button type="button" class="chip ${CT.cur==='img'?'on':''}" data-ct-tab="img"><i class="fa-solid fa-image"></i> ছবি ও লোগো</button>${CT.defs.groups.map(g=>`<button type="button" class="chip ${CT.cur===g.id?'on':''}" data-ct-tab="${g.id}">${esc(g.label)}</button>`).join('')}</div>
+  <div id="ct-body"></div>
+  <div class="savebar"><span id="ct-s">${CT.dirty?'অসংরক্ষিত পরিবর্তন আছে':'সব তথ্য সংরক্ষিত আছে'}</span><button type="button" class="btn btn-gold" data-ct-save><i class="fa-solid fa-floppy-disk"></i>সংরক্ষণ করুন</button></div>`;
+  renderCtBody()}
+async function saveContent(){const btn=$('[data-ct-save]');if(!btn)return;
+  const newT={...(D.content.t||{})};
+  Object.keys(CT.vals).forEach(k=>{const d=CT.defs.defs[k];if(!d)return;const o={};['bn','en'].forEach(l=>{if(d.only&&d.only!==l)return;const v=String(CT.vals[k][l]??'').trim();if(v&&v!==(d[l]||''))o[l]=v});if(Object.keys(o).length)newT[k]=o;else delete newT[k]});
+  const imgMap={};Object.entries(CT.img||{}).forEach(([k,v])=>{v=String(v||'').trim();if(v)imgMap[k]=v});
+  for(const [k,v] of Object.entries(imgMap)){if(!imgUrl(v)){toast('ছবির লিংক সঠিক নয়',true);return}}
+  const before=D.content.img||{};btn.classList.add('busy');
+  try{await setDoc(doc(db,'settings','content'),{t:newT,img:imgMap,updatedAt:serverTimestamp()},{mergeFields:['t','img','updatedAt']});
+   {const keep=Object.values(imgMap).join(' '),gone=Object.values(before).map(driveId).filter(id=>id&&!keep.includes(id)&&!stillUsed(id,{site:true}));trashIds(gone)}
+   if(FS)FS.saved=true;FS=newFS('site');CT.dirty=false;const e=$('#ct-s');if(e)e.textContent='সংরক্ষিত ✓';toast('সাইটে প্রকাশিত হয়েছে ✓')}
+  catch(e){fail(e)}finally{btn.classList.remove('busy')}}
+document.addEventListener('input',e=>{const t=e.target;if(t.id==='ct-q'){CT.q=t.value;renderCtBody();return}
+  if(t.classList&&t.classList.contains('ct-ta')){const k=t.dataset.ctk,l=t.dataset.ctl;if(!CT.vals[k])CT.vals[k]={bn:ctVal(k,'bn'),en:ctVal(k,'en')};CT.vals[k][l]=t.value;const c=t.closest('.ct-it');if(c)$('.ct-chg',c).hidden=!ctChanged(k);ctDirty()}});
+document.addEventListener('click',e=>{const t=e.target;let b;
+  if(b=t.closest('[data-ct-tab]')){CT.cur=b.dataset.ctTab;CT.q='';const q=$('#ct-q');if(q)q.value='';$$('#ct-chips .chip').forEach(c=>c.classList.toggle('on',c===b));renderCtBody();return}
+  if(b=t.closest('[data-ct-reset]')){const k=b.dataset.ctReset,d=CT.defs.defs[k];CT.vals[k]={bn:d.bn||'',en:d.en||''};const c=b.closest('.ct-it');$$('.ct-ta',c).forEach(a=>{a.value=CT.vals[k][a.dataset.ctl]});$('.ct-chg',c).hidden=true;ctDirty();return}
+  if(t.closest('[data-ct-save]'))return saveContent()});
+
+/* ---------- connection test ---------- */
+async function runHealth(){const box=$('#hc-res'),btn=$('[data-health]'),rows=[];btn.classList.add('busy');
+  const draw=()=>{box.innerHTML=rows.map(r=>`<div><i class="fa-solid ${r[0]==='y'?'fa-circle-check y':r[0]==='n'?'fa-circle-xmark n':r[0]==='w'?'fa-triangle-exclamation w':'fa-spinner fa-spin'}"></i><span>${esc(r[1])}${r[2]?`<small>${esc(r[2])}</small>`:''}</span></div>`).join('')};
+  const add=(s,t,h)=>{rows.push([s,t,h]);draw()};
+  add('y','লগইন (Firebase Authentication)',user.email+' • ডোমেইন: '+location.hostname+' (Authentication → Settings → Authorized domains-এ এটি থাকতে হবে)');
+  try{const a=await getDoc(doc(db,'admins',user.uid));add(a.exists()?'y':'n','অ্যাডমিন অনুমতি (admins/'+user.uid.slice(0,6)+'…)',a.exists()?'':'admins collection-এ আপনার UID-র ডকুমেন্ট নেই')}catch(e){add('n','অ্যাডমিন অনুমতি পরীক্ষা ব্যর্থ',e.message)}
+  try{await getDoc(doc(db,'settings','site'));add('y','Firestore থেকে পড়া কাজ করছে')}catch(e){add('n','Firestore পড়া ব্যর্থ',e.message)}
+  try{const r=doc(db,'settings','_health');await setDoc(r,{checkedAt:serverTimestamp(),by:user.uid});await deleteDoc(r);add('y','Firestore-এ লেখা কাজ করছে (Rules ঠিক আছে)')}catch(e){add('n','Firestore-এ লেখা যাচ্ছে না — Rules পাবলিশ ও admins ডকুমেন্ট দেখুন',e.message)}
+  if(!DRIVE_ON())add('w','Google Drive স্ক্রিপ্ট সেটআপ হয়নি','admin.html-এর DRIVE_SCRIPT_URL-এ Web App URL বসান (আপলোড না লাগলে এটি ঐচ্ছিক)');
+  else{try{const r=await driveCall({action:'ping'});add('y','Google Drive স্ক্রিপ্ট কাজ করছে',(r.folder?'ফোল্ডার: '+r.folder:''))}catch(e){add('n','Google Drive স্ক্রিপ্ট ব্যর্থ',e.message)}}
+  add('y','পরীক্ষা শেষ','পাবলিক সাইট (index.html) লগইন ছাড়াই পড়ে — তাই সেটি আলাদা ব্রাউজারে/ইনকগনিটোতে খুলে দেখুন কনটেন্ট আসছে কি না।');
+  btn.classList.remove('busy')}
+document.addEventListener('click',e=>{if(e.target.closest('[data-health]'))runHealth()});
 
 /* ---------- settings ---------- */
 const DEF_STATS=[{n:300,suffix:'+',label_bn:'নিরাপদ যাতায়াত পাওয়া পরিবার',label_en:'Families with safe passage'},{n:500,suffix:'+',label_bn:'শিশুকে সহায়তার লক্ষ্য',label_en:'Children targeted for support'},{n:100,suffix:'+',label_bn:'বন্যায় ত্রাণ পাওয়া পরিবার',label_en:'Flood-relief families'},{n:'@projects',suffix:'',label_bn:'মোট প্রকল্প',label_en:'Total projects'}];
@@ -565,12 +633,12 @@ const SETG=[
   {k:'payments.bank_branch',label:'শাখা',max:80},{k:'payments.bank_acc_name',label:'অ্যাকাউন্টের নাম',max:100},{k:'payments.bank_acc_no',label:'অ্যাকাউন্ট নম্বর',max:40}]},
  {id:'g5',icon:'fa-file-pdf',t:'প্রতিবেদন (PDF)',d:'বার্ষিক প্রতিবেদন/আয়-ব্যয়ের PDF Google Drive-এ রেখে "Anyone with the link" করে লিংক দিন।',rep:'reports'}];
 const allSetFields=SETG.flatMap(g=>g.f||[]);
-const statRow=s=>`<div class="rep" data-row="stats"><div class="fld"><label>ধরন</label><select data-s="mode"><option value="num" ${s.n==='@projects'?'':'selected'}>নির্দিষ্ট সংখ্যা</option><option value="projects" ${s.n==='@projects'?'selected':''}>মোট প্রকল্প (স্বয়ংক্রিয়)</option></select></div><div class="fld"><label>সংখ্যা</label><input data-s="n" type="number" min="0" inputmode="numeric" value="${s.n==='@projects'?'':esc(s.n)}"></div><div class="fld"><label>শেষে চিহ্ন</label><input data-s="suffix" maxlength="3" value="${esc(s.suffix||'')}" placeholder="+"></div><div class="fld"><label>লেবেল (বাংলা)</label><input data-s="label_bn" maxlength="80" value="${esc(s.label_bn||'')}"></div><div class="fld"><label>Label (English)</label><input data-s="label_en" maxlength="80" value="${esc(s.label_en||'')}"></div><button type="button" class="btn btn-line btn-sm rm" data-rm><i class="fa-solid fa-trash-can"></i>সরান</button></div>`;
-const repRow=r=>`<div class="rep" data-row="reports"><div class="fld"><label>শিরোনাম (বাংলা)</label><input data-s="title_bn" maxlength="100" value="${esc(r.title_bn||'')}"></div><div class="fld"><label>Title (English)</label><input data-s="title_en" maxlength="100" value="${esc(r.title_en||'')}"></div><div class="fld" style="grid-column:1/-1"><label>PDF (আপলোড বা Drive লিংক)</label><input data-s="url" type="url" inputmode="url" value="${esc(r.url||'')}" placeholder="আপলোড করুন, অথবা Drive লিংক পেস্ট করুন">${mbtns('pdf')}<div class="istat" style="margin-top:6px"></div></div><button type="button" class="btn btn-line btn-sm rm" data-rm><i class="fa-solid fa-trash-can"></i>সরান</button></div>`;
+const statRow=s=>`<div class="rep" data-row="stats"><div class="fld"><label>ধরন</label><select data-s="mode"><option value="num" ${s.n==='@projects'?'':'selected'}>নির্দিষ্ট সংখ্যা</option><option value="projects" ${s.n==='@projects'?'selected':''}>মোট প্রকল্প (স্বয়ংক্রিয়)</option></select></div><div class="fld"><label>সংখ্যা</label><input data-s="n" type="number" min="0" inputmode="numeric" value="${s.n==='@projects'?'':esc(s.n)}"></div><div class="fld"><label>শেষে চিহ্ন</label><input type="text" data-s="suffix" maxlength="3" value="${esc(s.suffix||'')}" placeholder="+"></div><div class="fld"><label>লেবেল (বাংলা)</label><input type="text" data-s="label_bn" maxlength="80" value="${esc(s.label_bn||'')}"></div><div class="fld"><label>Label (English)</label><input type="text" data-s="label_en" maxlength="80" value="${esc(s.label_en||'')}"></div><button type="button" class="btn btn-line btn-sm rm" data-rm><i class="fa-solid fa-trash-can"></i>সরান</button></div>`;
+const repRow=r=>`<div class="rep" data-row="reports"><div class="fld"><label>শিরোনাম (বাংলা)</label><input type="text" data-s="title_bn" maxlength="100" value="${esc(r.title_bn||'')}"></div><div class="fld"><label>Title (English)</label><input type="text" data-s="title_en" maxlength="100" value="${esc(r.title_en||'')}"></div><div class="fld" style="grid-column:1/-1"><label>PDF (আপলোড বা Drive লিংক)</label><input data-s="url" type="url" inputmode="url" value="${esc(r.url||'')}" placeholder="আপলোড করুন, অথবা Drive লিংক পেস্ট করুন">${mbtns('pdf')}<div class="istat" style="margin-top:6px"></div></div><button type="button" class="btn btn-line btn-sm rm" data-rm><i class="fa-solid fa-trash-can"></i>সরান</button></div>`;
 function viewSettings(){const S=D.site||{};if(!L.site)return `<div class="sec-h"><h2>সাইট সেটিংস</h2></div>${skel(2)}`;
  const stats=(S.stats&&S.stats.length)?S.stats:DEF_STATS,reps=S.reports||[];
  return `<div class="sec-h"><div><h2><i class="fa-solid fa-gear" style="color:var(--gold-h)"></i> সাইট সেটিংস</h2><small>এখানকার পরিবর্তন সাথে সাথে পাবলিক সাইটে দেখা যাবে</small></div></div>
- <div class="chips" style="margin-bottom:14px">${SETG.map(g=>`<button class="chip" data-jump="${g.id}"><i class="fa-solid ${g.icon}"></i> ${g.t.split(' ').slice(0,2).join(' ')}</button>`).join('')}</div>
+ <div class="chips" style="margin-bottom:14px">${SETG.map(g=>`<button type="button" class="chip" data-jump="${g.id}"><i class="fa-solid ${g.icon}"></i> ${g.t.split(' ').slice(0,2).join(' ')}</button>`).join('')}</div>
  <form id="sf" novalidate>${SETG.map(g=>`<section class="card pad set-sec" id="${g.id}"><h3><i class="fa-solid ${g.icon}"></i>${g.t}</h3><p>${g.d}</p>${g.rep==='stats'?`<div id="rows-stats">${stats.map(statRow).join('')}</div><button type="button" class="btn btn-line btn-sm" data-add="stats"><i class="fa-solid fa-plus"></i>আরেকটি যোগ করুন</button>`:g.rep==='reports'?`<div id="rows-reports">${reps.map(repRow).join('')}</div><button type="button" class="btn btn-line btn-sm" data-add="reports"><i class="fa-solid fa-plus"></i>প্রতিবেদন যোগ করুন</button>`:`<div class="fgrid">${g.f.map(f=>fld(f,getP(S,f.k))).join('')}</div>`}</section>`).join('')}
  <div class="savebar"><span id="sv-s">সব তথ্য সংরক্ষিত আছে</span><button class="btn btn-gold" type="submit"><i class="fa-solid fa-floppy-disk"></i>সংরক্ষণ করুন</button></div></form>`}
 function bindSettings(){const f=$('#sf');if(!f||f._b)return;f._b=1;wireImgs(f);
@@ -593,9 +661,16 @@ service cloud.firestore {
       return request.auth != null &&
         exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
+    // প্রথম অ্যাডমিন: শুধু এই ইমেইলের মালিক নিজের UID দিয়ে admins/{uid} বানাতে পারে
+    function isOwnerEmail() {
+      return request.auth != null &&
+        request.auth.token.email.lower() == 'fund.sarder@gmail.com';
+    }
     match /admins/{uid} {
       allow read: if request.auth != null && request.auth.uid == uid;
-      allow write: if false;
+      allow create: if request.auth != null && request.auth.uid == uid
+        && isOwnerEmail() && request.resource.data.role == 'admin';
+      allow update, delete: if false;
     }
     match /projects/{id}     { allow read: if true; allow write: if isAdmin(); }
     match /gallery/{id}      { allow read: if true; allow write: if isAdmin(); }
@@ -628,11 +703,12 @@ service cloud.firestore {
   }
 }`;
 function viewHelp(){return `<div class="sec-h"><h2><i class="fa-solid fa-circle-question" style="color:var(--gold-h)"></i> সেটআপ গাইড</h2></div>
+ <div class="card pad" style="margin-bottom:16px"><h3 style="color:var(--dark);margin-bottom:6px"><i class="fa-solid fa-plug-circle-check" style="color:var(--gold-h)"></i> সংযোগ পরীক্ষা</h3><p style="color:var(--muted);margin-bottom:12px">Firebase লগইন, অ্যাডমিন অনুমতি, Firestore পড়া/লেখা ও Google Drive স্ক্রিপ্ট ঠিক আছে কি না এক চাপে দেখুন।</p><button type="button" class="btn btn-dark" data-health><i class="fa-solid fa-play"></i>পরীক্ষা চালান</button><div class="hc" id="hc-res"></div></div>
  <div class="card pad" style="margin-bottom:16px"><h3 style="color:var(--dark);margin-bottom:6px"><i class="fa-solid fa-cloud-arrow-up" style="color:var(--gold-h)"></i> সরাসরি আপলোড (ছবি, ভিডিও, PDF) — ${DRIVE_ON()?'<span class="pill p-done" style="margin:0">চালু আছে</span>':'<span class="pill p-new" style="margin:0">সেটআপ বাকি</span>'}</h3><p style="color:var(--muted);margin-bottom:10px">ফর্মের "আপলোড" বাটন থেকে ফাইল বাছলে সেটি আপনার Google Drive-এর <b>ManabProyas-Media</b> ফোল্ডারে জমা হয়, লিংক নিজে বসে যায়। "বদলান" বাটনে নতুন ফাইল দিলে পুরনোটি Drive-এর ট্র্যাশে যায়; "মুছুন" বা আইটেম ডিলিট করলেও তাই। ট্র্যাশ থেকে ৩০ দিন ফিরিয়ে আনা যায়। চালু করতে: <code>drive-upload.gs</code> স্ক্রিপ্ট ডিপ্লয় করে তার URL এই ফাইলের <code>DRIVE_SCRIPT_URL</code>-এ বসান।</p><div class="msg warn" style="margin:0"><i class="fa-solid fa-triangle-exclamation" style="margin-top:4px"></i><span>ছবি আপলোডের আগে ব্রাউজারেই ছোট (সর্বোচ্চ ১৬০০px) করা হয়, তাই দ্রুত লোড হয়। ভিডিও আপলোড পরীক্ষামূলক — না হলে Drive-এ নিজে আপলোড করে লিংক বা YouTube (Unlisted) লিংক দিন।</span></div></div>
  <div class="card pad" style="margin-bottom:16px"><h3 style="color:var(--dark);margin-bottom:10px"><i class="fa-brands fa-google-drive" style="color:var(--gold-h)"></i> নিজে Drive-এ আপলোড করে লিংক দেওয়ার নিয়ম</h3><ol class="steps"><li>ছবিটি Google Drive-এ আপলোড করুন (ফোন থেকে ২ MB-এর কম রাখলে সাইট দ্রুত খুলবে)।</li><li>ছবিতে ডান ক্লিক (ফোনে ⋮ মেনু) → <b>Share</b> → General access: <b>Anyone with the link</b> → Role: <b>Viewer</b> → <b>Copy link</b>।</li><li>এখানকার ফর্মে "Google Drive লিংক" ঘরে পেস্ট করুন। নিচে ছোট প্রিভিউ আর সবুজ "✓ ছবি ঠিক আছে" দেখলে বুঝবেন কাজ করছে।</li><li>অনেক ছবি হলে গ্যালারি পেজে "একসাথে অনেক ছবি" ব্যবহার করুন।</li><li>PDF প্রতিবেদনও একইভাবে শেয়ার করে লিংক দিন (সাইট সেটিংস → প্রতিবেদন)।</li></ol>
  <div class="msg warn" style="margin:14px 0 0"><i class="fa-solid fa-triangle-exclamation" style="margin-top:4px"></i><span>ফোল্ডারের লিংক কাজ করবে না — প্রতিটি ছবির আলাদা লিংক লাগবে। ছবি Drive থেকে মুছলে বা শেয়ারিং বন্ধ করলে সাইট থেকেও উধাও হবে। অনেক বেশি ভিজিটর হলে Google ছবি দেখানো সাময়িক সীমিত করতে পারে।</span></div></div>
  <div class="card pad" style="margin-bottom:16px"><h3 style="color:var(--dark);margin-bottom:10px"><i class="fa-solid fa-user-shield" style="color:var(--gold-h)"></i> প্রথমবার অ্যাডমিন বানানোর নিয়ম (একবারই)</h3><ol class="steps"><li>Firebase Console → Authentication → Sign-in method → <b>Email/Password</b> চালু করুন।</li><li>Authentication → Users → <b>Add user</b> দিয়ে আপনার ইমেইল ও শক্ত পাসওয়ার্ড দিয়ে অ্যাকাউন্ট বানান।</li><li>এই পেজে সেই ইমেইলে লগইন করুন। "অ্যাডমিন অনুমতি নেই" পেজে আপনার <b>UID</b> দেখাবে।</li><li>Firestore Database → <b>Start collection</b> → Collection ID: <code>admins</code> → Document ID: সেই UID → একটি ফিল্ড দিন (<code>role</code> = <code>admin</code>) → Save।</li><li>নিচের Rules পেস্ট করে Publish করুন, তারপর "আবার পরীক্ষা করুন" চাপুন।</li><li>আরেকজন অ্যাডমিন চাইলে একইভাবে তার UID দিয়ে <code>admins</code>-এ ডকুমেন্ট যোগ করুন।</li></ol></div>
- <div class="card pad" style="margin-bottom:16px"><div class="sec-h" style="margin-bottom:10px"><h3 style="color:var(--dark)"><i class="fa-solid fa-lock" style="color:var(--gold-h)"></i> Firestore Security Rules</h3><button class="btn btn-dark btn-sm" data-copy-rules><i class="fa-regular fa-copy"></i>কপি</button></div><p style="color:var(--muted);font-size:14px;margin-bottom:10px">সবাই সাইটের কনটেন্ট পড়তে পারবে; আবেদন/বার্তা শুধু জমা দিতে পারবে (পড়তে পারবে না); লেখা, মোছা ও ইনবক্স দেখা শুধু অ্যাডমিন।</p><pre class="code">${esc(RULES)}</pre></div>
+ <div class="card pad" style="margin-bottom:16px"><div class="sec-h" style="margin-bottom:10px"><h3 style="color:var(--dark)"><i class="fa-solid fa-lock" style="color:var(--gold-h)"></i> Firestore Security Rules</h3><button type="button" class="btn btn-dark btn-sm" data-copy-rules><i class="fa-regular fa-copy"></i>কপি</button></div><p style="color:var(--muted);font-size:14px;margin-bottom:10px">সবাই সাইটের কনটেন্ট পড়তে পারবে; আবেদন/বার্তা শুধু জমা দিতে পারবে (পড়তে পারবে না); লেখা, মোছা ও ইনবক্স দেখা শুধু অ্যাডমিন।</p><pre class="code">${esc(RULES)}</pre></div>
  <div class="card pad"><h3 style="color:var(--dark);margin-bottom:10px"><i class="fa-solid fa-screwdriver-wrench" style="color:var(--gold-h)"></i> সমস্যা হলে</h3>
  <details class="fq"><summary>"অনুমতি নেই" মেসেজ আসছে <i class="fa-solid fa-chevron-down"></i></summary><div>Rules পাবলিশ হয়েছে কি না এবং <code>admins/আপনার-UID</code> ডকুমেন্ট আছে কি না দেখুন।</div></details>
  <details class="fq"><summary>ছবি দেখা যাচ্ছে না <i class="fa-solid fa-chevron-down"></i></summary><div>ফর্মের প্রিভিউ পরীক্ষা করুন। লাল মেসেজ এলে Drive-এ শেয়ারিং "Anyone with the link" করুন। ফোল্ডার নয়, ফাইলের লিংক দিতে হবে।</div></details>
@@ -664,10 +740,20 @@ const AUTHERR=c=>({'auth/invalid-credential':'ইমেইল বা পাস�
 function stopData(){unsubs.forEach(u=>{try{u()}catch(e){}});unsubs=[];Object.keys(L).forEach(k=>delete L[k])}
 function startData(){stopData();
  Object.keys(COL).forEach(k=>unsubs.push(onSnapshot(collection(db,COL[k]),snap=>{D[k]=sortList(k,snap.docs.map(d=>({id:d.id,...d.data()})));L[k]=true;schedule()},err=>{console.error(k,err);L[k]=true;D[k]=[];schedule();fail(err)})));
- unsubs.push(onSnapshot(doc(db,'settings','site'),s=>{D.site=s.exists()?s.data():{};L.site=true;schedule()},err=>{console.error(err);L.site=true;schedule()}))}
-async function enter(u){user=u;let ok=false;
- try{const s=await getDoc(doc(db,'admins',u.uid));ok=s.exists()}catch(e){console.error(e)}
- if(!ok){$('#d-mail').textContent=u.email||'';$('#d-uid').textContent=u.uid;return show('denied')}
+ unsubs.push(onSnapshot(doc(db,'settings','site'),s=>{D.site=s.exists()?s.data():{};L.site=true;schedule()},err=>{console.error(err);L.site=true;schedule()}));
+ unsubs.push(onSnapshot(doc(db,'settings','content'),s=>{const d=s.exists()?s.data():{};D.content={t:d.t||{},img:d.img||{}};L.content=true;schedule()},err=>{console.error(err);L.content=true;schedule()}))}
+const isPerm=e=>/permission|insufficient/i.test(((e&&e.code)||'')+' '+((e&&e.message)||''));
+function showDenied(u,perm){$('#d-mail').textContent=u.email||'';$('#d-uid').textContent=u.uid;$('#d-rules').textContent=RULES;$('#d-err').hidden=true;
+  const m=$('#d-msg');m.className='msg '+(perm?'no':'warn');
+  m.innerHTML=perm?'<i class="fa-solid fa-triangle-exclamation" style="margin-top:4px"></i><span><b>Firestore Rules এখনো পাবলিশ হয়নি (বা পুরনো)।</b> নিচের "Firestore Rules" অংশ খুলে কপি করে Firebase Console → Firestore → Rules-এ পেস্ট ও Publish করুন। তারপর "আবার পরীক্ষা করুন" চাপুন।</span>':'<i class="fa-solid fa-circle-info" style="margin-top:4px"></i><span>লগইন সফল! এই অ্যাকাউন্ট এখনো অ্যাডমিন তালিকায় নেই। সোনালি বাটনে চাপলে নিজেই যুক্ত হয়ে যাবে — Console-এ কিছু বানাতে হবে না (নতুন Rules পাবলিশ থাকলেই হবে)।</span>';
+  $('#d-rd').open=!!perm;show('denied')}
+async function claimAdmin(){const b=$('#d-claim'),er=$('#d-err');er.hidden=true;b.classList.add('busy');
+  try{await setDoc(doc(db,'admins',user.uid),{role:'admin',email:user.email||'',createdAt:serverTimestamp()});toast('অ্যাডমিন হিসেবে সংযুক্ত হয়েছে ✓');await enter(user)}
+  catch(e){console.error(e);er.hidden=false;er.innerHTML=isPerm(e)?'<i class="fa-solid fa-circle-xmark" style="margin-top:4px"></i><span>অনুমতি পাওয়া যায়নি। কারণ: (১) নতুন Rules এখনো পাবলিশ হয়নি, অথবা (২) Rules-এর <code>isOwnerEmail()</code>-এ থাকা ইমেইল আপনার লগইন ইমেইলের (<b>'+esc(user.email||'')+'</b>) সাথে হুবহু মেলেনি।</span>':'<i class="fa-solid fa-circle-xmark" style="margin-top:4px"></i><span>সংযুক্ত করা যায়নি: '+esc(e.message||'')+'</span>'}
+  finally{b.classList.remove('busy')}}
+async function enter(u){user=u;let ok=false,perm=false;
+ try{const s=await getDoc(doc(db,'admins',u.uid));ok=s.exists()}catch(e){console.error(e);perm=isPerm(e)}
+ if(!ok){return showDenied(u,perm)}
  $('#who').textContent=u.email||'';show('app');startData();go();armIdle()}
 let idleT;const IDLE=30*60*1000;
 function armIdle(){const r=()=>{clearTimeout(idleT);idleT=setTimeout(()=>{if(user){toast('নিষ্ক্রিয়তার কারণে লগআউট করা হয়েছে',true);signOut(auth)}},IDLE)};['click','keydown','touchstart','scroll'].forEach(ev=>addEventListener(ev,r,{passive:true}));r()}
@@ -684,7 +770,7 @@ async function boot(){
  $('#l-forgot').onclick=async()=>{const er=$('#l-err'),ok=$('#l-ok');er.hidden=ok.hidden=true;const m=$('#l-mail').value.trim();if(!m){er.hidden=false;er.textContent='উপরে আপনার ইমেইল লিখে আবার চাপুন।';return}
   try{await sendPasswordResetEmail(auth,m)}catch(x){if(x.code==='auth/invalid-email'){er.hidden=false;er.textContent='সঠিক ইমেইল দিন।';return}}
   ok.hidden=false;ok.textContent='ঐ ইমেইলে অ্যাকাউন্ট থাকলে পাসওয়ার্ড রিসেটের লিংক পাঠানো হয়েছে।'};
- $('#logout').onclick=logout;$('#d-out').onclick=logout;$('#d-retry').onclick=()=>user&&enter(user);
+ $('#logout').onclick=logout;$('#d-out').onclick=logout;$('#d-retry').onclick=()=>user&&enter(user);$('#d-claim').onclick=claimAdmin;
 }
 boot();
 </script>
