@@ -1,0 +1,1195 @@
+{
+ "groups": [
+  {
+   "id": "g_hero",
+   "label": "হোম — হিরো (সবার ওপরের অংশ)",
+   "keys": [
+    "donate_cta",
+    "hero_badge",
+    "hero_h",
+    "hero_d",
+    "hero_b1",
+    "hero_b2",
+    "hero_cap_t",
+    "hero_cap",
+    "motto_t",
+    "motto_s",
+    "hero_name",
+    "hero_sub",
+    "tr_1",
+    "tr_2",
+    "tr_3",
+    "tr_4"
+   ]
+  },
+  {
+   "id": "g_intro",
+   "label": "হোম — দ্বিভাষিক পরিচিতি (সার্চ ইঞ্জিনের জন্য)",
+   "keys": [
+    "int_bn_tag",
+    "int_bn_h",
+    "int_bn_p",
+    "int_en_tag",
+    "int_en_h",
+    "int_en_p"
+   ]
+  },
+  {
+   "id": "g_home",
+   "label": "হোম — অন্যান্য সেকশন",
+   "keys": [
+    "about_tag",
+    "about_t",
+    "about_p1",
+    "about_p2",
+    "read_more",
+    "see_all",
+    "act_tag",
+    "act_t",
+    "proj_tag",
+    "proj_t",
+    "all_proj",
+    "help_tag",
+    "help_t",
+    "news_tag",
+    "news_t",
+    "trans_t",
+    "trans_d",
+    "join",
+    "p1t",
+    "p1d",
+    "p2t",
+    "p2d",
+    "p3t",
+    "p3d",
+    "p4t",
+    "p4d",
+    "h1t",
+    "h1d",
+    "h2t",
+    "h2d",
+    "h3t",
+    "h3d",
+    "h3b",
+    "s_fam",
+    "s_kid",
+    "s_rel",
+    "s_proj",
+    "pf_t",
+    "pf_d",
+    "st_tag",
+    "st_t"
+   ]
+  },
+  {
+   "id": "g_about",
+   "label": "আমাদের কথা পেজ",
+   "keys": [
+    "about_hs",
+    "ab_h1",
+    "ab_p1",
+    "ab_p2",
+    "mis_t",
+    "mis_d",
+    "vis_t",
+    "vis_d",
+    "val_t",
+    "v1t",
+    "v1d",
+    "v2t",
+    "v2d",
+    "v3t",
+    "v3d",
+    "v4t",
+    "v4d",
+    "oi_reg",
+    "oi_est",
+    "oi_hrs"
+   ]
+  },
+  {
+   "id": "g_act",
+   "label": "কার্যক্রম পেজ",
+   "keys": [
+    "act_hs",
+    "a1c",
+    "a1t",
+    "a1d",
+    "a2c",
+    "a2t",
+    "a2d",
+    "a3c",
+    "a3t",
+    "a3d",
+    "a4c",
+    "a4t",
+    "a4d",
+    "a5c",
+    "a5t",
+    "a5d",
+    "a6c",
+    "a6t",
+    "a6d"
+   ]
+  },
+  {
+   "id": "g_proj",
+   "label": "প্রকল্প পেজ ও বিবরণ",
+   "keys": [
+    "proj_hs",
+    "f_all",
+    "f_ongoing",
+    "f_completed",
+    "f_planned",
+    "st_completed",
+    "st_ongoing",
+    "st_planned",
+    "view_det",
+    "obj",
+    "desc",
+    "photos",
+    "before",
+    "after",
+    "share",
+    "copied",
+    "proj_empty",
+    "video"
+   ]
+  },
+  {
+   "id": "g_media",
+   "label": "গ্যালারি, সংবাদ ও নেতৃত্ব পেজ",
+   "keys": [
+    "gal_hs",
+    "news_hs",
+    "team_hs",
+    "team_empty",
+    "news_empty",
+    "gal_empty"
+   ]
+  },
+  {
+   "id": "g_inv",
+   "label": "অংশগ্রহণ পেজ (স্বেচ্ছাসেবক ফর্ম)",
+   "keys": [
+    "inv_hs",
+    "vol_t",
+    "vol_s",
+    "f_name",
+    "f_phone",
+    "f_email",
+    "f_email2",
+    "f_addr",
+    "f_int",
+    "f_sub",
+    "f_msg",
+    "o1",
+    "o2",
+    "o3",
+    "o4",
+    "e_req",
+    "e_phone",
+    "e_mail",
+    "vol_btn",
+    "send",
+    "pol_t",
+    "pol_d",
+    "pn_t",
+    "pn_d"
+   ]
+  },
+  {
+   "id": "g_donate",
+   "label": "সহায়তা পেজ",
+   "keys": [
+    "donate_h",
+    "donate_hs",
+    "warn_t",
+    "warn_d",
+    "pay_t",
+    "pay_none",
+    "copy",
+    "copied2",
+    "bkash",
+    "nagad",
+    "rocket",
+    "bank",
+    "faq_t",
+    "q1",
+    "qa1",
+    "q2",
+    "qa2",
+    "q3",
+    "qa3",
+    "q4",
+    "qa4",
+    "q5",
+    "qa5",
+    "rep_t",
+    "hint_bkash",
+    "hint_nagad",
+    "hint_rocket"
+   ]
+  },
+  {
+   "id": "g_contact",
+   "label": "যোগাযোগ পেজ",
+   "keys": [
+    "con_hs",
+    "msg_t",
+    "c_addr",
+    "c_phone",
+    "c_mail",
+    "con_soon",
+    "call"
+   ]
+  },
+  {
+   "id": "g_priv",
+   "label": "গোপনীয়তা নীতি পেজ",
+   "keys": [
+    "priv_t",
+    "pv1_t",
+    "pv1_d",
+    "pv2_t",
+    "pv2_d",
+    "priv_sub"
+   ]
+  },
+  {
+   "id": "g_nav",
+   "label": "মেনু, ফুটার ও সাধারণ",
+   "keys": [
+    "skip",
+    "org_name",
+    "org_tag",
+    "nav_home",
+    "nav_about",
+    "nav_activities",
+    "nav_projects",
+    "nav_gallery",
+    "nav_news",
+    "nav_team",
+    "nav_involved",
+    "nav_contact",
+    "nav_donate",
+    "foot_motto",
+    "foot_links",
+    "foot_pil",
+    "nv_news",
+    "nv_team",
+    "nv_involved",
+    "nv_projects",
+    "f_about"
+   ]
+  },
+  {
+   "id": "g_msg",
+   "label": "ফর্মের বার্তা (সফল/ত্রুটি)",
+   "keys": [
+    "ok_vol",
+    "ok_msg",
+    "err_send",
+    "err_wait"
+   ]
+  }
+ ],
+ "defs": {
+  "skip": {
+   "bn": "মূল অংশে যান",
+   "en": "Skip to content"
+  },
+  "org_name": {
+   "bn": "মানব প্রয়াস ফাউন্ডেশন",
+   "en": "Manab Proyas Foundation"
+  },
+  "org_tag": {
+   "bn": "ইসলামী ও সামাজিক কল্যাণমূলক সংস্থা",
+   "en": "Islamic & Social Welfare Organization"
+  },
+  "nav_home": {
+   "bn": "হোম",
+   "en": "Home"
+  },
+  "nav_about": {
+   "bn": "আমাদের কথা",
+   "en": "About Us"
+  },
+  "nav_activities": {
+   "bn": "কার্যক্রম",
+   "en": "Activities"
+  },
+  "nav_projects": {
+   "bn": "প্রকল্পসমূহ",
+   "en": "Projects"
+  },
+  "nav_gallery": {
+   "bn": "গ্যালারি",
+   "en": "Gallery"
+  },
+  "nav_news": {
+   "bn": "সংবাদ ও ইভেন্ট",
+   "en": "News & Events"
+  },
+  "nav_team": {
+   "bn": "আমাদের নেতৃত্ব",
+   "en": "Our Leadership"
+  },
+  "nav_involved": {
+   "bn": "অংশগ্রহণ করুন",
+   "en": "Get Involved"
+  },
+  "nav_contact": {
+   "bn": "যোগাযোগ",
+   "en": "Contact"
+  },
+  "nav_donate": {
+   "bn": "সহায়তা করুন",
+   "en": "Donate"
+  },
+  "donate_cta": {
+   "bn": "সহায়তা করুন",
+   "en": "Donate"
+  },
+  "hero_badge": {
+   "bn": "ইসলামী ও সামাজিক কল্যাণমূলক সংস্থা",
+   "en": "Islamic & Social Welfare Organization"
+  },
+  "hero_h": {
+   "bn": "মানবতার সেবায়, কল্যাণের পথে",
+   "en": "In the Service of Humanity"
+  },
+  "hero_d": {
+   "bn": "মানব প্রয়াস ফাউন্ডেশন একটি অরাজনৈতিক, অলাভজনক ইসলামী সামাজিক উন্নয়নমূলক সংস্থা। আমরা দ্বীনি শিক্ষা, গ্রামীণ অবকাঠামো উন্নয়ন ও আর্তমানবতার সেবায় নিয়োজিত।",
+   "en": "Manab Proyas Foundation is a non-political, non-profit Islamic social development organization, dedicated to religious education, rural infrastructure and serving people in distress."
+  },
+  "hero_b1": {
+   "bn": "আমাদের প্রকল্পসমূহ",
+   "en": "Our Projects"
+  },
+  "hero_b2": {
+   "bn": "স্বেচ্ছাসেবক হোন",
+   "en": "Volunteer"
+  },
+  "hero_cap_t": {
+   "bn": "সাম্প্রতিক কার্যক্রম",
+   "en": "Recent activity"
+  },
+  "hero_cap": {
+   "bn": "বন্যা দুর্গত এলাকা ও প্রান্তিক পরিবারে খাদ্য সহায়তা",
+   "en": "Food aid for flood-hit areas and marginalized families"
+  },
+  "motto_t": {
+   "bn": "আমাদের লক্ষ্য",
+   "en": "Our aim"
+  },
+  "motto_s": {
+   "bn": "সাদাকাহ ও সমাজসেবা",
+   "en": "Sadaqah & social service"
+  },
+  "about_tag": {
+   "bn": "পরিচিতি",
+   "en": "Who we are"
+  },
+  "about_t": {
+   "bn": "মানব প্রয়াস ফাউন্ডেশন সম্পর্কে",
+   "en": "About Manab Proyas Foundation"
+  },
+  "about_p1": {
+   "bn": "মানব প্রয়াস ফাউন্ডেশন সমাজের অবহেলিত, দুস্থ ও সুবিধা বঞ্চিত মানুষদের পাশে দাঁড়ানোর লক্ষ্যে প্রতিষ্ঠিত একটি মানব কল্যাণমূলক সংস্থা। আমরা বিশ্বাস করি দ্বীনি মূল্যবোধ এবং সামাজিক দায়িত্ববোধের সমন্বয়ে একটি সুন্দর ও স্বাবলম্বী সমাজ গঠন সম্ভব।",
+   "en": "Manab Proyas Foundation is a humanitarian organization founded to stand beside the neglected, needy and underprivileged. We believe a beautiful, self-reliant society is possible by combining religious values with social responsibility."
+  },
+  "about_p2": {
+   "bn": "গ্রামীণ এলাকার ক্ষুদ্র সেতু নির্মাণ, সড়ক মেরামত, এতিম ও দরিদ্র শিক্ষার্থীদের শিক্ষাসামগ্রী প্রদান এবং দ্বীনি সচেতনতা বৃদ্ধিতে আমরা নিরলসভাবে কাজ করে যাচ্ছি।",
+   "en": "We work tirelessly on building small rural bridges, repairing roads, providing study materials to orphan and poor students, and raising religious awareness."
+  },
+  "read_more": {
+   "bn": "বিস্তারিত পড়ুন",
+   "en": "Read more"
+  },
+  "see_all": {
+   "bn": "সব দেখুন",
+   "en": "See all"
+  },
+  "act_tag": {
+   "bn": "আমাদের কাজের পরিধি",
+   "en": "What we do"
+  },
+  "act_t": {
+   "bn": "মূল কার্যক্রমসমূহ",
+   "en": "Core Activities"
+  },
+  "proj_tag": {
+   "bn": "আমাদের লক্ষ্যনীয় পদক্ষেপ",
+   "en": "Our key initiatives"
+  },
+  "proj_t": {
+   "bn": "বিশেষ প্রকল্পসমূহ",
+   "en": "Featured Projects"
+  },
+  "all_proj": {
+   "bn": "সকল প্রকল্প দেখুন",
+   "en": "View all projects"
+  },
+  "help_tag": {
+   "bn": "পাশে থাকুন",
+   "en": "Stand with us"
+  },
+  "help_t": {
+   "bn": "আপনি কীভাবে যুক্ত হতে পারেন",
+   "en": "How you can help"
+  },
+  "news_tag": {
+   "bn": "সাম্প্রতিক",
+   "en": "Latest"
+  },
+  "news_t": {
+   "bn": "সংবাদ ও ইভেন্ট",
+   "en": "News & Events"
+  },
+  "trans_t": {
+   "bn": "স্বচ্ছতা ও জবাবদিহিতা",
+   "en": "Transparency & Accountability"
+  },
+  "trans_d": {
+   "bn": "মানব প্রয়াস ফাউন্ডেশন প্রতিটি কাজের সর্বোচ্চ আমানতদারিতা ও স্বচ্ছতা বজায় রাখতে অঙ্গীকারবদ্ধ। সকল প্রকার আর্থিক সহায়তা যথাযথ ক্ষেত্রে বিতরণ করা হয় এবং নিয়মিত বার্ষিক প্রতিবেদন প্রকাশ করা হয়।",
+   "en": "We are committed to the highest trust and transparency in everything we do. All financial support is distributed where intended and annual reports are published regularly."
+  },
+  "join": {
+   "bn": "আমাদের সাথে যুক্ত হন",
+   "en": "Join us"
+  },
+  "about_hs": {
+   "bn": "মানব প্রয়াস ফাউন্ডেশনের লক্ষ্য ও পটভূমি",
+   "en": "Our purpose and background"
+  },
+  "ab_h1": {
+   "bn": "আমাদের সংস্থা সম্পর্কে",
+   "en": "About our organization"
+  },
+  "ab_p1": {
+   "bn": "মানব প্রয়াস ফাউন্ডেশন একটি স্বেচ্ছাসেবী, অরাজনৈতিক এবং ইসলামী মূল্যবোধভিত্তিক সামাজিক উন্নয়ন সংস্থা। সমাজের সুবিধাবঞ্চিত, অসহায় ও প্রান্তিক জনগণের পাশে দাঁড়িয়ে তাদের সার্বিক জীবনমান উন্নয়নই আমাদের মূল উদ্দেশ্য।",
+   "en": "Manab Proyas Foundation is a voluntary, non-political, Islamic-values-based social development organization. Our core aim is to stand with the underprivileged, helpless and marginalized and improve their overall quality of life."
+  },
+  "ab_p2": {
+   "bn": "ইসলামে মানবসেবা একটি অত্যন্ত মর্যাদাপূর্ণ ইবাদত। আল্লাহর রাসুল (সাল্লাল্লাহু আলাইহি ওয়াসাল্লাম) বলেছেন, \"তোমাদের মধ্যে সর্বোত্তম ব্যক্তি সে, যে মানুষের উপকার করে।\" এই মহান বাণীকে হৃদয়ে ধারণ করে আমরা শিক্ষা, অবকাঠামো ও দুর্যোগ ব্যবস্থাপনায় সক্রিয় ভূমিকা পালন করছি।",
+   "en": "In Islam, serving humanity is a highly honored act of worship. The Messenger of Allah (peace be upon him) said, \"The best of you is the one who benefits people.\" Keeping this in our hearts, we play an active role in education, infrastructure and disaster response."
+  },
+  "mis_t": {
+   "bn": "আমাদের মিশন",
+   "en": "Our Mission"
+  },
+  "mis_d": {
+   "bn": "ইসলামী সমাজকল্যাণ নীতির আলোকে এতিম, অসহায় ও দারিদ্র্যপীড়িত মানুষের মৌলিক চাহিদা পূরণে সাহায্য করা, দ্বীনি শিক্ষা বিস্তার করা এবং স্থানীয় অবকাঠামো উন্নয়নে কার্যকর ভূমিকা পালন করা।",
+   "en": "In light of Islamic social welfare principles, to help meet the basic needs of orphans, the helpless and the poverty-stricken, spread religious education, and play an effective role in local infrastructure development."
+  },
+  "vis_t": {
+   "bn": "আমাদের ভিশন",
+   "en": "Our Vision"
+  },
+  "vis_d": {
+   "bn": "এমন একটি আত্মনির্ভরশীল ও সচেতন সমাজ গড়ে তোলা যেখানে ইসলামী নৈতিকতা, শিক্ষা, সামাজিক ন্যায়বিচার ও পারস্পরিক সহযোগিতার ভিত্তিতে সর্বস্তরের মানুষ সুখে-শান্তিতে বসবাস করতে পারে।",
+   "en": "To build a self-reliant and aware society where people of all walks of life live in peace and happiness, based on Islamic ethics, education, social justice and mutual cooperation."
+  },
+  "val_t": {
+   "bn": "আমাদের মূল নীতি",
+   "en": "Our Core Values"
+  },
+  "v1t": {
+   "bn": "আমানতদারিতা ও স্বচ্ছতা",
+   "en": "Trust & Transparency"
+  },
+  "v1d": {
+   "bn": "প্রতিটি সহযোগিতার নিখুঁত হিসাব ও আমানত রক্ষা।",
+   "en": "Accurate accounting and safeguarding of every contribution."
+  },
+  "v2t": {
+   "bn": "মানবিক সহানুভূতি",
+   "en": "Human Compassion"
+  },
+  "v2d": {
+   "bn": "সকলের প্রতি সম্মান ও আন্তরিক ভালোবাসার সাথে সেবা প্রদান।",
+   "en": "Serving everyone with respect and sincere love."
+  },
+  "v3t": {
+   "bn": "দ্বীনি মূল্যবোধ",
+   "en": "Religious Values"
+  },
+  "v3d": {
+   "bn": "ইসলামী শিক্ষা ও সুনীতিকে সব কাজের মূল হিসেবে গণ্য করা।",
+   "en": "Treating Islamic teachings and ethics as the root of all work."
+  },
+  "v4t": {
+   "bn": "স্থায়িত্ব ও স্বাবলম্বিতা",
+   "en": "Sustainability & Self-reliance"
+  },
+  "v4d": {
+   "bn": "সাময়িক ত্রাণের পাশাপাশি দীর্ঘমেয়াদী স্বাবলম্বী প্রকল্প।",
+   "en": "Long-term self-reliance projects alongside short-term relief."
+  },
+  "p1t": {
+   "bn": "দ্বীনি শিক্ষা ও দাওয়াহ",
+   "en": "Religious Education & Dawah"
+  },
+  "p1d": {
+   "bn": "কুরআন শিক্ষা ও নৈতিক মূল্যবোধের বিকাশ",
+   "en": "Quran learning and moral development"
+  },
+  "p2t": {
+   "bn": "গ্রামীণ অবকাঠামো",
+   "en": "Rural Infrastructure"
+  },
+  "p2d": {
+   "bn": "সাঁকো, কালভার্ট ও কাঁচা রাস্তা মেরামত",
+   "en": "Footbridges, culverts and dirt road repair"
+  },
+  "p3t": {
+   "bn": "জরুরি ত্রাণ বিতরণ",
+   "en": "Emergency Relief"
+  },
+  "p3d": {
+   "bn": "দরিদ্র পরিবারে খাদ্য ও বস্ত্র সহায়তা",
+   "en": "Food and clothing aid for poor families"
+  },
+  "p4t": {
+   "bn": "সামাজিক উন্নয়ন",
+   "en": "Social Development"
+  },
+  "p4d": {
+   "bn": "বৃক্ষরোপণ ও পরিচ্ছন্নতা অভিযান",
+   "en": "Tree plantation and clean-up drives"
+  },
+  "act_hs": {
+   "bn": "দ্বীনি ও সামাজিক উন্নয়নে আমাদের নিরবচ্ছিন্ন প্রয়াস",
+   "en": "Our continuous effort in religious and social development"
+  },
+  "a1c": {
+   "bn": "ধর্মীয় ও নৈতিক শিক্ষা",
+   "en": "Religious & moral education"
+  },
+  "a1t": {
+   "bn": "ধর্মীয় কার্যক্রম",
+   "en": "Religious Activities"
+  },
+  "a1d": {
+   "bn": "আমরা ইসলামি দ্বীনি মাহফিল, কেরাত প্রতিযোগিতা, ইমাম ও মুয়াজ্জিনদের সম্মাননা এবং বয়ান কর্মসূচির আয়োজন করি। সাধারণ মানুষের মধ্যে দ্বীনি জ্ঞান ছড়িয়ে দেওয়া এবং নৈতিক অবক্ষয় রোধে তরুণ সমাজকে সঠিক দ্বীনের দিকে আহ্বান জানানো আমাদের অন্যতম মূল উদ্দেশ্য।",
+   "en": "We organize Islamic gatherings, Qirat competitions, honors for imams and muezzins, and lectures. Spreading religious knowledge and calling the youth to the right path to curb moral decline is one of our main goals."
+  },
+  "a2c": {
+   "bn": "শিক্ষা সংস্কার",
+   "en": "Education reform"
+  },
+  "a2t": {
+   "bn": "শিক্ষা উন্নয়ন",
+   "en": "Education Development"
+  },
+  "a2d": {
+   "bn": "দরিদ্র মাদ্রাসা ও প্রাইমারি স্কুলের অবকাঠামোগত মান উন্নয়ন, এতিম ও দুস্থ শিক্ষার্থীদের বিনামূল্যে খাতা, কলম, কুরআন শরীফ ও বই প্রদান। মেধাবী অথচ অসচ্ছল শিক্ষার্থীদের জন্য শিক্ষা বৃত্তির ব্যবস্থা করা।",
+   "en": "Improving infrastructure of poor madrasas and primary schools, giving free notebooks, pens, Qurans and books to orphan and needy students, and arranging scholarships for talented students in need."
+  },
+  "a3c": {
+   "bn": "অবকাঠামো",
+   "en": "Infrastructure"
+  },
+  "a3t": {
+   "bn": "গ্রামীণ অবকাঠামো",
+   "en": "Rural Infrastructure"
+  },
+  "a3d": {
+   "bn": "দুর্গম অঞ্চলের ছোট খাল ও ছড়ার ওপর বাঁশের বা কাঠের সাঁকো ও ক্ষুদ্র কালভার্ট নির্মাণ। বর্ষাকালে গ্রামবাসীদের চলাচলের অনুপযোগী কাঁচা রাস্তা মাটি কেটে বা ইট বিছিয়ে চলাচলের উপযোগী করা।",
+   "en": "Building bamboo or wooden footbridges and small culverts over streams in remote areas, and making dirt roads passable in the rainy season by earthwork or brick laying."
+  },
+  "a4c": {
+   "bn": "মানবসেবা",
+   "en": "Humanitarian"
+  },
+  "a4t": {
+   "bn": "মানবসেবা ও ত্রাণ",
+   "en": "Humanitarian Aid & Relief"
+  },
+  "a4d": {
+   "bn": "দরিদ্র ও অতিদরিদ্র পরিবারে খাদ্য সামগ্রী বিতরণ, শীতবস্ত্র প্রদান ও আকস্মিক দুর্যোগে জরুরি সহায়তা।",
+   "en": "Distributing food to poor and extremely poor families, providing winter clothes and emergency help in sudden disasters."
+  },
+  "a5c": {
+   "bn": "কল্যাণ",
+   "en": "Welfare"
+  },
+  "a5t": {
+   "bn": "সামাজিক কল্যাণ",
+   "en": "Social Welfare"
+  },
+  "a5d": {
+   "bn": "এতিম শিশু লালন-পালন সহায়তা, অসহায় পরিবার ও বিধবা মহিলাদের স্বাবলম্বী করার প্রয়াস।",
+   "en": "Support for raising orphan children and efforts to make helpless families and widows self-reliant."
+  },
+  "a6c": {
+   "bn": "পরিবেশ",
+   "en": "Environment"
+  },
+  "a6t": {
+   "bn": "সামাজিক উন্নয়ন",
+   "en": "Social Development"
+  },
+  "a6d": {
+   "bn": "পরিবেশ রক্ষায় বৃক্ষরোপণ অভিযান, এলাকাভিত্তিক পরিষ্কার-পরিচ্ছন্নতা কর্মসূচি ও সামাজিক সচেতনতা।",
+   "en": "Tree plantation drives to protect the environment, local clean-up programs and social awareness."
+  },
+  "proj_hs": {
+   "bn": "আমাদের সম্পন্ন, চলমান ও পরিকল্পিত উদ্যোগ",
+   "en": "Our completed, ongoing and planned initiatives"
+  },
+  "f_all": {
+   "bn": "সকল প্রকল্প",
+   "en": "All"
+  },
+  "f_ongoing": {
+   "bn": "চলমান",
+   "en": "Ongoing"
+  },
+  "f_completed": {
+   "bn": "সম্পন্ন",
+   "en": "Completed"
+  },
+  "f_planned": {
+   "bn": "পরিকল্পিত",
+   "en": "Planned"
+  },
+  "st_completed": {
+   "bn": "সম্পন্ন",
+   "en": "Completed"
+  },
+  "st_ongoing": {
+   "bn": "চলমান",
+   "en": "Ongoing"
+  },
+  "st_planned": {
+   "bn": "পরিকল্পিত",
+   "en": "Planned"
+  },
+  "view_det": {
+   "bn": "বিস্তারিত ও ছবি দেখুন",
+   "en": "View details & photos"
+  },
+  "obj": {
+   "bn": "মূল উদ্দেশ্য",
+   "en": "Objective"
+  },
+  "desc": {
+   "bn": "বিবরণ",
+   "en": "Description"
+  },
+  "photos": {
+   "bn": "পূর্বের ও পরবর্তী অবস্থা",
+   "en": "Before & after"
+  },
+  "before": {
+   "bn": "আগে",
+   "en": "Before"
+  },
+  "after": {
+   "bn": "পরে",
+   "en": "After"
+  },
+  "share": {
+   "bn": "শেয়ার করুন",
+   "en": "Share"
+  },
+  "copied": {
+   "bn": "লিঙ্ক কপি হয়েছে",
+   "en": "Link copied"
+  },
+  "gal_hs": {
+   "bn": "আমাদের কাজের কিছু মুহূর্ত",
+   "en": "Moments from our work"
+  },
+  "news_hs": {
+   "bn": "সংস্থার সর্বশেষ খবর ও কর্মসূচি",
+   "en": "Latest news and programs"
+  },
+  "team_hs": {
+   "bn": "যাঁদের নিষ্ঠায় এগিয়ে চলছে মানব প্রয়াস",
+   "en": "The people behind Manab Proyas"
+  },
+  "team_empty": {
+   "bn": "নেতৃত্ব তালিকা শীঘ্রই প্রকাশ করা হবে।",
+   "en": "Leadership list will be published soon."
+  },
+  "news_empty": {
+   "bn": "শীঘ্রই নতুন সংবাদ প্রকাশ করা হবে।",
+   "en": "News will be published soon."
+  },
+  "proj_empty": {
+   "bn": "এই বিভাগে কোনো প্রকল্প নেই।",
+   "en": "No projects in this category."
+  },
+  "gal_empty": {
+   "bn": "শীঘ্রই ছবি যোগ করা হবে।",
+   "en": "Photos will be added soon."
+  },
+  "inv_hs": {
+   "bn": "স্বেচ্ছাসেবক হিসেবে মানবতার সেবায় পাশে থাকুন",
+   "en": "Stand with humanity as a volunteer"
+  },
+  "vol_t": {
+   "bn": "স্বেচ্ছাসেবক নিবন্ধন ফর্ম",
+   "en": "Volunteer registration form"
+  },
+  "vol_s": {
+   "bn": "আপনি কি স্থানীয় সামাজিক সেবা ও দুর্যোগকালীন সহযোগিতায় কাজ করতে আগ্রহী? নিচের ফর্মটি পূরণ করুন।",
+   "en": "Interested in local social service and disaster-time support? Fill in the form below."
+  },
+  "f_name": {
+   "bn": "আপনার নাম *",
+   "en": "Your name *"
+  },
+  "f_phone": {
+   "bn": "মোবাইল নম্বর *",
+   "en": "Mobile number *"
+  },
+  "f_email": {
+   "bn": "ইমেইল ঠিকানা",
+   "en": "Email address"
+  },
+  "f_email2": {
+   "bn": "ইমেইল ঠিকানা *",
+   "en": "Email address *"
+  },
+  "f_addr": {
+   "bn": "বর্তমান ঠিকানা / এলাকা *",
+   "en": "Current address / area *"
+  },
+  "f_int": {
+   "bn": "কোন ক্ষেত্রে সহায়তা করতে চান?",
+   "en": "Where would you like to help?"
+  },
+  "f_sub": {
+   "bn": "বিষয়",
+   "en": "Subject"
+  },
+  "f_msg": {
+   "bn": "আপনার বার্তা *",
+   "en": "Your message *"
+  },
+  "o1": {
+   "bn": "ত্রাণ বিতরণ ও ক্ষেত্রীয় কাজ",
+   "en": "Relief distribution & field work"
+  },
+  "o2": {
+   "bn": "শিক্ষা ও মেধা প্রশিক্ষণ",
+   "en": "Education & training"
+  },
+  "o3": {
+   "bn": "প্রচার ও সচেতনতা বৃদ্ধি",
+   "en": "Outreach & awareness"
+  },
+  "o4": {
+   "bn": "প্রযুক্তি ও অনলাইন সহায়তা",
+   "en": "Technology & online support"
+  },
+  "e_req": {
+   "bn": "এই তথ্যটি আবশ্যক",
+   "en": "This field is required"
+  },
+  "e_phone": {
+   "bn": "সঠিক মোবাইল নম্বর দিন (যেমন 01712345678)",
+   "en": "Enter a valid mobile number (e.g. 01712345678)"
+  },
+  "e_mail": {
+   "bn": "সঠিক ইমেইল দিন",
+   "en": "Enter a valid email"
+  },
+  "vol_btn": {
+   "bn": "নিবন্ধন জমা দিন",
+   "en": "Submit registration"
+  },
+  "send": {
+   "bn": "বার্তা প্রেরণ করুন",
+   "en": "Send message"
+  },
+  "pol_t": {
+   "bn": "সহযোগিতার নীতিমালা",
+   "en": "Support policy"
+  },
+  "pol_d": {
+   "bn": "মানব প্রয়াস ফাউন্ডেশন কেবল দাপ্তরিকভাবে অনুমোদিত উপায়ে এবং নির্দিষ্ট মানবকল্যাণমুখী প্রকল্পের জন্য সহায়তা গ্রহণ করে। কোন প্রকার ব্যক্তিগত একাউন্টে কোন লেনদেন গ্রহণযোগ্য নয়।",
+   "en": "Manab Proyas Foundation accepts support only through officially approved channels and for specific humanitarian projects. No transaction to any personal account is acceptable."
+  },
+  "pn_t": {
+   "bn": "গোপনীয়তা রক্ষা",
+   "en": "Privacy protection"
+  },
+  "pn_d": {
+   "bn": "সাহায্য গ্রহীতাদের আত্মসম্মান রক্ষায় অপ্রয়োজনীয় ছবি প্রকাশ করা হয় না। সমস্ত সুবিধাভোগীদের তথ্য ও ছবি সম্মতিক্রমে সংরক্ষণ ও অত্যন্ত মার্জিতভাবে উপস্থাপন করা হয়।",
+   "en": "To protect the dignity of beneficiaries, unnecessary photos are not published. All beneficiary information and photos are kept with consent and presented respectfully."
+  },
+  "donate_h": {
+   "bn": "সহায়তা করুন",
+   "en": "Support Us"
+  },
+  "donate_hs": {
+   "bn": "আপনার সামান্য সহায়তা বদলে দিতে পারে একটি পরিবারের জীবন",
+   "en": "Your small support can change a family's life"
+  },
+  "warn_t": {
+   "bn": "সতর্কতা",
+   "en": "Caution"
+  },
+  "warn_d": {
+   "bn": "শুধুমাত্র নিচে দেওয়া অফিসিয়াল মাধ্যমে সহায়তা পাঠান। কোনো ব্যক্তিগত অ্যাকাউন্টে লেনদেন গ্রহণযোগ্য নয়।",
+   "en": "Send support only via the official channels below. Transactions to personal accounts are not acceptable."
+  },
+  "pay_t": {
+   "bn": "সহায়তা পাঠানোর মাধ্যম",
+   "en": "Ways to give"
+  },
+  "pay_none": {
+   "bn": "অফিসিয়াল পেমেন্ট তথ্য শীঘ্রই যুক্ত করা হবে। এখনই সহায়তা করতে চাইলে সরাসরি যোগাযোগ করুন।",
+   "en": "Official payment details will be added soon. To help right now, please contact us directly."
+  },
+  "copy": {
+   "bn": "কপি",
+   "en": "Copy"
+  },
+  "copied2": {
+   "bn": "নম্বর কপি হয়েছে",
+   "en": "Number copied"
+  },
+  "bkash": {
+   "bn": "বিকাশ",
+   "en": "bKash"
+  },
+  "nagad": {
+   "bn": "নগদ",
+   "en": "Nagad"
+  },
+  "rocket": {
+   "bn": "রকেট",
+   "en": "Rocket"
+  },
+  "bank": {
+   "bn": "ব্যাংক অ্যাকাউন্ট",
+   "en": "Bank account"
+  },
+  "faq_t": {
+   "bn": "সাধারণ জিজ্ঞাসা",
+   "en": "Frequently asked questions"
+  },
+  "q1": {
+   "bn": "কীভাবে সহায়তা করতে পারি?",
+   "en": "How can I support?"
+  },
+  "qa1": {
+   "bn": "এই পেজে দেওয়া অফিসিয়াল মাধ্যমে সহায়তা পাঠাতে পারেন, অথবা স্বেচ্ছাসেবক হিসেবে সময় ও দক্ষতা দিয়ে যুক্ত হতে পারেন।",
+   "en": "You can give through the official channels on this page, or join as a volunteer with your time and skills."
+  },
+  "q2": {
+   "bn": "আমার সহায়তা কোথায় ব্যবহৃত হয়?",
+   "en": "Where is my contribution used?"
+  },
+  "qa2": {
+   "bn": "সকল আর্থিক সহায়তা নির্দিষ্ট মানবকল্যাণমুখী প্রকল্পে যথাযথভাবে বিতরণ করা হয় এবং নিয়মিত বার্ষিক প্রতিবেদন প্রকাশ করা হয়।",
+   "en": "All financial support is distributed properly to specific humanitarian projects and annual reports are published regularly."
+  },
+  "q3": {
+   "bn": "ব্যক্তিগত অ্যাকাউন্টে সহায়তা পাঠানো যাবে?",
+   "en": "Can I send support to a personal account?"
+  },
+  "qa3": {
+   "bn": "না। কোনো প্রকার ব্যক্তিগত অ্যাকাউন্টে লেনদেন গ্রহণযোগ্য নয়। কেবল অফিসিয়াল মাধ্যম ব্যবহার করুন।",
+   "en": "No. Transactions to personal accounts are not acceptable. Use only official channels."
+  },
+  "q4": {
+   "bn": "স্বেচ্ছাসেবক হতে কী করতে হবে?",
+   "en": "How do I become a volunteer?"
+  },
+  "qa4": {
+   "bn": "\"অংশগ্রহণ করুন\" পেজের ফর্মটি পূরণ করুন। আমরা আপনার সাথে যোগাযোগ করব।",
+   "en": "Fill in the form on the \"Get Involved\" page and we will contact you."
+  },
+  "q5": {
+   "bn": "সুবিধাভোগীদের ছবি কীভাবে প্রকাশ হয়?",
+   "en": "How are beneficiary photos published?"
+  },
+  "qa5": {
+   "bn": "আত্মসম্মান রক্ষায় অপ্রয়োজনীয় ছবি প্রকাশ করা হয় না; সম্মতিক্রমে মার্জিতভাবে উপস্থাপন করা হয়।",
+   "en": "To protect dignity, unnecessary photos are not published; they are shown respectfully and with consent."
+  },
+  "rep_t": {
+   "bn": "প্রতিবেদন ও স্বচ্ছতা",
+   "en": "Reports & transparency"
+  },
+  "con_hs": {
+   "bn": "যেকোনো তথ্য বা জিজ্ঞাসায় আমাদের সাথে যোগাযোগ করুন",
+   "en": "Reach out for any information or query"
+  },
+  "msg_t": {
+   "bn": "বার্তা পাঠান",
+   "en": "Send a message"
+  },
+  "c_addr": {
+   "bn": "আমাদের কার্যালয়",
+   "en": "Our office"
+  },
+  "c_phone": {
+   "bn": "ফোন নম্বর",
+   "en": "Phone"
+  },
+  "c_mail": {
+   "bn": "ইমেইল",
+   "en": "Email"
+  },
+  "priv_t": {
+   "bn": "গোপনীয়তা নীতি",
+   "en": "Privacy Policy"
+  },
+  "pv1_t": {
+   "bn": "১. তথ্যের সুরক্ষা",
+   "en": "1. Data protection"
+  },
+  "pv1_d": {
+   "bn": "মানব প্রয়াস ফাউন্ডেশন তার স্বেচ্ছাসেবী ও সাহায্যপ্রার্থীদের তথ্যের সর্বোচ্চ নিরাপত্তা প্রদান করে। কোন ব্যক্তিগত তথ্য তৃতীয় পক্ষের নিকট হস্তান্তর করা হয় না।",
+   "en": "Manab Proyas Foundation provides the highest security for the information of its volunteers and those seeking help. No personal data is handed to third parties."
+  },
+  "pv2_t": {
+   "bn": "২. ছবি ও মিডিয়া নীতি",
+   "en": "2. Photo & media policy"
+  },
+  "pv2_d": {
+   "bn": "সুবিধাবঞ্চিত ব্যক্তি বা শিশুদের আত্মসম্মান রক্ষায় আমাদের প্রকাশনায় সম্মানজনক উপায়ে ছবি ব্যবহারের নীতি অনুসরণ করা হয়। কোনো অবমাননাকর বা অপ্রীতিকর মিডিয়া প্রকাশ করা হয় না।",
+   "en": "To protect the dignity of disadvantaged people and children, photos are used respectfully in our publications. No demeaning or unpleasant media is published."
+  },
+  "foot_motto": {
+   "bn": "মানবতার সেবায়, কল্যাণের পথে",
+   "en": "In the service of humanity"
+  },
+  "foot_links": {
+   "bn": "দ্রুত লিঙ্ক",
+   "en": "Quick links"
+  },
+  "foot_pil": {
+   "bn": "মূল স্তম্ভ",
+   "en": "Core pillars"
+  },
+  "h1t": {
+   "bn": "সহায়তা করুন",
+   "en": "Donate"
+  },
+  "h1d": {
+   "bn": "অফিসিয়াল মাধ্যমে নির্দিষ্ট প্রকল্পে সহায়তা পাঠান।",
+   "en": "Send support to specific projects via official channels."
+  },
+  "h2t": {
+   "bn": "স্বেচ্ছাসেবক হোন",
+   "en": "Volunteer"
+  },
+  "h2d": {
+   "bn": "আপনার সময় ও দক্ষতা দিয়ে মানুষের পাশে দাঁড়ান।",
+   "en": "Stand with people using your time and skills."
+  },
+  "h3t": {
+   "bn": "ছড়িয়ে দিন",
+   "en": "Spread the word"
+  },
+  "h3d": {
+   "bn": "আমাদের কাজ বন্ধুদের সাথে শেয়ার করুন।",
+   "en": "Share our work with your friends."
+  },
+  "h3b": {
+   "bn": "শেয়ার করুন",
+   "en": "Share"
+  },
+  "s_fam": {
+   "bn": "নিরাপদ যাতায়াত পাওয়া পরিবার",
+   "en": "Families with safe passage"
+  },
+  "s_kid": {
+   "bn": "শিশুকে সহায়তার লক্ষ্য",
+   "en": "Children targeted for support"
+  },
+  "s_rel": {
+   "bn": "বন্যায় ত্রাণ পাওয়া পরিবার",
+   "en": "Flood-relief families"
+  },
+  "s_proj": {
+   "bn": "মোট প্রকল্প",
+   "en": "Total projects"
+  },
+  "ok_vol": {
+   "bn": "ধন্যবাদ! আপনার নিবন্ধন সফলভাবে জমা হয়েছে। আমরা শীঘ্রই যোগাযোগ করব।",
+   "en": "Thank you! Your registration was received. We will contact you soon."
+  },
+  "ok_msg": {
+   "bn": "ধন্যবাদ! আপনার বার্তা পাঠানো হয়েছে।",
+   "en": "Thank you! Your message has been sent."
+  },
+  "err_send": {
+   "bn": "দুঃখিত, পাঠানো যায়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।",
+   "en": "Sorry, could not send. Check your connection and try again."
+  },
+  "err_wait": {
+   "bn": "অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।",
+   "en": "Please wait a moment and try again."
+  },
+  "video": {
+   "bn": "ভিডিও",
+   "en": "Video"
+  },
+  "hero_name": {
+   "bn": "মানব প্রয়াস ফাউন্ডেশন (Manab Proyas Foundation – MPF)",
+   "en": "Manab Proyas Foundation (MPF) · মানব প্রয়াস ফাউন্ডেশন"
+  },
+  "hero_sub": {
+   "bn": "Serving Humanity, Building a Better Tomorrow",
+   "en": "Serving Humanity, Building a Better Tomorrow"
+  },
+  "priv_sub": {
+   "bn": "Privacy Policy & Ethics",
+   "en": "Privacy Policy & Ethics"
+  },
+  "int_bn_tag": {
+   "bn": "পরিচিতি",
+   "en": "",
+   "only": "bn"
+  },
+  "int_bn_h": {
+   "bn": "মানব প্রয়াস ফাউন্ডেশন (MPF)",
+   "en": "",
+   "only": "bn"
+  },
+  "int_bn_p": {
+   "bn": "মানব প্রয়াস ফাউন্ডেশন (ইংরেজিতে Manab Proyas Foundation, সংক্ষেপে MPF) একটি অরাজনৈতিক, অলাভজনক ইসলামী সামাজিক উন্নয়নমূলক সংস্থা। দ্বীনি শিক্ষা, গ্রামীণ অবকাঠামো উন্নয়ন ও আর্তমানবতার সেবায় সংস্থাটি কাজ করছে। অনেকে একে সরদার হাট মানব প্রয়াস নামেও চেনেন।",
+   "en": "",
+   "only": "bn"
+  },
+  "int_en_tag": {
+   "bn": "",
+   "en": "About us",
+   "only": "en"
+  },
+  "int_en_h": {
+   "bn": "",
+   "en": "Manab Proyas Foundation (MPF)",
+   "only": "en"
+  },
+  "int_en_p": {
+   "bn": "",
+   "en": "Manab Proyas Foundation (MPF), also known as Sarderhat Manab Proyas, is a non-political, non-profit Islamic social development organization working in religious education, rural infrastructure development and humanitarian service.",
+   "only": "en"
+  },
+  "con_soon": {
+   "bn": "যোগাযোগের তথ্য শীঘ্রই যুক্ত করা হবে। নিচের ফর্মে বার্তা পাঠাতে পারেন।",
+   "en": "Contact details will be added soon. You can send us a message using the form."
+  },
+  "nv_news": {
+   "bn": "সংবাদ",
+   "en": "News"
+  },
+  "nv_team": {
+   "bn": "নেতৃত্ব",
+   "en": "Leadership"
+  },
+  "nv_involved": {
+   "bn": "অংশগ্রহণ",
+   "en": "Get involved"
+  },
+  "nv_projects": {
+   "bn": "প্রকল্প",
+   "en": "Projects"
+  },
+  "tr_1": {
+   "bn": "অরাজনৈতিক",
+   "en": "Non-political"
+  },
+  "tr_2": {
+   "bn": "অলাভজনক",
+   "en": "Non-profit"
+  },
+  "tr_3": {
+   "bn": "স্বচ্ছ হিসাব",
+   "en": "Transparent accounts"
+  },
+  "tr_4": {
+   "bn": "আমানতদারিতা",
+   "en": "Trustworthy"
+  },
+  "pf_t": {
+   "bn": "আপনার সহায়তায় বদলে যেতে পারে একটি পরিবারের জীবন",
+   "en": "Your support can change a family's life"
+  },
+  "pf_d": {
+   "bn": "আজই পাশে দাঁড়ান — অফিসিয়াল মাধ্যমে সহায়তা পাঠান অথবা স্বেচ্ছাসেবক হিসেবে যুক্ত হোন।",
+   "en": "Stand with us today — give through official channels or join as a volunteer."
+  },
+  "f_about": {
+   "bn": "সমাজের অবহেলিত, দুস্থ ও সুবিধা বঞ্চিত মানুষদের পাশে দাঁড়ানোর লক্ষ্যে প্রতিষ্ঠিত একটি মানব কল্যাণমূলক সংস্থা।",
+   "en": "A humanitarian organization founded to stand beside the neglected, needy and underprivileged."
+  },
+  "call": {
+   "bn": "কল করুন",
+   "en": "Call"
+  },
+  "oi_reg": {
+   "bn": "নিবন্ধন নম্বর",
+   "en": "Registration No."
+  },
+  "oi_est": {
+   "bn": "প্রতিষ্ঠার সাল",
+   "en": "Established"
+  },
+  "oi_hrs": {
+   "bn": "অফিস সময়",
+   "en": "Office hours"
+  },
+  "st_tag": {
+   "bn": "অনুভূতি",
+   "en": "Voices"
+  },
+  "st_t": {
+   "bn": "মানুষের কথা",
+   "en": "What people say"
+  },
+  "hint_bkash": {
+   "bn": "বিকাশ (পার্সোনাল নয়, অফিসিয়াল নম্বর)",
+   "en": "bKash (official number)"
+  },
+  "hint_nagad": {
+   "bn": "নগদ (অফিসিয়াল নম্বর)",
+   "en": "Nagad (official number)"
+  },
+  "hint_rocket": {
+   "bn": "রকেট (অফিসিয়াল নম্বর)",
+   "en": "Rocket (official number)"
+  }
+ },
+ "images": [
+  {
+   "k": "logo",
+   "label": "সংস্থার লোগো (হেডার, ফুটার ও মেনুতে)"
+  },
+  {
+   "k": "a1",
+   "label": "কার্যক্রম ছবি — ধর্মীয় কার্যক্রম"
+  },
+  {
+   "k": "a2",
+   "label": "কার্যক্রম ছবি — শিক্ষা উন্নয়ন"
+  },
+  {
+   "k": "a3",
+   "label": "কার্যক্রম ছবি — গ্রামীণ অবকাঠামো"
+  },
+  {
+   "k": "a4",
+   "label": "কার্যক্রম ছবি — মানবসেবা ও ত্রাণ"
+  },
+  {
+   "k": "a5",
+   "label": "কার্যক্রম ছবি — সামাজিক কল্যাণ"
+  },
+  {
+   "k": "a6",
+   "label": "কার্যক্রম ছবি — সামাজিক উন্নয়ন"
+  }
+ ]
+}
