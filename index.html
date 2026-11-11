@@ -182,7 +182,7 @@ details.fq summary::-webkit-details-marker{display:none}details.fq div{padding:0
  .bnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--line);padding:6px 6px calc(6px + var(--safe-b));box-shadow:0 -10px 28px -16px rgba(13,47,40,.35)}
  .bn{position:relative;overflow:hidden;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:50px;font-size:11px;font-weight:600;color:#7b8983;border-radius:12px}
  .bn i{font-size:18px;transition:transform .3s var(--ease)}.bn.on{color:var(--dark)}.bn.on i{transform:translateY(-2px) scale(1.12);color:var(--gold-h)}
- .bn .cnt{position:absolute;top:2px;right:calc(50% - 22px);background:var(--red);color:#fff;font-size:10px;min-width:18px;height:18px;border-radius:9px;display:grid;place-items:center;padding:0 4px}
+ .bn .cnt{position:absolute;top:0;right:calc(50% - 24px);background:var(--red);color:#fff;font-size:11px;font-weight:700;min-width:20px;height:20px;border-radius:9px;display:grid;place-items:center;padding:0 4px}
  main{padding:16px 14px calc(96px + var(--safe-b))}.top{padding:8px 12px}
  .two{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr}
  .kv{grid-template-columns:100px 1fr}
@@ -237,11 +237,11 @@ details.fq summary::-webkit-details-marker{display:none}details.fq div{padding:0
   <aside class="side" id="side" aria-label="মেনু">
     <div class="brand"><i class="fa-solid fa-hands-holding-child"></i><div><b>মানব প্রয়াস</b><small>অ্যাডমিন প্যানেল</small></div></div>
     <nav id="snav"></nav>
-    <div class="side-f"><div class="who" id="who"></div><a class="btn" href="./" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i>সাইট দেখুন</a><button type="button" class="btn" id="logout"><i class="fa-solid fa-right-from-bracket"></i>লগআউট</button></div>
+    <div class="side-f"><div class="who" id="who"></div><a class="btn" data-site-link href="./" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i>সাইট দেখুন</a><button type="button" class="btn" id="logout"><i class="fa-solid fa-right-from-bracket"></i>লগআউট</button></div>
   </aside>
   <div class="ov" id="ov"></div>
   <div class="mainwrap">
-    <header class="top"><button type="button" class="ib burger" id="burger" aria-label="মেনু"><i class="fa-solid fa-bars"></i></button><h1 id="ptitle">ড্যাশবোর্ড</h1><a class="btn btn-line btn-sm" href="./" target="_blank" rel="noopener"><i class="fa-solid fa-eye"></i><span>সাইট</span></a></header>
+    <header class="top"><button type="button" class="ib burger" id="burger" aria-label="মেনু"><i class="fa-solid fa-bars"></i></button><h1 id="ptitle">ড্যাশবোর্ড</h1><a class="btn btn-line btn-sm" data-site-link href="./" target="_blank" rel="noopener"><i class="fa-solid fa-eye"></i><span>সাইট</span></a></header>
     <main><div id="view" class="view"></div></main>
   </div>
   <nav class="bnav" id="bnav" aria-label="দ্রুত মেনু"></nav>
@@ -299,10 +299,16 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 document.addEventListener('pointerdown',e=>{const b=e.target.closest('.btn,.ib,.chip,.nv,.bn');if(!b||reduce)return;const r=b.getBoundingClientRect(),d=Math.max(r.width,r.height)*2,s=document.createElement('span');s.className='rip';s.style.cssText=`width:${d}px;height:${d}px;left:${e.clientX-r.left-d/2}px;top:${e.clientY-r.top-d/2}px`;b.appendChild(s);setTimeout(()=>s.remove(),650)});
 
 /* ---------- Google Drive (Apps Script) ---------- */
-const DRIVE_ON=()=>/^https:\/\/script\.google\.com\//.test(DRIVE_SCRIPT_URL);
+const CFG={scriptUrl:'',siteUrl:'',driveFolderUrl:'',driveFolderId:'',perm:''};
+try{Object.assign(CFG,JSON.parse(localStorage.getItem('mpf_cfg')||'{}'))}catch(e){}
+const cfgScript=()=>CFG.scriptUrl||DRIVE_SCRIPT_URL;
+const DRIVE_ON=()=>/^https:\/\/script\.google\.com\//.test(cfgScript());
+const siteHref=()=>CFG.siteUrl||new URL('./',location.href).href;
+function folderId(u){u=String(u||'').trim();const m=u.match(/\/folders\/([\w-]{10,})/)||u.match(/[?&]id=([\w-]{10,})/);if(m)return m[1];return /^[\w-]{20,}$/.test(u)?u:''}
+function updateSiteLinks(){$$('[data-site-link]').forEach(a=>{a.href=siteHref()})}
 function ytId(u){const m=String(u||'').match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/))([\w-]{11})/);return m?m[1]:''}
-async function driveCall(payload){const tok=await user.getIdToken();let r;
-  try{r=await fetch(DRIVE_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...payload,token:tok})})}catch(e){throw new Error('Drive স্ক্রিপ্টের সাথে যোগাযোগ করা যায়নি — ইন্টারনেট বা স্ক্রিপ্টের ডিপ্লয় সেটিং দেখুন।')}
+async function driveCall(payload,url,rootId){const tok=await user.getIdToken();let r;const rid=rootId===undefined?CFG.driveFolderId:rootId;
+  try{r=await fetch(url||cfgScript(),{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...payload,token:tok,rootId:rid||undefined})})}catch(e){throw new Error('Drive স্ক্রিপ্টের সাথে যোগাযোগ করা যায়নি — ইন্টারনেট বা স্ক্রিপ্টের ডিপ্লয় সেটিং দেখুন।')}
   let j;try{j=await r.json()}catch(e){throw new Error('Drive স্ক্রিপ্ট ঠিকমতো উত্তর দেয়নি — ডিপ্লয়ে "Who has access: Anyone" দিয়েছেন কি?')}
   if(!j.ok)throw new Error(j.error||'Drive ত্রুটি');return j}
 const b64=blob=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=()=>rej(new Error('ফাইল পড়া যায়নি'));r.readAsDataURL(blob)});
@@ -392,23 +398,24 @@ const Q={},F={volunteers:'all',messages:'all'};
 let route='dashboard',dirty=false,statsAnim=false;
 
 /* ---------- navigation ---------- */
-const NAV=[['dashboard','fa-gauge-high','ড্যাশবোর্ড'],['projects','fa-diagram-project','প্রকল্প'],['gallery','fa-images','গ্যালারি'],['news','fa-newspaper','সংবাদ ও ইভেন্ট'],['team','fa-users','নেতৃত্ব'],['stories','fa-comments','মানুষের কথা'],['volunteers','fa-hand-holding-heart','স্বেচ্ছাসেবক আবেদন'],['messages','fa-envelope','বার্তা'],['content','fa-pen-nib','সাইটের লেখা ও ছবি'],['settings','fa-gear','সাইট সেটিংস'],['help','fa-circle-question','সেটআপ গাইড']];
-const BN_NAV=['dashboard','projects','volunteers','settings'];
+const NAV=[['dashboard','fa-gauge-high','ড্যাশবোর্ড'],['projects','fa-diagram-project','প্রকল্প'],['gallery','fa-images','গ্যালারি'],['news','fa-newspaper','সংবাদ ও ইভেন্ট'],['team','fa-users','নেতৃত্ব'],['stories','fa-comments','মানুষের কথা'],['volunteers','fa-hand-holding-heart','স্বেচ্ছাসেবক আবেদন'],['messages','fa-envelope','বার্তা'],['links','fa-link','লিংক ও সংযোগ'],['content','fa-pen-nib','সাইটের লেখা ও ছবি'],['settings','fa-gear','সাইট সেটিংস'],['help','fa-circle-question','সেটআপ গাইড']];
+const BN_NAV=['dashboard','projects','volunteers','links'];
 const newCount=k=>D[k].filter(x=>x.status==='new').length;
-function renderNav(){const c={volunteers:newCount('volunteers'),messages:newCount('messages')};
+function renderNav(){const c={volunteers:newCount('volunteers'),messages:newCount('messages'),links:(L.cfg&&!DRIVE_ON())?'!':0};
   $('#snav').innerHTML=NAV.map(([r,ic,l])=>`<a class="nv ${route===r?'on':''}" href="#/${r}"><i class="fa-solid ${ic}"></i>${l}${c[r]?`<span class="cnt">${bn(c[r])}</span>`:''}</a>`).join('');
   $('#bnav').innerHTML=BN_NAV.map(r=>{const n=NAV.find(x=>x[0]===r);return `<a class="bn ${route===r?'on':''}" href="#/${r}"><i class="fa-solid ${n[1]}"></i>${n[2].split(' ')[0]}${c[r]?`<span class="cnt">${bn(c[r])}</span>`:''}</a>`}).join('')+`<button type="button" class="bn" id="bn-more"><i class="fa-solid fa-bars"></i>আরও</button>`;
   const more=$('#bn-more');if(more)more.onclick=openSide}
 function openSide(){$('#side').classList.add('open');$('#ov').classList.add('open');document.body.classList.add('lock')}
 function closeSide(){$('#side').classList.remove('open');$('#ov').classList.remove('open');if(!modal.classList.contains('open'))document.body.classList.remove('lock')}
 $('#burger').onclick=openSide;$('#ov').onclick=closeSide;
-function go(){const r=location.hash.replace(/^#\/?/,'')||'dashboard';endFS();route=NAV.some(n=>n[0]===r)?r:'dashboard';if(route==='settings'||route==='content')FS=newFS('site');dirty=false;closeSide();renderNav();$('#ptitle').textContent=NAV.find(n=>n[0]===route)[2];scrollTo(0,0);renderView(true)}
+function go(){const r=location.hash.replace(/^#\/?/,'')||'dashboard';endFS();route=NAV.some(n=>n[0]===r)?r:'dashboard';if(route==='settings'||route==='content'||route==='links')FS=newFS('site');dirty=false;closeSide();renderNav();$('#ptitle').textContent=NAV.find(n=>n[0]===route)[2];scrollTo(0,0);renderView(true)}
 addEventListener('hashchange',()=>{if(user&&!$('#app').hidden)go()});
 
 /* ---------- views ---------- */
 let rq=0;function schedule(){if(rq)return;rq=requestAnimationFrame(()=>{rq=0;renderNav();renderView(false)})}
 function renderView(force){const v=$('#view');
   if(route==='content'){renderContent(force);return}
+  if(route==='links'){renderLinks(force);return}
   if(route==='settings'){if(force||!dirty&&L.site&&!v.dataset.siteLoaded){v.dataset.siteLoaded=L.site?1:'';v.innerHTML=viewSettings()}return}
   v.dataset.siteLoaded='';
   if(route==='dashboard')v.innerHTML=viewDash();
@@ -422,13 +429,13 @@ const skel=n=>Array.from({length:n},()=>'<div class="sk"></div>').join('');
 function viewDash(){const nv=newCount('volunteers'),nm=newCount('messages');
  const stat=(k,ic,lab,n,alert)=>`<a class="card sc ${alert&&n?'alert':''}" href="#/${k}" style="--i:${['projects','gallery','news','team','stories','volunteers','messages'].indexOf(k)}"><i class="fa-solid ${ic}"></i><b data-n="${n}">${statsAnim?bn(n):bn(0)}</b><span>${lab}</span></a>`;
  const S=D.site||{},P=S.payments||{};
- const chk=[[!!S.phone&&!!S.email,'ফোন ও ইমেইল দেওয়া হয়েছে','settings'],[!!S.address_bn,'অফিসের ঠিকানা দেওয়া হয়েছে','settings'],[!!S.hero_img,'হোমপেজের মূল ছবি (Drive) দেওয়া হয়েছে','settings'],[!!(P.bkash||P.nagad||P.rocket||P.bank_acc_no),'সহায়তা গ্রহণের অফিসিয়াল নম্বর/অ্যাকাউন্ট দেওয়া হয়েছে','settings'],[!!S.facebook,'ফেসবুক পেজের লিংক দেওয়া হয়েছে','settings'],[!!S.reg_no,'সংস্থার নিবন্ধন নম্বর দেওয়া হয়েছে','settings'],[D.projects.length>0,'অন্তত একটি প্রকল্প যোগ হয়েছে','projects'],[D.gallery.length>=4,'গ্যালারিতে ৪+ ছবি আছে','gallery'],[D.team.length>0,'নেতৃত্বের তালিকা দেওয়া হয়েছে','team'],[(S.reports||[]).length>0,'বার্ষিক প্রতিবেদন (PDF) যুক্ত হয়েছে','settings']];
+ const chk=[[!!S.phone&&!!S.email,'ফোন ও ইমেইল দেওয়া হয়েছে','settings'],[!!S.address_bn,'অফিসের ঠিকানা দেওয়া হয়েছে','settings'],[DRIVE_ON(),'Google Drive আপলোড সংযুক্ত (Apps Script লিংক)','links'],[!!S.hero_img,'হোমপেজের মূল ছবি দেওয়া হয়েছে','links'],[!!(P.bkash||P.nagad||P.rocket||P.bank_acc_no),'সহায়তা গ্রহণের অফিসিয়াল নম্বর/অ্যাকাউন্ট দেওয়া হয়েছে','settings'],[!!S.facebook,'ফেসবুক পেজের লিংক দেওয়া হয়েছে','links'],[!!S.reg_no,'সংস্থার নিবন্ধন নম্বর দেওয়া হয়েছে','settings'],[D.projects.length>0,'অন্তত একটি প্রকল্প যোগ হয়েছে','projects'],[D.gallery.length>=4,'গ্যালারিতে ৪+ ছবি আছে','gallery'],[D.team.length>0,'নেতৃত্বের তালিকা দেওয়া হয়েছে','team'],[(S.reports||[]).length>0,'বার্ষিক প্রতিবেদন (PDF) যুক্ত হয়েছে','settings']];
  const done=chk.filter(c=>c[0]).length,pct=Math.round(done/chk.length*100);
  const recent=[...D.volunteers.map(x=>({...x,_k:'volunteers'})),...D.messages.map(x=>({...x,_k:'messages'}))].sort((a,b)=>tsec(b)-tsec(a)).slice(0,6);
  return `<div class="sec-h"><div><h2>স্বাগতম 👋</h2><small>আপনার সাইটের সারাংশ</small></div><div class="tools"><button type="button" class="btn btn-gold btn-sm" data-new="projects"><i class="fa-solid fa-plus"></i>নতুন প্রকল্প</button><button type="button" class="btn btn-dark btn-sm" data-new="news"><i class="fa-solid fa-plus"></i>সংবাদ</button><button type="button" class="btn btn-line btn-sm" data-bulk><i class="fa-solid fa-images"></i>ছবি যোগ</button></div></div>
  <div class="stats">${stat('projects','fa-diagram-project','প্রকল্প',D.projects.length)}${stat('gallery','fa-images','গ্যালারি ছবি',D.gallery.length)}${stat('news','fa-newspaper','সংবাদ',D.news.length)}${stat('team','fa-users','নেতৃত্ব',D.team.length)}${stat('volunteers','fa-hand-holding-heart','নতুন আবেদন',nv,1)}${stat('messages','fa-envelope','নতুন বার্তা',nm,1)}</div>
  <div class="two"><div class="card pad"><h3 style="color:var(--dark);margin-bottom:10px"><i class="fa-solid fa-inbox" style="color:var(--gold-h)"></i> সাম্প্রতিক আবেদন ও বার্তা</h3>${recent.length?recent.map(r=>`<div class="row ${r.status==='new'?'unread':''}" data-open="${r._k}:${esc(r.id)}"><div class="av">${esc((r.name||'?').trim().charAt(0))}</div><div class="tx"><b>${esc(r.name)}</b><small>${r._k==='volunteers'?'স্বেচ্ছাসেবক আবেদন':'বার্তা'} • ${esc(fmtTime(r.createdAt))}</small></div>${r.status==='new'?'<span class="pill p-new" style="margin:0">নতুন</span>':''}</div>`).join(''):'<p style="color:var(--muted);padding:14px 4px">এখনো কোনো আবেদন বা বার্তা আসেনি।</p>'}</div>
- <div class="card pad"><h3 style="color:var(--dark);margin-bottom:8px"><i class="fa-solid fa-list-check" style="color:var(--gold-h)"></i> সাইট সম্পূর্ণতা — ${bn(pct)}%</h3><div class="bar" style="margin-bottom:10px"><i style="width:${pct}%"></i></div>${chk.map(c=>`<div class="ck"><i class="fa-solid ${c[0]?'fa-circle-check y':'fa-circle n'}"></i><span>${c[1]}</span>${c[0]?'':`<a class="link" href="#/${c[2]}">করুন</a>`}</div>`).join('')}</div></div>`}
+ <div class="card pad"><h3 style="color:var(--dark);margin-bottom:8px"><i class="fa-solid fa-list-check" style="color:var(--gold-h)"></i> সাইট সম্পূর্ণতা — ${bn(pct)}%</h3><div class="bar" style="margin-bottom:10px"><i style="width:${pct}%"></i></div>${chk.map(c=>`<div class="ck"><i class="${c[0]?'fa-solid fa-circle-check y':'fa-regular fa-circle n'}"></i><span>${c[1]}</span>${c[0]?'':`<a class="link" href="#/${c[2]}">করুন</a>`}</div>`).join('')}</div></div>`}
 function animateCounts(){statsAnim=true;$$('[data-n]').forEach(el=>{const to=+el.dataset.n;if(reduce||!to){el.textContent=bn(to);return}const t0=performance.now();const f=n=>{const p=Math.min(1,(n-t0)/900);el.textContent=bn(Math.round(to*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}
 
 /* entity list */
@@ -556,6 +563,73 @@ function openBulk(){openModal(`<div class="grab"></div><div class="sh-h"><h2>এ
    for(let i=0;i<items.length;i+=400){const b=writeBatch(db);items.slice(i,i+400).forEach((it,n)=>b.set(doc(collection(db,COL.gallery)),{...it,order:base+i+n,createdAt:serverTimestamp()}));await b.commit()}
    toast(bn(items.length)+'টি ছবি যোগ হয়েছে ✓');closeModal()}catch(e){fail(e)}finally{btn.classList.remove('busy')}}}
 
+/* ---------- লিংক ও সংযোগ (সব লিংক এক জায়গায়) ---------- */
+const LK=[
+ {k:'cfg_siteUrl',label:'আপনার সাইটের ঠিকানা (index পেজ)',type:'url',full:1,ph:'https://cncdtf-cell.github.io/Manab-Proyas-Foundation/',help:'ওপরের "সাইট" বাটন ও সাইডবারের "সাইট দেখুন" এই লিংকে যাবে। খালি রাখলে এই admin পেজের পাশের index পেজে যাবে।'},
+ {k:'cfg_scriptUrl',label:'Google Apps Script — Web App লিংক',type:'url',full:1,ph:'https://script.google.com/macros/s/…/exec',help:'ছবি/ভিডিও/PDF সরাসরি আপলোড, বদলানো ও মোছার জন্য। কীভাবে পাবেন তা নিচে "ধাপে ধাপে" অংশে আছে।'},
+ {k:'cfg_folderUrl',label:'Google Drive ফোল্ডারের লিংক (ঐচ্ছিক)',type:'url',full:1,ph:'https://drive.google.com/drive/folders/…',help:'খালি রাখলে স্ক্রিপ্ট নিজে Drive-এ <b>ManabProyas-Media</b> ফোল্ডার বানাবে। নিজের ফোল্ডার চাইলে Drive-এ ফোল্ডার খুলে লিংক কপি করে এখানে দিন (ফোল্ডারটি স্ক্রিপ্ট ডিপ্লয় করা Google অ্যাকাউন্টের হতে হবে)।'},
+ {k:'logo',label:'সংস্থার লোগো (হেডার, ফুটার ও মেনুতে)',type:'image',full:1},
+ {k:'hero_img',label:'হোমপেজের বড় ছবি',type:'image',full:1},
+ {k:'facebook',label:'ফেসবুক পেজ লিংক',type:'url',full:1,ph:'https://facebook.com/…'},
+ {k:'youtube',label:'ইউটিউব চ্যানেল লিংক',type:'url',full:1,ph:'https://youtube.com/@…'},
+ {k:'whatsapp',label:'WhatsApp লিংক',type:'url',full:1,ph:'https://wa.me/8801XXXXXXXXX'},
+ {k:'mapEmbed',label:'Google Map এম্বেড লিংক',type:'url',full:1,help:'Google Maps → আপনার ঠিকানা → Share → Embed a map → কোডের ভেতরের <b>src="…"</b> এর লিংকটুকু (https://www.google.com/maps/embed?…) পেস্ট করুন।'},
+ {k:'notice_link',label:'নোটিশ বারের লিংক (ঐচ্ছিক)',type:'url',full:1}];
+const lkf=k=>LK.find(f=>f.k===k);
+const lkVal=k=>{if(k==='cfg_siteUrl')return CFG.siteUrl||'';if(k==='cfg_scriptUrl')return CFG.scriptUrl||'';if(k==='cfg_folderUrl')return CFG.driveFolderUrl||'';if(k==='logo')return(D.content.img||{}).logo||'';return(D.site||{})[k]||''};
+const SCRIPT_RX=/^https:\/\/script\.google\.com\/(a\/[\w.-]+\/)?macros\/s\/[\w-]+\/(exec|dev)$/;
+const pill=(ok,a,b)=>`<span class="pill ${ok?'p-done':'p-new'}" style="margin:0 0 0 8px;vertical-align:middle">${ok?a:b}</span>`;
+function renderLinks(force){const v=$('#view');
+  if(!L.site||!L.content||!L.cfg){v.innerHTML=`<div class="sec-h"><h2>লিংক ও সংযোগ</h2></div>${skel(2)}`;return}
+  if(!force&&$('#lk-form',v))return;
+  const F=k=>fld(lkf(k),lkVal(k));
+  v.innerHTML=`<div class="sec-h"><div><h2><i class="fa-solid fa-link" style="color:var(--gold-h)"></i> লিংক ও সংযোগ</h2><small>সাইটের ঠিকানা, Google Drive, লোগো ও সব লিংক এখানেই — কোনো ফাইল এডিট করতে হবে না</small></div><button type="button" class="btn btn-line btn-sm" data-backup><i class="fa-solid fa-download"></i>ডাটা ব্যাকআপ (JSON)</button></div>
+  ${CFG.perm?`<div class="msg warn"><i class="fa-solid fa-triangle-exclamation" style="margin-top:4px"></i><span>এই সেটিংস আপাতত শুধু <b>এই ব্রাউজারে</b> সংরক্ষিত হচ্ছে, কারণ Firestore Rules-এ <code>adminConfig</code> অংশ নেই। সব ডিভাইসে পেতে সেটআপ গাইডের নতুন Rules পাবলিশ করুন।</span></div>`:''}
+  <form id="lk-form" novalidate>
+   <section class="card pad set-sec" id="lk1"><h3><i class="fa-solid fa-globe"></i>আপনার সাইট</h3><p>পাবলিক সাইটটি কোন ঠিকানায় আছে তা এখানে দিন।</p><div class="fgrid">${F('cfg_siteUrl')}</div><div class="tools"><a class="btn btn-line btn-sm" data-site-link href="${esc(siteHref())}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i>সাইট খুলে দেখুন</a></div></section>
+   <section class="card pad set-sec" id="lk2"><h3><i class="fa-brands fa-google-drive"></i>Google Drive আপলোড${pill(DRIVE_ON(),'চালু','সংযুক্ত নয়')}</h3><p>ছবি, ভিডিও ও PDF এখান থেকে আপলোড হয়ে আপনার Google Drive-এ জমা হবে।</p>
+    <div class="fgrid">${F('cfg_scriptUrl')}</div><div class="tools" style="margin:-4px 0 12px"><button type="button" class="btn btn-dark btn-sm" data-lk-test><i class="fa-solid fa-plug-circle-check"></i>লিংক যাচাই করুন</button></div><div class="hc" id="lk-test"></div>
+    <div class="fgrid" style="margin-top:12px">${F('cfg_folderUrl')}</div><div class="tools"><a class="btn btn-line btn-sm" id="lk-folder" href="${esc(CFG.driveFolderUrl||'#')}" target="_blank" rel="noopener" ${CFG.driveFolderUrl?'':'hidden'}><i class="fa-brands fa-google-drive"></i>ফোল্ডার খুলুন</a></div>
+    <details class="fq" style="margin-top:14px"><summary>Web App লিংক কীভাবে পাবেন (ধাপে ধাপে) <i class="fa-solid fa-chevron-down"></i></summary><div><ol class="steps"><li><b>script.google.com</b> খুলে যে Google অ্যাকাউন্টের Drive-এ ছবি রাখতে চান তা দিয়ে লগইন করুন → <b>New project</b>।</li><li><code>Code.gs</code>-এর সব লেখা মুছে আমার দেওয়া <b>drive-upload.gs</b> ফাইলের লেখা পেস্ট করুন।</li><li>বাঁ দিকে ⚙ <b>Project Settings</b> → "Show appsscript.json manifest file" টিক দিন → সেই ফাইলে <b>appsscript.json</b> ফাইলের লেখা পেস্ট করুন।</li><li>ওপরে ফাংশন বাছাইয়ে <b>setup</b> বেছে <b>Run</b> চাপুন → অনুমতি চাইলে Advanced → Go to project → Allow।</li><li><b>Deploy → New deployment → Web app</b> → Execute as: <b>Me</b> → Who has access: <b>Anyone</b> → Deploy।</li><li>যে <b>Web app URL</b> (শেষে <code>/exec</code>) পাবেন তা এখানে পেস্ট করে <b>লিংক যাচাই করুন</b> চাপুন, তারপর <b>সংরক্ষণ</b>।</li></ol><p style="margin-top:8px;color:var(--muted)">স্ক্রিপ্ট বদলালে Deploy → Manage deployments → ✏ → Version: <b>New version</b> দিয়ে আবার ডিপ্লয় করতে হবে।</p></div></details></section>
+   <section class="card pad set-sec" id="lk3"><h3><i class="fa-solid fa-image"></i>লোগো ও বড় ছবি</h3><p>আপলোড করুন অথবা Google Drive-এর লিংক পেস্ট করুন। ঘর খালি রাখলে ডিফল্ট থাকবে।</p><div class="fgrid">${F('logo')}${F('hero_img')}</div></section>
+   <section class="card pad set-sec" id="lk4"><h3><i class="fa-solid fa-share-nodes"></i>সোশ্যাল ও অন্যান্য লিংক</h3><p>এগুলো সাইটের টপবার, ফুটার ও যোগাযোগ পেজে দেখাবে। খালি রাখলে দেখাবে না।</p><div class="fgrid">${F('facebook')}${F('youtube')}${F('whatsapp')}${F('mapEmbed')}${F('notice_link')}</div></section>
+   <div class="savebar"><span id="lk-s">সব তথ্য সংরক্ষিত আছে</span><button class="btn btn-gold" type="submit"><i class="fa-solid fa-floppy-disk"></i>সংরক্ষণ করুন</button></div></form>`;
+  const f=$('#lk-form');wireImgs(f);f.addEventListener('input',()=>{dirty=true;$('#lk-s').textContent='অসংরক্ষিত পরিবর্তন আছে'});
+  f.addEventListener('submit',ev=>{ev.preventDefault();saveLinks(f)})}
+function lkMark(root,k,m){const w=$(`[data-fk="${k}"]`,root);if(w){w.classList.add('err');const e=$('.em',w);if(e&&m)e.textContent=m}}
+async function saveLinks(f){const {data,errs}=collect(f,LK);let bad=errs.length>0;
+  const su=data.cfg_scriptUrl||'';if(su&&!SCRIPT_RX.test(su)){lkMark(f,'cfg_scriptUrl','এটি Web App লিংক নয়। লিংক https://script.google.com/macros/s/…/exec এর মতো হবে।');bad=true}
+  const fu=data.cfg_folderUrl||'',fid=folderId(fu);if(fu&&!fid){lkMark(f,'cfg_folderUrl','এটি Drive ফোল্ডারের লিংক নয় (…/drive/folders/… এর মতো হবে)।');bad=true}
+  if(bad){toast('লাল চিহ্নিত ঘরগুলো ঠিক করুন',true);const w=$('.fld.err',f);w&&w.scrollIntoView({behavior:'smooth',block:'center'});return}
+  const btn=$('button[type=submit]',f);btn.classList.add('busy');
+  const cfg={scriptUrl:su,siteUrl:data.cfg_siteUrl||'',driveFolderUrl:fu,driveFolderId:fid};
+  const beforeHero=(D.site||{}).hero_img,beforeLogo=(D.content.img||{}).logo;
+  try{let local=false;
+   try{await setDoc(doc(db,'adminConfig','main'),{...cfg,updatedAt:serverTimestamp()})}catch(e){if(isPerm(e))local=true;else throw e}
+   try{localStorage.setItem('mpf_cfg',JSON.stringify(cfg))}catch(_){}
+   Object.assign(CFG,cfg,{perm:local?'1':''});updateSiteLinks();
+   await setDoc(doc(db,'settings','site'),{facebook:data.facebook||'',youtube:data.youtube||'',whatsapp:data.whatsapp||'',mapEmbed:data.mapEmbed||'',notice_link:data.notice_link||'',hero_img:data.hero_img||'',updatedAt:serverTimestamp()},{merge:true});
+   const imgMap={...(D.content.img||{})};if(data.logo)imgMap.logo=data.logo;else delete imgMap.logo;
+   await setDoc(doc(db,'settings','content'),{img:imgMap,updatedAt:serverTimestamp()},{mergeFields:['img','updatedAt']});
+   {const keep=[data.hero_img,...Object.values(imgMap)].join(' '),gone=[beforeHero,beforeLogo].map(driveId).filter(id=>id&&!keep.includes(id)&&!stillUsed(id,{site:true}));trashIds(gone)}
+   dirty=false;if(FS)FS.saved=true;FS=newFS('site');$('#lk-s').textContent='সংরক্ষিত ✓';
+   toast(local?'সংরক্ষিত হয়েছে (শুধু এই ব্রাউজারে — Rules আপডেট করুন)':'সব লিংক সংরক্ষিত হয়েছে ✓');renderNav();
+   if(local)renderLinks(true)}
+  catch(e){fail(e)}finally{btn.classList.remove('busy')}}
+async function testScript(){const f=$('#lk-form'),out=$('#lk-test'),btn=$('[data-lk-test]'),url=$('[data-k="cfg_scriptUrl"]',f).value.trim(),fu=$('[data-k="cfg_folderUrl"]',f).value.trim(),fid=folderId(fu);
+  const row=(c,t,h)=>{out.innerHTML=`<div><i class="fa-solid ${c==='y'?'fa-circle-check y':c==='n'?'fa-circle-xmark n':c==='w'?'fa-triangle-exclamation w':'fa-spinner fa-spin'}"></i><span>${esc(t)}${h?`<small>${esc(h)}</small>`:''}</span></div>`};
+  if(!SCRIPT_RX.test(url)){row('n','আগে সঠিক Web App লিংক পেস্ট করুন','লিংক https://script.google.com/macros/s/…/exec এর মতো হবে');return}
+  btn.classList.add('busy');row('?','যাচাই হচ্ছে… (প্রথমবার ১০–২০ সেকেন্ড লাগতে পারে)');
+  try{const r=await driveCall({action:'ping'},url,fid);
+   if(fid&&r.rootId&&r.rootId!==fid)row('w','স্ক্রিপ্ট কাজ করছে, কিন্তু আপনার দেওয়া ফোল্ডার ব্যবহার করছে না','স্ক্রিপ্টটি পুরনো সংস্করণ — নতুন drive-upload.gs পেস্ট করে New version হিসেবে আবার Deploy করুন। এখন ফোল্ডার: '+(r.folder||''));
+   else{row('y','স্ক্রিপ্ট কাজ করছে — Drive সংযোগ ঠিক আছে','ফোল্ডার: '+(r.folder||'')+(r.custom?' (আপনার নির্বাচিত)':' (স্বয়ংক্রিয়)'));const a=$('#lk-folder');if(a&&r.url&&!fu){a.href=r.url;a.hidden=false}}
+  }catch(e){row('n','যাচাই ব্যর্থ',e.message)}finally{btn.classList.remove('busy')}}
+function exportBackup(){const out={exportedAt:new Date().toISOString(),projects:D.projects,gallery:D.gallery,news:D.news,team:D.team,testimonials:D.stories,volunteers:D.volunteers,messages:D.messages,settings:{site:D.site,content:D.content},adminConfig:{scriptUrl:CFG.scriptUrl,siteUrl:CFG.siteUrl,driveFolderUrl:CFG.driveFolderUrl}};
+  const json=JSON.stringify(out,(k,v)=>(v&&typeof v==='object'&&typeof v.toDate==='function')?v.toDate().toISOString():v,2);
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([json],{type:'application/json'}));a.download='mpf-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);toast('ব্যাকআপ ডাউনলোড হচ্ছে')}
+document.addEventListener('click',e=>{if(e.target.closest('[data-lk-test]'))testScript();if(e.target.closest('[data-backup]'))exportBackup()});
+
+
 /* ---------- content editor (সাইটের সব লেখা ও ছবি) ---------- */
 const CT={defs:null,err:'',cur:'img',q:'',vals:{},img:null,dirty:false};
 async function loadDefs(){try{const r=await fetch('./content-defaults.json?v='+Date.now());if(!r.ok)throw new Error(r.status);CT.defs=await r.json();CT.err=''}catch(e){CT.err='content-defaults.json লোড হয়নি — এই ফাইলটি admin.html-এর পাশের ফোল্ডারে (GitHub-এ একই জায়গায়) আপলোড করুন।'}if(route==='content')renderContent(true)}
@@ -607,7 +681,8 @@ async function runHealth(){const box=$('#hc-res'),btn=$('[data-health]'),rows=[]
   try{const a=await getDoc(doc(db,'admins',user.uid));add(a.exists()?'y':'n','অ্যাডমিন অনুমতি (admins/'+user.uid.slice(0,6)+'…)',a.exists()?'':'admins collection-এ আপনার UID-র ডকুমেন্ট নেই')}catch(e){add('n','অ্যাডমিন অনুমতি পরীক্ষা ব্যর্থ',e.message)}
   try{await getDoc(doc(db,'settings','site'));add('y','Firestore থেকে পড়া কাজ করছে')}catch(e){add('n','Firestore পড়া ব্যর্থ',e.message)}
   try{const r=doc(db,'settings','_health');await setDoc(r,{checkedAt:serverTimestamp(),by:user.uid});await deleteDoc(r);add('y','Firestore-এ লেখা কাজ করছে (Rules ঠিক আছে)')}catch(e){add('n','Firestore-এ লেখা যাচ্ছে না — Rules পাবলিশ ও admins ডকুমেন্ট দেখুন',e.message)}
-  if(!DRIVE_ON())add('w','Google Drive স্ক্রিপ্ট সেটআপ হয়নি','admin.html-এর DRIVE_SCRIPT_URL-এ Web App URL বসান (আপলোড না লাগলে এটি ঐচ্ছিক)');
+  try{await getDoc(doc(db,'adminConfig','main'));add('y','লিংক ও সংযোগ সেটিংস Firestore-এ সংরক্ষণযোগ্য')}catch(e){add(isPerm(e)?'w':'n','লিংক ও সংযোগ সেটিংস শুধু এই ব্রাউজারে সংরক্ষিত হবে',isPerm(e)?'Rules-এ adminConfig অংশ নেই — নতুন Rules পাবলিশ করুন':e.message)}
+  if(!DRIVE_ON())add('w','Google Drive স্ক্রিপ্ট সেটআপ হয়নি','"লিংক ও সংযোগ" পেজে Web App লিংক বসান (আপলোড না লাগলে এটি ঐচ্ছিক)');
   else{try{const r=await driveCall({action:'ping'});add('y','Google Drive স্ক্রিপ্ট কাজ করছে',(r.folder?'ফোল্ডার: '+r.folder:''))}catch(e){add('n','Google Drive স্ক্রিপ্ট ব্যর্থ',e.message)}}
   add('y','পরীক্ষা শেষ','পাবলিক সাইট (index.html) লগইন ছাড়াই পড়ে — তাই সেটি আলাদা ব্রাউজারে/ইনকগনিটোতে খুলে দেখুন কনটেন্ট আসছে কি না।');
   btn.classList.remove('busy')}
@@ -620,13 +695,10 @@ const SETG=[
   {k:'phone',label:'ফোন নম্বর',type:'tel',ph:'+880 1XXX-XXXXXX'},{k:'email',label:'ইমেইল',type:'email'},
   {k:'address_bn',label:'ঠিকানা (বাংলা)',max:200},{k:'address_en',label:'Address (English)',max:200},
   {k:'hours_bn',label:'অফিস সময় (বাংলা)',max:80,ph:'অফিস সময়: সকাল ৯টা - বিকাল ৫টা'},{k:'hours_en',label:'Office hours (English)',max:80,ph:'Office hours: 9 AM – 5 PM'},
-  {k:'reg_no',label:'নিবন্ধন নম্বর',max:60},{k:'est_year',label:'প্রতিষ্ঠার সাল',max:10},
-  {k:'facebook',label:'ফেসবুক পেজ লিংক',type:'url',full:1,ph:'https://facebook.com/…'},{k:'youtube',label:'ইউটিউব চ্যানেল লিংক',type:'url',full:1},
-  {k:'whatsapp',label:'WhatsApp লিংক',type:'url',full:1,ph:'https://wa.me/8801XXXXXXXXX'},
-  {k:'mapEmbed',label:'Google Map এম্বেড লিংক',type:'url',full:1,help:'Google Maps → আপনার ঠিকানা → Share → Embed a map → কোডের ভেতরের <b>src="…"</b> এর লিংকটুকু (https://www.google.com/maps/embed?…) পেস্ট করুন।'}]},
- {id:'g2',icon:'fa-image',t:'হোমপেজের মূল ছবি ও নোটিশ',d:'হোমপেজের বড় ছবি এবং সাইটের উপরে ঘোষণার বার।',f:[
-  {k:'hero_img',label:'হোমপেজের মূল ছবি',type:'image',full:1},{k:'hero_cap_bn',label:'ছবির ক্যাপশন (বাংলা)',max:120},{k:'hero_cap_en',label:'Caption (English)',max:120},
-  {k:'notice_active',label:'সাইটের উপরে নোটিশ বার দেখান',type:'checkbox',full:1},{k:'notice_bn',label:'নোটিশ (বাংলা)',max:200},{k:'notice_en',label:'Notice (English)',max:200},{k:'notice_link',label:'নোটিশের লিংক (ঐচ্ছিক)',type:'url',full:1}]},
+  {k:'reg_no',label:'নিবন্ধন নম্বর',max:60},{k:'est_year',label:'প্রতিষ্ঠার সাল',max:10},]},
+ {id:'g2',icon:'fa-image',t:'হোমপেজের ক্যাপশন ও নোটিশ',d:'হোমপেজের ছবির ক্যাপশন এবং সাইটের উপরে ঘোষণার বার। ছবি ও লিংক বদলাতে "লিংক ও সংযোগ" পেজ দেখুন।',f:[
+  {k:'hero_cap_bn',label:'ছবির ক্যাপশন (বাংলা)',max:120},{k:'hero_cap_en',label:'Caption (English)',max:120},
+  {k:'notice_active',label:'সাইটের উপরে নোটিশ বার দেখান',type:'checkbox',full:1},{k:'notice_bn',label:'নোটিশ (বাংলা)',max:200},{k:'notice_en',label:'Notice (English)',max:200}]},
  {id:'g3',icon:'fa-chart-simple',t:'হোমপেজের পরিসংখ্যান',d:'সর্বোচ্চ ৬টি। "মোট প্রকল্প" বেছে নিলে সংখ্যা স্বয়ংক্রিয় হবে। সঠিক সংখ্যাই দিন।',rep:'stats'},
  {id:'g4',icon:'fa-hand-holding-dollar',t:'সহায়তা গ্রহণের অফিসিয়াল মাধ্যম',d:'শুধু সংস্থার অফিসিয়াল/মার্চেন্ট নম্বর ও অ্যাকাউন্ট দিন — ব্যক্তিগত নয়। খালি রাখলে সাইটে "শীঘ্রই যুক্ত হবে" দেখাবে।',f:[
   {k:'payments.bkash',label:'বিকাশ নম্বর',type:'tel'},{k:'payments.nagad',label:'নগদ নম্বর',type:'tel'},{k:'payments.rocket',label:'রকেট নম্বর',type:'tel'},{k:'payments.bank_name',label:'ব্যাংকের নাম',max:80},
@@ -638,6 +710,7 @@ const repRow=r=>`<div class="rep" data-row="reports"><div class="fld"><label>শ
 function viewSettings(){const S=D.site||{};if(!L.site)return `<div class="sec-h"><h2>সাইট সেটিংস</h2></div>${skel(2)}`;
  const stats=(S.stats&&S.stats.length)?S.stats:DEF_STATS,reps=S.reports||[];
  return `<div class="sec-h"><div><h2><i class="fa-solid fa-gear" style="color:var(--gold-h)"></i> সাইট সেটিংস</h2><small>এখানকার পরিবর্তন সাথে সাথে পাবলিক সাইটে দেখা যাবে</small></div></div>
+ <div class="msg warn" style="margin-bottom:14px"><i class="fa-solid fa-circle-info" style="margin-top:4px"></i><span>সাইটের <b>লিংক</b> (ফেসবুক, ইউটিউব, WhatsApp, ম্যাপ), <b>লোগো/হোম ছবি</b> এবং <b>Google Drive সংযোগ</b> এখন <a class="link" href="#/links">লিংক ও সংযোগ</a> পেজে।</span></div>
  <div class="chips" style="margin-bottom:14px">${SETG.map(g=>`<button type="button" class="chip" data-jump="${g.id}"><i class="fa-solid ${g.icon}"></i> ${g.t.split(' ').slice(0,2).join(' ')}</button>`).join('')}</div>
  <form id="sf" novalidate>${SETG.map(g=>`<section class="card pad set-sec" id="${g.id}"><h3><i class="fa-solid ${g.icon}"></i>${g.t}</h3><p>${g.d}</p>${g.rep==='stats'?`<div id="rows-stats">${stats.map(statRow).join('')}</div><button type="button" class="btn btn-line btn-sm" data-add="stats"><i class="fa-solid fa-plus"></i>আরেকটি যোগ করুন</button>`:g.rep==='reports'?`<div id="rows-reports">${reps.map(repRow).join('')}</div><button type="button" class="btn btn-line btn-sm" data-add="reports"><i class="fa-solid fa-plus"></i>প্রতিবেদন যোগ করুন</button>`:`<div class="fgrid">${g.f.map(f=>fld(f,getP(S,f.k))).join('')}</div>`}</section>`).join('')}
  <div class="savebar"><span id="sv-s">সব তথ্য সংরক্ষিত আছে</span><button class="btn btn-gold" type="submit"><i class="fa-solid fa-floppy-disk"></i>সংরক্ষণ করুন</button></div></form>`}
@@ -651,7 +724,7 @@ function bindSettings(){const f=$('#sf');if(!f||f._b)return;f._b=1;wireImgs(f);
   const btn=$('button[type=submit]',f);btn.classList.add('busy');
   const before=JSON.parse(JSON.stringify(D.site||{}));
   try{await setDoc(doc(db,'settings','site'),{...data,stats,reports,updatedAt:serverTimestamp()},{merge:true});dirty=false;
-   {const idsOf=o=>[o.hero_img,...(o.reports||[]).map(r=>r.url)].map(driveId).filter(Boolean),nw=new Set(idsOf({hero_img:data.hero_img,reports})),gone=idsOf(before).filter(i=>!nw.has(i)&&!stillUsed(i,{site:true}));trashIds(gone);if(FS)FS.saved=true;FS=newFS('site')}$('#sv-s').textContent='সংরক্ষিত ✓';toast('সেটিংস সংরক্ষিত হয়েছে ✓')}catch(e){fail(e)}finally{btn.classList.remove('busy')}})}
+   {const idsOf=o=>[o.hero_img,...(o.reports||[]).map(r=>r.url)].map(driveId).filter(Boolean),nw=new Set(idsOf({hero_img:before.hero_img,reports})),gone=idsOf(before).filter(i=>!nw.has(i)&&!stillUsed(i,{site:true}));trashIds(gone);if(FS)FS.saved=true;FS=newFS('site')}$('#sv-s').textContent='সংরক্ষিত ✓';toast('সেটিংস সংরক্ষিত হয়েছে ✓')}catch(e){fail(e)}finally{btn.classList.remove('busy')}})}
 
 /* ---------- help ---------- */
 const RULES=`rules_version = '2';
@@ -678,6 +751,7 @@ service cloud.firestore {
     match /team/{id}         { allow read: if true; allow write: if isAdmin(); }
     match /testimonials/{id} { allow read: if true; allow write: if isAdmin(); }
     match /settings/{id}     { allow read: if true; allow write: if isAdmin(); }
+    match /adminConfig/{id}  { allow read, write: if isAdmin(); }
 
     match /volunteers/{id} {
       allow create: if request.resource.data.keys().hasOnly(
@@ -704,7 +778,7 @@ service cloud.firestore {
 }`;
 function viewHelp(){return `<div class="sec-h"><h2><i class="fa-solid fa-circle-question" style="color:var(--gold-h)"></i> সেটআপ গাইড</h2></div>
  <div class="card pad" style="margin-bottom:16px"><h3 style="color:var(--dark);margin-bottom:6px"><i class="fa-solid fa-plug-circle-check" style="color:var(--gold-h)"></i> সংযোগ পরীক্ষা</h3><p style="color:var(--muted);margin-bottom:12px">Firebase লগইন, অ্যাডমিন অনুমতি, Firestore পড়া/লেখা ও Google Drive স্ক্রিপ্ট ঠিক আছে কি না এক চাপে দেখুন।</p><button type="button" class="btn btn-dark" data-health><i class="fa-solid fa-play"></i>পরীক্ষা চালান</button><div class="hc" id="hc-res"></div></div>
- <div class="card pad" style="margin-bottom:16px"><h3 style="color:var(--dark);margin-bottom:6px"><i class="fa-solid fa-cloud-arrow-up" style="color:var(--gold-h)"></i> সরাসরি আপলোড (ছবি, ভিডিও, PDF) — ${DRIVE_ON()?'<span class="pill p-done" style="margin:0">চালু আছে</span>':'<span class="pill p-new" style="margin:0">সেটআপ বাকি</span>'}</h3><p style="color:var(--muted);margin-bottom:10px">ফর্মের "আপলোড" বাটন থেকে ফাইল বাছলে সেটি আপনার Google Drive-এর <b>ManabProyas-Media</b> ফোল্ডারে জমা হয়, লিংক নিজে বসে যায়। "বদলান" বাটনে নতুন ফাইল দিলে পুরনোটি Drive-এর ট্র্যাশে যায়; "মুছুন" বা আইটেম ডিলিট করলেও তাই। ট্র্যাশ থেকে ৩০ দিন ফিরিয়ে আনা যায়। চালু করতে: <code>drive-upload.gs</code> স্ক্রিপ্ট ডিপ্লয় করে তার URL এই ফাইলের <code>DRIVE_SCRIPT_URL</code>-এ বসান।</p><div class="msg warn" style="margin:0"><i class="fa-solid fa-triangle-exclamation" style="margin-top:4px"></i><span>ছবি আপলোডের আগে ব্রাউজারেই ছোট (সর্বোচ্চ ১৬০০px) করা হয়, তাই দ্রুত লোড হয়। ভিডিও আপলোড পরীক্ষামূলক — না হলে Drive-এ নিজে আপলোড করে লিংক বা YouTube (Unlisted) লিংক দিন।</span></div></div>
+ <div class="card pad" style="margin-bottom:16px"><h3 style="color:var(--dark);margin-bottom:6px"><i class="fa-solid fa-cloud-arrow-up" style="color:var(--gold-h)"></i> সরাসরি আপলোড (ছবি, ভিডিও, PDF) — ${DRIVE_ON()?'<span class="pill p-done" style="margin:0">চালু আছে</span>':'<span class="pill p-new" style="margin:0">সেটআপ বাকি</span>'}</h3><p style="color:var(--muted);margin-bottom:10px">ফর্মের "আপলোড" বাটন থেকে ফাইল বাছলে সেটি আপনার Google Drive-এর <b>ManabProyas-Media</b> ফোল্ডারে জমা হয়, লিংক নিজে বসে যায়। "বদলান" বাটনে নতুন ফাইল দিলে পুরনোটি Drive-এর ট্র্যাশে যায়; "মুছুন" বা আইটেম ডিলিট করলেও তাই। ট্র্যাশ থেকে ৩০ দিন ফিরিয়ে আনা যায়। চালু করতে: <code>drive-upload.gs</code> স্ক্রিপ্ট ডিপ্লয় করে তার Web App লিংক <a class="link" href="#/links">লিংক ও সংযোগ</a> পেজে বসান।</p><div class="msg warn" style="margin:0"><i class="fa-solid fa-triangle-exclamation" style="margin-top:4px"></i><span>ছবি আপলোডের আগে ব্রাউজারেই ছোট (সর্বোচ্চ ১৬০০px) করা হয়, তাই দ্রুত লোড হয়। ভিডিও আপলোড পরীক্ষামূলক — না হলে Drive-এ নিজে আপলোড করে লিংক বা YouTube (Unlisted) লিংক দিন।</span></div></div>
  <div class="card pad" style="margin-bottom:16px"><h3 style="color:var(--dark);margin-bottom:10px"><i class="fa-brands fa-google-drive" style="color:var(--gold-h)"></i> নিজে Drive-এ আপলোড করে লিংক দেওয়ার নিয়ম</h3><ol class="steps"><li>ছবিটি Google Drive-এ আপলোড করুন (ফোন থেকে ২ MB-এর কম রাখলে সাইট দ্রুত খুলবে)।</li><li>ছবিতে ডান ক্লিক (ফোনে ⋮ মেনু) → <b>Share</b> → General access: <b>Anyone with the link</b> → Role: <b>Viewer</b> → <b>Copy link</b>।</li><li>এখানকার ফর্মে "Google Drive লিংক" ঘরে পেস্ট করুন। নিচে ছোট প্রিভিউ আর সবুজ "✓ ছবি ঠিক আছে" দেখলে বুঝবেন কাজ করছে।</li><li>অনেক ছবি হলে গ্যালারি পেজে "একসাথে অনেক ছবি" ব্যবহার করুন।</li><li>PDF প্রতিবেদনও একইভাবে শেয়ার করে লিংক দিন (সাইট সেটিংস → প্রতিবেদন)।</li></ol>
  <div class="msg warn" style="margin:14px 0 0"><i class="fa-solid fa-triangle-exclamation" style="margin-top:4px"></i><span>ফোল্ডারের লিংক কাজ করবে না — প্রতিটি ছবির আলাদা লিংক লাগবে। ছবি Drive থেকে মুছলে বা শেয়ারিং বন্ধ করলে সাইট থেকেও উধাও হবে। অনেক বেশি ভিজিটর হলে Google ছবি দেখানো সাময়িক সীমিত করতে পারে।</span></div></div>
  <div class="card pad" style="margin-bottom:16px"><h3 style="color:var(--dark);margin-bottom:10px"><i class="fa-solid fa-user-shield" style="color:var(--gold-h)"></i> প্রথমবার অ্যাডমিন বানানোর নিয়ম (একবারই)</h3><ol class="steps"><li>Firebase Console → Authentication → Sign-in method → <b>Email/Password</b> চালু করুন।</li><li>Authentication → Users → <b>Add user</b> দিয়ে আপনার ইমেইল ও শক্ত পাসওয়ার্ড দিয়ে অ্যাকাউন্ট বানান।</li><li>এই পেজে সেই ইমেইলে লগইন করুন। "অ্যাডমিন অনুমতি নেই" পেজে আপনার <b>UID</b> দেখাবে।</li><li>Firestore Database → <b>Start collection</b> → Collection ID: <code>admins</code> → Document ID: সেই UID → একটি ফিল্ড দিন (<code>role</code> = <code>admin</code>) → Save।</li><li>নিচের Rules পেস্ট করে Publish করুন, তারপর "আবার পরীক্ষা করুন" চাপুন।</li><li>আরেকজন অ্যাডমিন চাইলে একইভাবে তার UID দিয়ে <code>admins</code>-এ ডকুমেন্ট যোগ করুন।</li></ol></div>
@@ -741,6 +815,7 @@ function stopData(){unsubs.forEach(u=>{try{u()}catch(e){}});unsubs=[];Object.key
 function startData(){stopData();
  Object.keys(COL).forEach(k=>unsubs.push(onSnapshot(collection(db,COL[k]),snap=>{D[k]=sortList(k,snap.docs.map(d=>({id:d.id,...d.data()})));L[k]=true;schedule()},err=>{console.error(k,err);L[k]=true;D[k]=[];schedule();fail(err)})));
  unsubs.push(onSnapshot(doc(db,'settings','site'),s=>{D.site=s.exists()?s.data():{};L.site=true;schedule()},err=>{console.error(err);L.site=true;schedule()}));
+ unsubs.push(onSnapshot(doc(db,'adminConfig','main'),s=>{if(s.exists()){const d=s.data();Object.assign(CFG,{scriptUrl:d.scriptUrl||'',siteUrl:d.siteUrl||'',driveFolderUrl:d.driveFolderUrl||'',driveFolderId:d.driveFolderId||'',perm:''})}else CFG.perm='';L.cfg=true;updateSiteLinks();schedule()},err=>{console.error(err);CFG.perm=isPerm(err)?'1':'';L.cfg=true;schedule()}));
  unsubs.push(onSnapshot(doc(db,'settings','content'),s=>{const d=s.exists()?s.data():{};D.content={t:d.t||{},img:d.img||{}};L.content=true;schedule()},err=>{console.error(err);L.content=true;schedule()}))}
 const isPerm=e=>/permission|insufficient/i.test(((e&&e.code)||'')+' '+((e&&e.message)||''));
 function showDenied(u,perm){$('#d-mail').textContent=u.email||'';$('#d-uid').textContent=u.uid;$('#d-rules').textContent=RULES;$('#d-err').hidden=true;
@@ -754,7 +829,7 @@ async function claimAdmin(){const b=$('#d-claim'),er=$('#d-err');er.hidden=true;
 async function enter(u){user=u;let ok=false,perm=false;
  try{const s=await getDoc(doc(db,'admins',u.uid));ok=s.exists()}catch(e){console.error(e);perm=isPerm(e)}
  if(!ok){return showDenied(u,perm)}
- $('#who').textContent=u.email||'';show('app');startData();go();armIdle()}
+ $('#who').textContent=u.email||'';show('app');updateSiteLinks();startData();go();armIdle()}
 let idleT;const IDLE=30*60*1000;
 function armIdle(){const r=()=>{clearTimeout(idleT);idleT=setTimeout(()=>{if(user){toast('নিষ্ক্রিয়তার কারণে লগআউট করা হয়েছে',true);signOut(auth)}},IDLE)};['click','keydown','touchstart','scroll'].forEach(ev=>addEventListener(ev,r,{passive:true}));r()}
 function logout(){clearTimeout(idleT);stopData();signOut(auth)}
