@@ -1,0 +1,347 @@
+{
+  "exportedAt": "2026-11-12T05:07:35.076Z",
+  "projects": [],
+  "gallery": [
+    {
+      "id": "6K1pJlMSWeV0cYLgU0zH",
+      "createdAt": {
+        "seconds": 1794312317,
+        "nanoseconds": 285000000
+      },
+      "title_en": "",
+      "img": "https://drive.google.com/thumbnail?id=1KLxnV-Y-krUnLpFeV13xYKhBC2gx361S&sz=w1000",
+      "title_bn": "",
+      "order": -4
+    },
+    {
+      "id": "DloNIWDXyQjk4Zz5b0sl",
+      "title_bn": "",
+      "img": "https://lh3.googleusercontent.com/d/1pPENLk2j5vCKsYnJ2ifz43kTmgF5qjQH=w1000",
+      "title_en": "",
+      "createdAt": {
+        "seconds": 1794312317,
+        "nanoseconds": 285000000
+      },
+      "order": -3
+    },
+    {
+      "id": "ChE2iwx1n2UlfiBBSEbB",
+      "createdAt": {
+        "seconds": 1794312210,
+        "nanoseconds": 990000000
+      },
+      "title_en": "",
+      "type": "video",
+      "updatedAt": {
+        "seconds": 1794312247,
+        "nanoseconds": 922000000
+      },
+      "img": "https://lh3.googleusercontent.com/d/1pPENLk2j5vCKsYnJ2ifz43kTmgF5qjQH=w1000",
+      "title_bn": "",
+      "order": -2,
+      "video": "https://drive.google.com/thumbnail?id=1KLxnV-Y-krUnLpFeV13xYKhBC2gx361S&sz=w1000"
+    },
+    {
+      "id": "f1BZzh2BfjYyaNTP1rat",
+      "img": "https://drive.google.com/thumbnail?id=1KLxnV-Y-krUnLpFeV13xYKhBC2gx361S&sz=w1000",
+      "createdAt": {
+        "seconds": 1794281091,
+        "nanoseconds": 462000000
+      },
+      "title_bn": "",
+      "order": -1,
+      "title_en": ""
+    },
+    {
+      "id": "l7Ba8oEcIucCr4N1sjj0",
+      "title_bn": "",
+      "img": "https://drive.google.com/thumbnail?id=1KLxnV-Y-krUnLpFeV13xYKhBC2gx361S&sz=w1000",
+      "createdAt": {
+        "seconds": 1794281066,
+        "nanoseconds": 695000000
+      },
+      "order": 0,
+      "title_en": ""
+    }
+  ],
+  "news": [],
+  "team": [
+    {
+      "id": "1o9rVJt88NnpFnFpeNLz",
+      "photo": "https://drive.google.com/thumbnail?id=1dx7yM0GrQEODdYo1KW5x9TooseIXJ3jd&sz=w1000",
+      "role_en": "President",
+      "role_bn": "সভাপতি",
+      "name_en": "MD NASIR SARDER",
+      "name_bn": "মো: নাসির সরদার",
+      "order": 1,
+      "createdAt": {
+        "seconds": 1794295090,
+        "nanoseconds": 798000000
+      }
+    },
+    {
+      "id": "NBgqQh3EjWWD6t3eY265",
+      "photo": "",
+      "createdAt": {
+        "seconds": 1794312776,
+        "nanoseconds": 424000000
+      },
+      "name_en": "",
+      "role_bn": "উপদেষ্টা",
+      "role_en": "",
+      "name_bn": "কামরুল সরদার",
+      "order": 2
+    },
+    {
+      "id": "bh4cJyRzVsY2fUUXSRSG",
+      "name_bn": "কাউসার সরদার",
+      "photo": "",
+      "createdAt": {
+        "seconds": 1794312801,
+        "nanoseconds": 715000000
+      },
+      "role_en": "",
+      "role_bn": "উপদেষ্টা",
+      "name_en": "",
+      "order": 3
+    },
+    {
+      "id": "hGpn440q22PzVSxlEs6Z",
+      "bio_en": "",
+      "name_en": "",
+      "bio_bn": "",
+      "name_bn": "আবু বক্কর",
+      "group": "exec",
+      "updatedAt": {
+        "seconds": 1794460009,
+        "nanoseconds": 594000000
+      },
+      "role_en": "",
+      "role_bn": "ক্যাশিয়ার",
+      "order": 4,
+      "createdAt": {
+        "seconds": 1794296985,
+        "nanoseconds": 775000000
+      },
+      "photo": ""
+    },
+    {
+      "id": "DoRGpaiOHyOtz2puV841",
+      "photo": "",
+      "name_bn": "সাইফুল",
+      "createdAt": {
+        "seconds": 1794298110,
+        "nanoseconds": 156000000
+      },
+      "order": 5,
+      "role_en": "",
+      "role_bn": "ক্যাশিয়ার",
+      "name_en": ""
+    }
+  ],
+  "testimonials": [
+    {
+      "id": "URK7AesPxGTC2NP6wr6s",
+      "role_en": "President",
+      "role_bn": "President",
+      "quote_en": "Bvcv",
+      "order": 1,
+      "consent": true,
+      "quote_bn": "সংক্ষিপ্ত মন্তব্য",
+      "name_en": "check",
+      "photo": "https://drive.google.com/thumbnail?id=1dx7yM0GrQEODdYo1KW5x9TooseIXJ3jd&sz=w1000",
+      "name_bn": "মো: নাসির সরদার",
+      "createdAt": {
+        "seconds": 1794296411,
+        "nanoseconds": 129000000
+      },
+      "updatedAt": {
+        "seconds": 1794296570,
+        "nanoseconds": 656000000
+      }
+    },
+    {
+      "id": "EH0suWsFmBNaYOKC1Uot",
+      "photo": "",
+      "name_bn": "আবু বক্কর",
+      "createdAt": {
+        "seconds": 1794296645,
+        "nanoseconds": 24000000
+      },
+      "order": 2,
+      "name_en": "",
+      "consent": true,
+      "quote_bn": "সংক্ষিপ্ত মন্তব্য",
+      "quote_en": "",
+      "role_bn": "ক্যাশিয়ার",
+      "role_en": ""
+    },
+    {
+      "id": "umLKal2hCib5LJFvGuHW",
+      "consent": true,
+      "name_en": "",
+      "name_bn": "হগগ",
+      "quote_bn": "বগগ",
+      "photo": "",
+      "quote_en": "",
+      "role_bn": "গগগ",
+      "role_en": "",
+      "createdAt": {
+        "seconds": 1794296684,
+        "nanoseconds": 114000000
+      },
+      "order": 3
+    },
+    {
+      "id": "BT5UoFzch0aXjLxO8Oha",
+      "name_en": "",
+      "order": 4,
+      "quote_en": "",
+      "consent": true,
+      "photo": "",
+      "createdAt": {
+        "seconds": 1794296704,
+        "nanoseconds": 168000000
+      },
+      "name_bn": "তগ",
+      "role_bn": "হগ",
+      "role_en": "",
+      "quote_bn": "তগগ"
+    }
+  ],
+  "volunteers": [
+    {
+      "id": "VxqEeuPBt9hkPuJiFR8F",
+      "phone": "01700000000",
+      "name": "fgh",
+      "email": "gfh@fgh.com",
+      "createdAt": {
+        "seconds": 1794296121,
+        "nanoseconds": 346000000
+      },
+      "address": "fghfgh",
+      "interest": "relief",
+      "lang": "bn",
+      "status": "done"
+    }
+  ],
+  "messages": [
+    {
+      "id": "z4qB61LDr6bmHOBvvi22",
+      "lang": "bn",
+      "subject": "y ty",
+      "createdAt": {
+        "seconds": 1794296280,
+        "nanoseconds": 319000000
+      },
+      "email": "tytr@jg.vo",
+      "status": "read",
+      "name": "oii",
+      "message": "tyrt"
+    },
+    {
+      "id": "LY4xPw8Mmz3vhpUTaJdZ",
+      "status": "read",
+      "message": "dgdfgfd",
+      "subject": "gdfg",
+      "name": "fkh",
+      "email": "fg@sdf.com",
+      "lang": "bn",
+      "createdAt": {
+        "seconds": 1794296228,
+        "nanoseconds": 494000000
+      }
+    }
+  ],
+  "settings": {
+    "site": {
+      "whatsapp": "",
+      "facebook": "",
+      "address_bn": "Ff",
+      "updatedAt": {
+        "seconds": 1794459269,
+        "nanoseconds": 586000000
+      },
+      "est_year": "",
+      "mapEmbed": "",
+      "payments": {
+        "bank_branch": "শাখা",
+        "rocket": "01700000000",
+        "bkash": "01700000000",
+        "bank_acc_no": "০০০০০০০০০০০০০০০০",
+        "nagad": "01700000000",
+        "bank_name": "ব্যাংকের নাম",
+        "bank_acc_name": "MD DIN ISLAM SARDER"
+      },
+      "hours_bn": "",
+      "notice_en": "",
+      "hours_en": "",
+      "font": "anek",
+      "hero_img": "https://lh3.googleusercontent.com/d/1pPENLk2j5vCKsYnJ2ifz43kTmgF5qjQH=w1000",
+      "hero_cap_en": "",
+      "reports": [
+        {
+          "title_en": "চেক",
+          "title_bn": "চেক",
+          "url": "https://lh3.googleusercontent.com/d/1pPENLk2j5vCKsYnJ2ifz43kTmgF5qjQH=w1000"
+        }
+      ],
+      "notice_bn": "",
+      "youtube": "",
+      "reg_no": "",
+      "email": "infi@mpf.co",
+      "phone": "01700000000",
+      "hero_cap_bn": "",
+      "address_en": "",
+      "notice_link": "https://drive.google.com/thumbnail?id=1ai9K4t_Rg5VMLo2S_TW26L_XdV-kEYNQ&sz=w1000t.com/d/1pPENLk2j5vCKsYnJ2ifz43kTmgF5qjQH=w1000",
+      "stats": [
+        {
+          "n": 4,
+          "label_bn": "নিরাপদ যাতায়াত পাওয়া পরিবার",
+          "label_en": "Families with safe passage",
+          "suffix": "+-"
+        },
+        {
+          "n": 3,
+          "label_bn": "শিশুকে সহায়তার লক্ষ্য",
+          "label_en": "Children targeted for support",
+          "suffix": "+"
+        },
+        {
+          "n": 3,
+          "label_bn": "বন্যায় ত্রাণ পাওয়া পরিবার",
+          "suffix": "+",
+          "label_en": "Flood-relief families"
+        },
+        {
+          "n": "@projects",
+          "label_en": "Total projects",
+          "label_bn": "মোট প্রকল্প",
+          "suffix": ""
+        },
+        {
+          "suffix": "+",
+          "label_bn": "চেক",
+          "n": 0,
+          "label_en": ""
+        }
+      ],
+      "notice_active": false
+    },
+    "content": {
+      "t": {
+        "int_bn_h": {
+          "bn": "মানব প্রয়াস ফাউন্ডেশন"
+        }
+      },
+      "img": {
+        "logo": "https://drive.google.com/thumbnail?id=1KLxnV-Y-krUnLpFeV13xYKhBC2gx361S&sz=w1000"
+      }
+    }
+  },
+  "adminConfig": {
+    "scriptUrl": "https://script.google.com/macros/s/AKfycbzoFNUtdeEx3Xq3RvpYw6Q4gcDhs4JtObXLeSdGA8r-wCwRnlhXdAt1XdevKCJdbGh2/exec",
+    "siteUrl": "https://cncdtf-cell.github.io/Manab-Proyas-Foundation/",
+    "driveFolderUrl": "https://drive.google.com/drive/folders/1d0WlfR920I85hn31zKtN5FFBH-BYPD8h?usp=sharing"
+  }
+}
