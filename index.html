@@ -59,6 +59,7 @@ b.rq{color:var(--red)}
 .fld small.help{display:block;color:var(--muted);font-size:12.5px;margin-top:4px;line-height:1.5}
 .pw{position:relative}.pw button{position:absolute;right:4px;top:4px;width:40px;height:40px;border-radius:10px;color:var(--muted)}
 .chk{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-weight:600;font-size:14.5px}
+.fld label.chk,label.chk{display:flex;margin:0}
 .chk input{width:22px;height:22px;min-height:0;accent-color:var(--dark);flex:none;margin-top:2px}
 .msg{padding:12px 14px;border-radius:12px;font-size:14px;font-weight:600;margin-bottom:12px;display:flex;gap:10px;align-items:flex-start}
 .msg.no{background:#fdecec;color:#a42222;border:1px solid #f5c6c6}.msg.ok{background:#e7f6ee;color:#0b6b48;border:1px solid #bfe6d2}.msg.warn{background:#fff8e6;color:#6a5516;border:1px solid #f0dfae}
@@ -150,6 +151,17 @@ details.fq summary::-webkit-details-marker{display:none}details.fq div{padding:0
 .ct-h{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px}.ct-h b{color:var(--dark);line-height:1.35}.ct-h small{display:block;color:var(--muted);font-family:Inter,monospace;font-size:11.5px;font-weight:500}
 .ct-it .fld{margin-bottom:10px}.ct-it textarea{min-height:60px;font-size:15.5px}
 .hc{display:grid;gap:8px;margin-top:12px}.hc div{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:var(--cream);font-size:14.5px}.hc i{margin-top:4px}.hc .y{color:var(--green)}.hc .n{color:var(--red)}.hc .w{color:#c77a0a}.hc small{display:block;color:var(--muted)}
+/* ---- v5 admin additions ---- */
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.th2{position:relative;width:64px;height:48px;border-radius:10px;overflow:hidden;background:var(--sand);display:grid;place-items:center;color:var(--red);font-weight:700}.th2 img{width:100%;height:100%;object-fit:cover}.th2 button{position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;font-size:13px;line-height:1}
+.th-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.th-sw{display:flex;flex-direction:column;gap:8px;padding:10px;border:2px solid var(--line);border-radius:14px;background:#fff;text-align:left;transition:.2s}.th-sw span{display:flex}.th-sw i{width:32px;height:32px;display:block;margin-right:-8px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.15)}.th-sw b{font-size:13px;color:var(--dark)}.th-sw.on{border-color:var(--gold-h);box-shadow:0 0 0 3px rgba(214,181,109,.3)}
+.clr{display:flex;align-items:center;gap:10px}.clr input{width:60px;height:46px;padding:2px;border-radius:10px;min-height:0}.hex{font-family:Inter,monospace;font-size:13px;color:var(--muted)}.rad,.secs{display:grid;gap:10px}
+.th-prev{border-radius:var(--rr,18px);overflow:hidden;border:1px solid var(--line);background:var(--cream)}.tp-hero{background:linear-gradient(135deg,var(--dark),var(--surface));color:#fff;padding:22px 18px}.tp-hero small{color:var(--gold);display:block;font-weight:600}.tp-hero b{display:block;font-size:1.2rem;margin:4px 0 12px;line-height:1.3}.tp-btn{display:inline-block;background:var(--gold);color:var(--dark);font-weight:700;padding:8px 16px;border-radius:calc(var(--rr,18px) - 6px)}.tp-body{padding:16px}.tp-card{background:#fff;border:1px solid var(--line);border-radius:var(--rr,18px);padding:14px}.tp-card i{display:block;width:34px;height:34px;border-radius:10px;background:var(--dark);margin-bottom:8px}.tp-card b{color:var(--dark)}.tp-card p{color:var(--muted);font-size:13.5px}
+.ogc{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);margin:10px 0;background:#0D2F28;display:block}
+.guide{width:100%;border-collapse:collapse;font-size:13.5px}.guide td,.guide th{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.guide th{color:var(--dark);background:var(--cream)}
+.hsr{margin-bottom:12px}
+@media(max-width:900px){.guide{display:block;overflow-x:auto}}
+
+.ct-gh{color:var(--dark);margin:18px 0 8px;font-size:1.02rem}
 /* media upload */
 .mbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .mbtns .up{cursor:pointer}
@@ -279,9 +291,11 @@ const isHttps=u=>/^https:\/\//i.test(String(u||'').trim());
 function driveId(u){u=String(u||'').trim();if(!u)return'';if(/drive\.google\.com\/drive\/(u\/\d+\/)?folders/.test(u))return'';
   const m=u.match(/\/file\/d\/([\w-]{10,})/)||u.match(/[?&]id=([\w-]{10,})/)||u.match(/googleusercontent\.com\/d\/([\w-]{10,})/)||u.match(/drive\.google\.com\/.*\/d\/([\w-]{10,})/);
   if(m)return m[1];return /^[\w-]{25,}$/.test(u)?u:''}
-function imgUrl(u,w=800){u=String(u||'').trim();if(!u)return'';if(/drive\.google\.com\/drive\/(u\/\d+\/)?folders/.test(u))return'';const id=driveId(u);if(id)return`https://drive.google.com/thumbnail?id=${id}&sz=w${w}`;return isHttps(u)?u:''}
+const isRel=u=>!/^[a-z][a-z0-9+.-]*:/i.test(u)&&!u.startsWith('//')&&!u.includes('..')&&/^[\w\-./%]+\.(png|jpe?g|gif|svg|webp|avif)$/i.test(u);
+function imgUrl(u,w=800){u=String(u||'').trim();if(!u)return'';if(/drive\.google\.com\/drive\/(u\/\d+\/)?folders/.test(u))return'';const raw=/#(svg|gif|raw)$/i.test(u),id=driveId(u);if(id)return raw?`https://lh3.googleusercontent.com/d/${id}`:`https://drive.google.com/thumbnail?id=${id}&sz=w${w}`;if(isHttps(u))return u.replace(/#.*$/,'');return isRel(u)?u:''}
+const imgList=v=>{if(!v)return[];if(Array.isArray(v))return v.map(x=>String(x||'').trim()).filter(Boolean);return String(v).split(/\s*\n\s*/).map(x=>x.trim()).filter(Boolean)};
 const PH="data:image/svg+xml,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='600' height='400'><rect width='600' height='400' fill='#154238'/><circle cx='300' cy='200' r='44' fill='#D6B56D' opacity='.85'/></svg>");
-document.addEventListener('error',e=>{const t=e.target;if(!t||t.tagName!=='IMG'||t.dataset.nofb)return;const m=/drive\.google\.com\/thumbnail\?id=([\w-]+)&sz=w(\d+)/.exec(t.src);if(m&&!t.dataset.rt){t.dataset.rt=1;t.src=`https://lh3.googleusercontent.com/d/${m[1]}=w${m[2]}`;return}if(t.src!==PH)t.src=PH},true);
+document.addEventListener('error',e=>{const t=e.target;if(!t||t.tagName!=='IMG'||t.dataset.nofb)return;const m=/drive\.google\.com\/thumbnail\?id=([\w-]+)&sz=w(\d+)/.exec(t.src);if(m&&!t.dataset.rt){t.dataset.rt=1;t.src=`https://lh3.googleusercontent.com/d/${m[1]}=w${m[2]}`;return}const g=/lh3\.googleusercontent\.com\/d\/([\w-]+)$/.exec(t.src);if(g&&!t.dataset.rt2){t.dataset.rt2=1;t.src=`https://drive.google.com/uc?export=view&id=${g[1]}`;return}if(t.src!==PH)t.src=PH},true);
 const thumb=u=>{const y=ytId(u),s=y?`https://img.youtube.com/vi/${y}/hqdefault.jpg`:imgUrl(u,500);return s?`<img src="${esc(s)}" alt="" loading="lazy" referrerpolicy="no-referrer" onload="this.classList.add('ld')">`:''};
 const toDate=v=>v&&v.toDate?v.toDate():(typeof v==='string'&&/^\d{4}-\d{2}-\d{2}/.test(v)?new Date(v+'T00:00:00'):null);
 const iso=v=>{const d=toDate(v);if(!d||isNaN(d))return'';const p=n=>String(n).padStart(2,'0');return`${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`};
@@ -324,14 +338,32 @@ function putSession(url,file,onProg){return new Promise((res,rej)=>{const x=new 
   x.onload=()=>{if(x.status>=200&&x.status<300){try{res(JSON.parse(x.responseText))}catch(e){rej(new Error('উত্তর বোঝা যায়নি'))}}else rej(new Error('ভিডিও আপলোড ব্যর্থ ('+x.status+')'))};
   x.onerror=()=>rej(new Error('ভিডিও আপলোড ব্যর্থ — নেটওয়ার্ক/CORS সমস্যা। ছোট ভিডিও হলে Drive-এ নিজে আপলোড করে লিংক পেস্ট করুন, বড় ভিডিও YouTube-এ (Unlisted) দিন।'));x.send(file)})}
 const FOLDERS={projects:'projects',gallery:'gallery',news:'news',team:'team',stories:'stories',site:'site'};
+const LIB={utif:'https://cdn.jsdelivr.net/npm/utif@3.1.0/UTIF.js',pdf:'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js',pdfw:'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js'};
+const extOf=n=>((String(n||'').match(/\.(\w+)$/)||[])[1]||'').toLowerCase();
+function loadScript(src){return new Promise((res,rej)=>{const old=document.querySelector(`script[data-lib="${src}"]`);if(old){old.dataset.ok?res():old.addEventListener('load',res);return}const s=document.createElement('script');s.src=src;s.dataset.lib=src;s.onload=()=>{s.dataset.ok=1;res()};s.onerror=()=>{s.remove();rej(new Error('রূপান্তরের লাইব্রেরি লোড হয়নি — ইন্টারনেট দেখে আবার চেষ্টা করুন'))};document.head.appendChild(s)})}
+function scaleCanvas(src,max){const sc=Math.min(1,max/Math.max(src.width,src.height));if(sc===1)return src;const c=document.createElement('canvas');c.width=Math.max(1,Math.round(src.width*sc));c.height=Math.max(1,Math.round(src.height*sc));c.getContext('2d').drawImage(src,0,0,c.width,c.height);return c}
+async function canvasFile(cv,name){const blob=await new Promise(r=>cv.toBlob(r,'image/png'));if(!blob)throw new Error('ছবি রূপান্তর ব্যর্থ হয়েছে');return new File([blob],name.replace(/\.\w+$/,'')+'.png',{type:'image/png'})}
+async function tiffToPng(file){await loadScript(LIB.utif);const buf=await file.arrayBuffer();let ifd;try{const ifds=UTIF.decode(buf);ifd=ifds[0];UTIF.decodeImage(buf,ifd)}catch(e){throw new Error('এই TIFF ফাইল পড়া যায়নি — Photoshop-এ PNG বা JPG হিসেবে সেভ করে দিন')}
+  const w=ifd.width,h=ifd.height,rgba=UTIF.toRGBA8(ifd),cv=document.createElement('canvas');cv.width=w;cv.height=h;cv.getContext('2d').putImageData(new ImageData(new Uint8ClampedArray(rgba),w,h),0,0);return canvasFile(scaleCanvas(cv,2400),file.name)}
+async function pdfToPng(file,isAi){try{await loadScript(LIB.pdf);pdfjsLib.GlobalWorkerOptions.workerSrc=LIB.pdfw;const doc=await pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise,pg=await doc.getPage(1),v0=pg.getViewport({scale:1}),sc=Math.min(3,2000/Math.max(v0.width,v0.height)),vp=pg.getViewport({scale:sc}),cv=document.createElement('canvas');cv.width=Math.ceil(vp.width);cv.height=Math.ceil(vp.height);const cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,cv.width,cv.height);await pg.render({canvasContext:cx,viewport:vp}).promise;return await canvasFile(cv,file.name)}
+  catch(e){console.error(e);throw new Error(isAi?'এই AI ফাইল পড়া যায়নি (PDF-সামঞ্জস্যপূর্ণ নয়)। Illustrator-এ File → Export → Export As থেকে PNG বা SVG করে দিন।':'PDF থেকে ছবি বানানো যায়নি।')}}
+/* যেকোনো ছবির ফাইল → ওয়েবে চলে এমন ফাইল (jpg/png/webp ছোট করা, svg/gif হুবহু, tiff/ai/pdf → png) */
+async function prepImage(file){const ext=extOf(file.name),t=file.type||'';
+  if(t==='image/svg+xml'||ext==='svg')return{file:t==='image/svg+xml'?file:new File([file],file.name,{type:'image/svg+xml'}),marker:'#svg'};
+  if(t==='image/gif'||ext==='gif')return{file,marker:'#gif'};
+  if(ext==='tif'||ext==='tiff'||t==='image/tiff')return{file:await tiffToPng(file),marker:''};
+  if(ext==='ai'||ext==='pdf'||t==='application/pdf'||t==='application/illustrator'||t==='application/postscript')return{file:await pdfToPng(file,ext==='ai'),marker:''};
+  if(ext==='heic'||ext==='heif'||/heic|heif/.test(t))throw new Error('HEIC ছবি সরাসরি চলে না — ফোনে JPG করে নিয়ে আবার দিন।');
+  if(/^image\//.test(t))return{file:await compress(file),marker:''};
+  throw new Error('এই ধরনের ফাইল সমর্থিত নয় (jpg, png, gif, svg, webp, tiff, ai চলবে)')}
 async function uploadFile(file,kind,folder,onProg){
-  if(!DRIVE_ON())throw new Error('Drive আপলোড সেটআপ হয়নি। সেটআপ গাইড দেখুন বা Drive লিংক পেস্ট করুন।');
+  if(!DRIVE_ON())throw new Error('Drive আপলোড সেটআপ হয়নি। "লিংক ও সংযোগ" পেজে স্ক্রিপ্ট লিংক দিন, অথবা Drive লিংক পেস্ট করুন।');
   if(kind==='video'){if(file.size>300*1024*1024)throw new Error('ভিডিও ৩০০ MB-এর বেশি। YouTube (Unlisted) ব্যবহার করুন।');
     const s=await driveCall({action:'initVideo',folder:'videos',name:file.name,mime:file.type||'video/mp4',size:file.size,origin:location.origin});
     const up=await putSession(s.session,file,onProg);const f=await driveCall({action:'finalize',id:up.id});return{id:f.id,url:f.url}}
-  if(kind==='image'){file=await compress(file)}
+  let marker='';if(kind==='image'){const p=await prepImage(file);file=p.file;marker=p.marker}
   if(file.size>15*1024*1024)throw new Error('ফাইল ১৫ MB-এর বেশি বড়।');
-  const r=await driveCall({action:'upload',folder:kind==='pdf'?'reports':folder,name:file.name,mime:file.type,data:await b64(file)});return{id:r.id,url:r.url}}
+  const r=await driveCall({action:'upload',folder:kind==='pdf'?'reports':folder,name:file.name,mime:file.type,data:await b64(file)});return{id:r.id,url:r.url+marker}}
 async function trashIds(ids){ids=[...new Set(ids.filter(Boolean))];if(!ids.length||!DRIVE_ON())return;try{await driveCall({action:'trash',ids})}catch(e){console.warn('trash failed',e)}}
 function stillUsed(id,ex={}){return ENTK.some(k=>D[k].some(x=>!(ex.k===k&&ex.id===x.id)&&JSON.stringify(x).includes(id)))||(!ex.site&&JSON.stringify(D.site||{}).includes(id))}
 let FS=null;const newFS=k=>({k,trash:new Set(),up:new Set(),saved:false});
@@ -354,6 +386,8 @@ const L={};// loaded flags
 const STATUS=[['ongoing','চলমান'],['completed','সম্পন্ন'],['planned','পরিকল্পিত']];
 const stLabel=Object.fromEntries(STATUS);
 const INTEREST={relief:'ত্রাণ বিতরণ ও ক্ষেত্রীয় কাজ',edu:'শিক্ষা ও মেধা প্রশিক্ষণ',media:'প্রচার ও সচেতনতা বৃদ্ধি',tech:'প্রযুক্তি ও অনলাইন সহায়তা'};
+const SLOT_OPTS=[['','— পদ বাছুন —'],['president','সভাপতি / প্রধান সমন্বয়ক'],['vice','সহ-সভাপতি'],['gensec','সাধারণ সম্পাদক'],['jgensec','সহ-সাধারণ সম্পাদক'],['advisor','উপদেষ্টা পরিষদ'],['fin_tech','অর্থ ও প্রযুক্তি সম্পাদক'],['asst_fin_tech','সহকারী অর্থ ও প্রযুক্তি সম্পাদক'],['finance','অর্থ সম্পাদক'],['tech','প্রযুক্তি সম্পাদক'],['ulama','ওলামা বিষয়ক সম্পাদক'],['other','অন্যান্য (নিজে পদবি লিখুন)']];
+const slotLabel=Object.fromEntries(SLOT_OPTS);
 const ENT={
  projects:{one:'প্রকল্প',title:'প্রকল্পসমূহ',icon:'fa-diagram-project',order:'top',
   fields:[{k:'status',label:'অবস্থা',type:'select',opts:STATUS,req:1,full:1},
@@ -362,28 +396,30 @@ const ENT={
    {k:'date_bn',label:'সময় (বাংলা) — যেমন: ২০২৪ - চলমান',max:60},{k:'date_en',label:'Date (English) — e.g. 2024 – ongoing',max:60},
    {k:'objective_bn',label:'মূল উদ্দেশ্য (বাংলা)',type:'textarea',req:1,max:400},{k:'objective_en',label:'Objective (English)',type:'textarea',max:400},
    {k:'desc_bn',label:'বিস্তারিত বিবরণ (বাংলা)',type:'textarea',rows:4,max:1500},{k:'desc_en',label:'Description (English)',type:'textarea',rows:4,max:1500},
-   {k:'img_before',label:'আগের অবস্থার ছবি',type:'image',full:1},{k:'img_after',label:'পরের / বর্তমান অবস্থার ছবি',type:'image',full:1,req:1},
+   {k:'img_before',label:'আগের অবস্থার ছবি',type:'image',full:1,hint:'বিস্তারিত পেজে "আগে-পরে" স্লাইডারে দেখায়। JPG, ১২০০×৮০০।'},{k:'img_after',label:'পরের / বর্তমান অবস্থার ছবি',type:'image',full:1,req:1,hint:'প্রকল্প কার্ডের কভার ছবি। JPG, ১২০০×৮০০ (৩:২)।'},
+   {k:'images',label:'আরও ছবি (একাধিক দিলে কার্ডে নিজে নিজে স্লাইড হবে)',type:'imglist',full:1,hint:'প্রতিটি JPG, ১২০০×৮০০।'},
    {k:'video',label:'ভিডিও (ঐচ্ছিক — Google Drive বা YouTube)',type:'video',full:1}],
   item:d=>({t:d.title_bn||d.title_en,s:[d.location_bn,d.date_bn].filter(Boolean).join(' • '),th:d.img_after||d.img_before,pill:[d.status||'ongoing','p-'+(d.status||'ongoing'),stLabel[d.status]||'']})},
  gallery:{one:'ছবি',title:'গ্যালারি',icon:'fa-images',order:'top',bulk:1,
   fields:[{k:'type',label:'ধরন',type:'select',opts:[['image','ছবি'],['video','ভিডিও']],full:1},
-   {k:'img',label:'ছবি (ভিডিও হলে কভার ছবি — ঐচ্ছিক)',type:'image',full:1,req:r=>r.type!=='video'},
+   {k:'img',label:'ছবি (ভিডিও হলে কভার ছবি — ঐচ্ছিক)',type:'image',full:1,req:r=>r.type!=='video',hint:'গ্যালারিতে ৪:৩ ঘরে দেখায়। JPG / PNG / GIF, ১২০০×৯০০।'},
    {k:'video',label:'ভিডিও (Google Drive বা YouTube)',type:'video',full:1,showif:['type','video'],req:true},
    {k:'title_bn',label:'ক্যাপশন (বাংলা)',max:100},{k:'title_en',label:'Caption (English)',max:100}],
   item:d=>({t:d.title_bn||d.title_en||'(ক্যাপশন নেই)',s:d.title_en||'',th:d.img||(d.type==='video'?d.video:''),pill:d.type==='video'?['video','p-video','ভিডিও']:null})},
  news:{one:'সংবাদ',title:'সংবাদ ও ইভেন্ট',icon:'fa-newspaper',order:'date',
   fields:[{k:'date',label:'তারিখ',type:'date',req:1,full:1},{k:'title_bn',label:'শিরোনাম (বাংলা)',req:1,max:160},{k:'title_en',label:'Title (English)',max:160},
    {k:'desc_bn',label:'বিবরণ (বাংলা)',type:'textarea',rows:4,req:1,max:1500},{k:'desc_en',label:'Description (English)',type:'textarea',rows:4,max:1500},
-   {k:'img',label:'ছবি (ঐচ্ছিক)',type:'image',full:1}],
+   {k:'img',label:'ছবি (ঐচ্ছিক)',type:'image',full:1,hint:'সংবাদ কার্ডের ওপরে। JPG, ১২০০×৬৭৫ (১৬:৯)।'},{k:'images',label:'আরও ছবি (একাধিক দিলে নিজে নিজে স্লাইড হবে)',type:'imglist',full:1}],
   item:d=>({t:d.title_bn||d.title_en,s:fmtDay(d.date),th:d.img})},
  team:{one:'সদস্য',title:'আমাদের নেতৃত্ব',icon:'fa-users',order:'end',
-  fields:[{k:'name_bn',label:'নাম (বাংলা)',req:1,max:80},{k:'name_en',label:'Name (English)',max:80},{k:'role_bn',label:'পদবি (বাংলা)',req:1,max:80},{k:'role_en',label:'Designation (English)',max:80},
-   {k:'photo',label:'ছবি (ঐচ্ছিক)',type:'image',full:1}],
-  item:d=>({t:d.name_bn||d.name_en,s:d.role_bn||d.role_en,th:d.photo})},
+  fields:[{k:'slot',label:'পদ (নেতৃত্বের কাঠামোতে কোথায় বসবে)',type:'select',opts:SLOT_OPTS,req:1,full:1},{k:'name_bn',label:'নাম (বাংলা)',req:1,max:80},{k:'name_en',label:'Name (English)',max:80},
+   {k:'role_bn',label:'পদবির নাম বদলাতে চাইলে (ঐচ্ছিক; "অন্যান্য" হলে আবশ্যক)',max:80,req:r=>r.slot==='other'},{k:'role_en',label:'Designation (English, optional)',max:80},
+   {k:'photo',label:'ছবি (ঐচ্ছিক)',type:'image',full:1,hint:'চৌকো ছবি সবচেয়ে ভালো — ৬০০×৬০০ JPG, মুখ মাঝখানে। নেতৃত্বের কাঠামোয় গোল করে দেখাবে।'}],
+  item:d=>({t:d.name_bn||d.name_en,s:[slotLabel[d.slot]||'',d.role_bn].filter(Boolean).join(' • '),th:d.photo})},
  stories:{one:'মতামত',title:'মানুষের কথা',icon:'fa-comments',order:'end',
   fields:[{k:'name_bn',label:'নাম (বাংলা)',req:1,max:80},{k:'name_en',label:'Name (English)',max:80},{k:'role_bn',label:'পরিচয় (বাংলা) — যেমন: উপকারভোগী, স্বেচ্ছাসেবক',max:80},{k:'role_en',label:'Who (English)',max:80},
    {k:'quote_bn',label:'বক্তব্য (বাংলা)',type:'textarea',rows:4,req:1,max:600},{k:'quote_en',label:'Quote (English)',type:'textarea',rows:4,max:600},
-   {k:'photo',label:'ছবি (ঐচ্ছিক)',type:'image',full:1},
+   {k:'photo',label:'ছবি (ঐচ্ছিক)',type:'image',full:1,hint:'চৌকো ছবি — ৬০০×৬০০ JPG।'},
    {k:'consent',label:'এই ব্যক্তির নাম, বক্তব্য ও ছবি প্রকাশের লিখিত/মৌখিক সম্মতি নেওয়া হয়েছে',type:'checkbox',full:1,req:1}],
   item:d=>({t:d.name_bn||d.name_en,s:(d.quote_bn||'').slice(0,90),th:d.photo,pill:d.consent?null:['off','p-off','সম্মতি নেই']})}
 };
@@ -398,7 +434,7 @@ const Q={},F={volunteers:'all',messages:'all'};
 let route='dashboard',dirty=false,statsAnim=false;
 
 /* ---------- navigation ---------- */
-const NAV=[['dashboard','fa-gauge-high','ড্যাশবোর্ড'],['projects','fa-diagram-project','প্রকল্প'],['gallery','fa-images','গ্যালারি'],['news','fa-newspaper','সংবাদ ও ইভেন্ট'],['team','fa-users','নেতৃত্ব'],['stories','fa-comments','মানুষের কথা'],['volunteers','fa-hand-holding-heart','স্বেচ্ছাসেবক আবেদন'],['messages','fa-envelope','বার্তা'],['links','fa-link','লিংক ও সংযোগ'],['content','fa-pen-nib','সাইটের লেখা ও ছবি'],['settings','fa-gear','সাইট সেটিংস'],['help','fa-circle-question','সেটআপ গাইড']];
+const NAV=[['dashboard','fa-gauge-high','ড্যাশবোর্ড'],['projects','fa-diagram-project','প্রকল্প'],['gallery','fa-images','গ্যালারি'],['news','fa-newspaper','সংবাদ ও ইভেন্ট'],['team','fa-users','নেতৃত্ব'],['stories','fa-comments','মানুষের কথা'],['volunteers','fa-hand-holding-heart','স্বেচ্ছাসেবক আবেদন'],['messages','fa-envelope','বার্তা'],['links','fa-link','লিংক ও সংযোগ'],['content','fa-pen-nib','সাইটের লেখা ও ছবি'],['theme','fa-palette','থিম ও ডিজাইন'],['settings','fa-gear','সাইট সেটিংস'],['help','fa-circle-question','সেটআপ গাইড']];
 const BN_NAV=['dashboard','projects','volunteers','links'];
 const newCount=k=>D[k].filter(x=>x.status==='new').length;
 function renderNav(){const c={volunteers:newCount('volunteers'),messages:newCount('messages'),links:(L.cfg&&!DRIVE_ON())?'!':0};
@@ -416,6 +452,7 @@ let rq=0;function schedule(){if(rq)return;rq=requestAnimationFrame(()=>{rq=0;ren
 function renderView(force){const v=$('#view');
   if(route==='content'){renderContent(force);return}
   if(route==='links'){renderLinks(force);return}
+  if(route==='theme'){renderTheme(force);return}
   if(route==='settings'){if(force||!dirty&&L.site&&!v.dataset.siteLoaded){v.dataset.siteLoaded=L.site?1:'';v.innerHTML=viewSettings()}return}
   v.dataset.siteLoaded='';
   if(route==='dashboard')v.innerHTML=viewDash();
@@ -474,11 +511,12 @@ function fld(f,val){const id='f_'+f.k.replace(/\W/g,'_'),v=val==null?'':val,cls=
  let c;
  if(f.type==='textarea')c=`<textarea id="${id}" data-k="${f.k}" rows="${f.rows||3}" maxlength="${f.max||2000}">${esc(v)}</textarea>`;
  else if(f.type==='select')c=`<select id="${id}" data-k="${f.k}">${f.opts.map(([a,b])=>`<option value="${a}" ${a===v?'selected':''}>${esc(b)}</option>`).join('')}</select>`;
- else if(f.type==='image')c=`<input id="${id}" data-k="${f.k}" data-img="1" type="text" inputmode="url" autocomplete="off" placeholder="আপলোড করুন, অথবা Drive লিংক পেস্ট করুন" value="${esc(v)}">${mbtns('image')}<div class="imgbox"><div class="ithumb"><img data-nofb="1" alt="" hidden referrerpolicy="no-referrer"></div><div class="istat"></div></div><div class="pbar"><i></i></div>`;
+ else if(f.type==='imglist')c=`<textarea id="${id}" data-k="${f.k}" data-imglist="1" rows="3" style="font-size:14px" placeholder="প্রতি লাইনে একটি ছবির লিংক — অথবা নিচের বাটনে একাধিক ছবি একসাথে আপলোড করুন">${esc(Array.isArray(v)?v.join('\n'):v)}</textarea>${mbtns('imglist')}<div class="thumbs"></div><div class="istat" style="margin-top:6px"></div><div class="pbar"><i></i></div>`;
+  else if(f.type==='image')c=`<input id="${id}" data-k="${f.k}" data-img="1" type="text" inputmode="url" autocomplete="off" placeholder="আপলোড করুন, অথবা Drive লিংক পেস্ট করুন" value="${esc(v)}">${mbtns('image')}<div class="imgbox"><div class="ithumb"><img data-nofb="1" alt="" hidden referrerpolicy="no-referrer"></div><div class="istat"></div></div><div class="pbar"><i></i></div>`;
  else if(f.type==='video')c=`<input id="${id}" data-k="${f.k}" data-vid="1" type="text" inputmode="url" autocomplete="off" placeholder="আপলোড করুন, অথবা Drive / YouTube লিংক পেস্ট করুন" value="${esc(v)}">${mbtns('video')}<div class="istat" style="margin-top:6px"></div><div class="pbar"><i></i></div><small class="help">বড় ভিডিও হলে YouTube-এ <b>Unlisted</b> আপলোড করে লিংক দিন — সাইটে দ্রুত চলবে।</small>`;
  else c=`<input id="${id}" data-k="${f.k}" type="${f.type||'text'}" ${f.type==='tel'?'inputmode="tel"':''} maxlength="${f.max||300}" value="${esc(v)}" ${f.ph?`placeholder="${esc(f.ph)}"`:''}>`;
- return `<div class="${cls}" data-fk="${f.k}"${f.showif?` data-showif="${f.showif.join('=')}"`:''}>${lab}${c}${f.type==='image'?'':help}<div class="em"></div></div>`}
-const mbtns=(kind)=>`<div class="mbtns"><label class="btn btn-line btn-sm up ${DRIVE_ON()?'':'dis'}"><i class="fa-solid fa-cloud-arrow-up"></i><span>${kind==='video'?'ভিডিও আপলোড':kind==='pdf'?'PDF আপলোড':'ছবি আপলোড / বদলান'}</span><input type="file" accept="${kind==='video'?'video/*':kind==='pdf'?'application/pdf':'image/*'}" data-up="${kind}" hidden></label><button type="button" class="btn btn-line btn-sm" data-clr><i class="fa-solid fa-trash-can"></i>মুছুন</button></div>`;
+ return `<div class="${cls}" data-fk="${f.k}"${f.showif?` data-showif="${f.showif.join('=')}"`:''}>${lab}${c}${f.hint?`<small class="help">💡 ${esc(f.hint)}</small>`:''}${(f.type==='image'||f.type==='imglist')?'':help}<div class="em"></div></div>`}
+const mbtns=(kind)=>`<div class="mbtns"><label class="btn btn-line btn-sm up ${DRIVE_ON()?'':'dis'}"><i class="fa-solid fa-cloud-arrow-up"></i><span>${kind==='video'?'ভিডিও আপলোড':kind==='pdf'?'PDF আপলোড':kind==='imglist'?'ছবি আপলোড (একাধিক)':'ছবি আপলোড / বদলান'}</span><input type="file" accept="${kind==='video'?'video/*':kind==='pdf'?'application/pdf':'image/*,.tif,.tiff,.ai,.pdf,.svg,.heic'}" ${kind==='imglist'?'multiple':''} data-up="${kind}" hidden></label><button type="button" class="btn btn-line btn-sm" data-clr><i class="fa-solid fa-trash-can"></i>মুছুন</button></div>`;
 function checkImg(inp){const box=inp.closest('.fld'),im=$('img',box),st=$('.istat',box),v=inp.value.trim();inp._t=(inp._t||0)+1;const token=inp._t;
  const bad=m=>{im.hidden=true;st.className='istat bad';st.textContent=m;inp.dataset.bad='1'};inp.dataset.bad='';
  if(!v){im.hidden=true;st.className='istat';st.textContent='';return}
@@ -493,26 +531,33 @@ function checkVid(inp){const st=$('.istat',inp.closest('.fld')),v=inp.value.trim
   if(driveId(v)){st.className='istat ok';st.textContent='✓ Drive ভিডিও (শেয়ারিং "Anyone with the link" থাকতে হবে)';return}
   st.className='istat bad';st.textContent='Drive বা YouTube ভিডিওর লিংক দিন।';inp.dataset.bad='1'}
 function applyShowif(root){$$('[data-showif]',root).forEach(w=>{const [k,val]=w.dataset.showif.split('='),c=$(`[data-k="${k}"]`,root);w.hidden=!c||c.value!==val})}
+function drawThumbs(ta){const w=ta.closest('.fld'),box=$('.thumbs',w),st=$('.istat',w),L=ta.value.split(/\n+/).map(x=>x.trim()).filter(Boolean);box.innerHTML=L.map((u,i)=>imgUrl(u,200)?`<span class="th2"><img src="${esc(imgUrl(u,200))}" alt="" data-nofb="1" referrerpolicy="no-referrer"><button type="button" data-rm-line="${i}" aria-label="সরান">×</button></span>`:`<span class="th2" title="${esc(u)}">?</span>`).join('');st.textContent=L.length?bn(L.length)+'টি ছবি'+(L.length>1?' — সাইটে নিজে নিজে স্লাইড হবে':''):'';st.className='istat'+(L.length?' ok':'')}
 function wireImgs(root){$$('[data-img]',root).forEach(inp=>{let t;inp.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(()=>checkImg(inp),450)});if(inp.value.trim())checkImg(inp)});
   $$('[data-vid]',root).forEach(inp=>{inp.addEventListener('input',()=>checkVid(inp));if(inp.value.trim())checkVid(inp)});
+  $$('[data-imglist]',root).forEach(ta=>{drawThumbs(ta);ta.addEventListener('input',()=>drawThumbs(ta))});
   $$('[data-showif]',root).forEach(w=>{const c=$(`[data-k="${w.dataset.showif.split('=')[0]}"]`,root);if(c)c.addEventListener('change',()=>applyShowif(root))});applyShowif(root)}
-async function handleUpload(fi){const file=fi.files&&fi.files[0];fi.value='';if(!file)return;const kind=fi.dataset.up,wrap=fi.closest('.fld,.rep'),tgt=$('[data-img],[data-vid],[data-s="url"]',wrap),st=$('.istat',wrap),pb=$('.pbar',wrap),pbi=pb&&$('i',pb),lab=fi.closest('label');
-  const okType={image:/^image\//,video:/^video\//,pdf:/^application\/pdf$/}[kind];if(!okType.test(file.type)){toast(kind==='video'?'ভিডিও ফাইল বাছুন':kind==='pdf'?'PDF ফাইল বাছুন':'ছবির ফাইল বাছুন',true);return}
+async function handleUpload(fi){const files=[...(fi.files||[])];fi.value='';if(!files.length)return;const kind=fi.dataset.up,wrap=fi.closest('.fld,.rep'),tgt=$('[data-img],[data-vid],[data-imglist],[data-s="url"]',wrap),st=$('.istat',wrap),pb=$('.pbar',wrap),pbi=pb&&$('i',pb),lab=fi.closest('label');
+  if(kind==='video'&&!/^video\//.test(files[0].type)){toast('ভিডিও ফাইল বাছুন',true);return}
+  if(kind==='pdf'&&files[0].type!=='application/pdf'){toast('PDF ফাইল বাছুন',true);return}
   lab.classList.add('busy');if(st){st.className='istat wait';st.textContent=kind==='video'?'ভিডিও আপলোড হচ্ছে… (এটি সময় নিতে পারে, পেজ বন্ধ করবেন না)':'Drive-এ আপলোড হচ্ছে…'}
   if(pb&&kind==='video')pb.classList.add('on');
-  try{const r=await uploadFile(file,kind,FOLDERS[FS&&FS.k]||'misc',p=>{if(pbi)pbi.style.width=Math.round(p*100)+'%'});
-    noteChange(tgt.value,r.id);tgt.value=r.url;tgt.dispatchEvent(new Event('input',{bubbles:true}));if(kind==='pdf'&&st){st.className='istat ok';st.textContent='✓ PDF আপলোড হয়েছে'}toast('আপলোড সম্পন্ন ✓')}
+  try{
+   if(kind==='imglist'){let n=0;for(const f of files){if(st)st.textContent=`${bn(n+1)}/${bn(files.length)} আপলোড হচ্ছে…`;const r=await uploadFile(f,'image',FOLDERS[FS&&FS.k]||'misc');if(FS)FS.up.add(r.id);tgt.value=(tgt.value.trim()?tgt.value.trim()+'\n':'')+r.url;tgt.dispatchEvent(new Event('input',{bubbles:true}));n++}toast(bn(n)+'টি ছবি আপলোড হয়েছে ✓')}
+   else{const r=await uploadFile(files[0],kind,FOLDERS[FS&&FS.k]||'misc',p=>{if(pbi)pbi.style.width=Math.round(p*100)+'%'});
+    noteChange(tgt.value,r.id);tgt.value=r.url;tgt.dispatchEvent(new Event('input',{bubbles:true}));if(kind==='pdf'&&st){st.className='istat ok';st.textContent='✓ PDF আপলোড হয়েছে'}toast('আপলোড সম্পন্ন ✓')}}
   catch(e){console.error(e);if(st){st.className='istat bad';st.textContent=e.message}toast(e.message,true)}
   finally{lab.classList.remove('busy');if(pb){pb.classList.remove('on');if(pbi)pbi.style.width='0'}}}
 document.addEventListener('change',e=>{if(e.target.matches&&e.target.matches('input[data-up]'))handleUpload(e.target)});
 document.addEventListener('click',e=>{const l=e.target.closest('label.up');if(l&&!DRIVE_ON()){e.preventDefault();toast('Drive আপলোড সেটআপ হয়নি — "সেটআপ গাইড" দেখুন, অথবা Drive লিংক পেস্ট করুন।',true)}
-  const c=e.target.closest('[data-clr]');if(c){const w=c.closest('.fld,.rep'),tgt=$('[data-img],[data-vid],[data-s="url"]',w);if(tgt&&tgt.value){noteChange(tgt.value,null);tgt.value='';tgt.dispatchEvent(new Event('input',{bubbles:true}));const st=$('.istat',w);if(st){st.className='istat';st.textContent=''}toast('মোছা হয়েছে (সংরক্ষণ করলে Drive থেকেও ট্র্যাশে যাবে)')}}},true);
+  const rl=e.target.closest('[data-rm-line]');if(rl){const ta=$('[data-imglist]',rl.closest('.fld')),L=ta.value.split(/\n+/).map(x=>x.trim()).filter(Boolean),gone=L.splice(+rl.dataset.rmLine,1)[0],id=driveId(gone||'');if(id&&FS)FS.trash.add(id);ta.value=L.join('\n');ta.dispatchEvent(new Event('input',{bubbles:true}));return}
+  const c=e.target.closest('[data-clr]');if(c){const w=c.closest('.fld,.rep'),tgt=$('[data-img],[data-vid],[data-imglist],[data-s="url"]',w);if(tgt&&tgt.hasAttribute('data-imglist')){imgList(tgt.value).forEach(u=>{const id=driveId(u);if(id&&FS)FS.trash.add(id)});tgt.value='';tgt.dispatchEvent(new Event('input',{bubbles:true}));return}if(tgt&&tgt.value){noteChange(tgt.value,null);tgt.value='';tgt.dispatchEvent(new Event('input',{bubbles:true}));const st=$('.istat',w);if(st){st.className='istat';st.textContent=''}toast('মোছা হয়েছে (সংরক্ষণ করলে Drive থেকেও ট্র্যাশে যাবে)')}}},true);
 function collect(root,fields){const data={},errs=[];$$('.fld',root).forEach(x=>x.classList.remove('err'));
  const mark=(k,m)=>{const w=$(`[data-fk="${k}"]`,root);if(w){w.classList.add('err');const e=$('.em',w);if(m)e.textContent=m}errs.push(k)};
  const raw={};fields.forEach(f=>{const el=$(`[data-k="${f.k}"]`,root);if(el)raw[f.k]=f.type==='checkbox'?el.checked:el.value.trim()});
  fields.forEach(f=>{const el=$(`[data-k="${f.k}"]`,root);if(!el)return;let v=raw[f.k];
   if(f.showif&&raw[f.showif[0]]!==f.showif[1]){setP(data,f.k,'');return}
   const req=typeof f.req==='function'?f.req(raw):f.req;
+  if(f.type==='imglist'){const arr=String(v||'').split(/\n+/).map(x=>x.trim()).filter(Boolean);if(req&&!arr.length)mark(f.k,'অন্তত একটি ছবি দিন');else if(arr.some(u=>!imgUrl(u)))mark(f.k,'কোনো লিংক সঠিক নয়');setP(data,f.k,arr);return}
   if(f.type==='checkbox'){if(req&&!v)mark(f.k)}
   else{if(req&&!v)mark(f.k,'এই তথ্যটি আবশ্যক');
    else if(v&&f.type==='image'&&!imgUrl(v))mark(f.k,'সঠিক ছবির লিংক দিন');
@@ -533,12 +578,13 @@ function openForm(k,id){const E=ENT[k],d=id?D[k].find(x=>x.id===id):null;if(id&&
   if(errs.length){const w=$('.fld.err',form);w&&w.scrollIntoView({behavior:'smooth',block:'center'});toast('লাল চিহ্নিত ঘরগুলো ঠিক করুন',true);return}
   const badImgs=$$('[data-img]',form).filter(i=>i.dataset.bad==='1'&&i.value.trim());
   if(badImgs.length&&!confirm('কিছু ছবি লোড হচ্ছে না (Drive শেয়ারিং ঠিক নেই হতে পারে)। তবুও সংরক্ষণ করবেন?'))return;
+  if(d)E.fields.filter(f=>f.type==='imglist').forEach(f=>imgList(d[f.k]).forEach(u=>{const id=driveId(u);if(id&&FS)FS.trash.add(id)}));
   btn.classList.add('busy');
   try{if(d){await updateDoc(doc(db,COL[k],d.id),{...data,updatedAt:serverTimestamp()})}
    else{const os=D[k].map(x=>x.order).filter(n=>typeof n==='number');data.order=E.order==='top'?(os.length?Math.min(...os):1)-1:(os.length?Math.max(...os):0)+1;await addDoc(collection(db,COL[k]),{...data,createdAt:serverTimestamp()})}
    FS.saved=true;{const cur=JSON.stringify(data),gone=[...FS.trash].filter(id=>!cur.includes(id)&&!stillUsed(id,{k,id:d&&d.id}));trashIds(gone)}
    toast(d?'আপডেট হয়েছে ✓':'যোগ হয়েছে ✓');closeModal()}catch(e){fail(e)}finally{btn.classList.remove('busy')}}}
-async function removeItem(k,id){const d=D[k].find(x=>x.id===id);if(!d)return;const it=ENT[k].item(d);const mids=ENT[k].fields.filter(f=>f.type==='image'||f.type==='video').map(f=>driveId(d[f.k])).filter(Boolean);
+async function removeItem(k,id){const d=D[k].find(x=>x.id===id);if(!d)return;const it=ENT[k].item(d);const mids=ENT[k].fields.filter(f=>f.type==='image'||f.type==='video'||f.type==='imglist').flatMap(f=>f.type==='imglist'?imgList(d[f.k]).map(driveId):[driveId(d[f.k])]).filter(Boolean);
   if(!await askConfirm('মুছে ফেলবেন?',`"${it.t}" স্থায়ীভাবে মুছে যাবে।`+(mids.length&&DRIVE_ON()?' এর ছবি/ভিডিও Google Drive থেকেও ট্র্যাশে যাবে (৩০ দিন পুনরুদ্ধার করা যাবে)।':'')))return;
   try{await deleteDoc(doc(db,COL[k],id));toast('মুছে ফেলা হয়েছে');trashIds(mids.filter(m=>!stillUsed(m,{k,id})))}catch(e){fail(e)}}
 async function moveItem(k,id,dir){const list=[...D[k]],i=list.findIndex(x=>x.id===id),j=i+dir;if(i<0||j<0||j>=list.length)return;[list[i],list[j]]=[list[j],list[i]];
@@ -569,7 +615,6 @@ const LK=[
  {k:'cfg_scriptUrl',label:'Google Apps Script — Web App লিংক',type:'url',full:1,ph:'https://script.google.com/macros/s/…/exec',help:'ছবি/ভিডিও/PDF সরাসরি আপলোড, বদলানো ও মোছার জন্য। কীভাবে পাবেন তা নিচে "ধাপে ধাপে" অংশে আছে।'},
  {k:'cfg_folderUrl',label:'Google Drive ফোল্ডারের লিংক (ঐচ্ছিক)',type:'url',full:1,ph:'https://drive.google.com/drive/folders/…',help:'খালি রাখলে স্ক্রিপ্ট নিজে Drive-এ <b>ManabProyas-Media</b> ফোল্ডার বানাবে। নিজের ফোল্ডার চাইলে Drive-এ ফোল্ডার খুলে লিংক কপি করে এখানে দিন (ফোল্ডারটি স্ক্রিপ্ট ডিপ্লয় করা Google অ্যাকাউন্টের হতে হবে)।'},
  {k:'logo',label:'সংস্থার লোগো (হেডার, ফুটার ও মেনুতে)',type:'image',full:1},
- {k:'hero_img',label:'হোমপেজের বড় ছবি',type:'image',full:1},
  {k:'facebook',label:'ফেসবুক পেজ লিংক',type:'url',full:1,ph:'https://facebook.com/…'},
  {k:'youtube',label:'ইউটিউব চ্যানেল লিংক',type:'url',full:1,ph:'https://youtube.com/@…'},
  {k:'whatsapp',label:'WhatsApp লিংক',type:'url',full:1,ph:'https://wa.me/8801XXXXXXXXX'},
@@ -591,27 +636,35 @@ function renderLinks(force){const v=$('#view');
     <div class="fgrid">${F('cfg_scriptUrl')}</div><div class="tools" style="margin:-4px 0 12px"><button type="button" class="btn btn-dark btn-sm" data-lk-test><i class="fa-solid fa-plug-circle-check"></i>লিংক যাচাই করুন</button></div><div class="hc" id="lk-test"></div>
     <div class="fgrid" style="margin-top:12px">${F('cfg_folderUrl')}</div><div class="tools"><a class="btn btn-line btn-sm" id="lk-folder" href="${esc(CFG.driveFolderUrl||'#')}" target="_blank" rel="noopener" ${CFG.driveFolderUrl?'':'hidden'}><i class="fa-brands fa-google-drive"></i>ফোল্ডার খুলুন</a></div>
     <details class="fq" style="margin-top:14px"><summary>Web App লিংক কীভাবে পাবেন (ধাপে ধাপে) <i class="fa-solid fa-chevron-down"></i></summary><div><ol class="steps"><li><b>script.google.com</b> খুলে যে Google অ্যাকাউন্টের Drive-এ ছবি রাখতে চান তা দিয়ে লগইন করুন → <b>New project</b>।</li><li><code>Code.gs</code>-এর সব লেখা মুছে আমার দেওয়া <b>drive-upload.gs</b> ফাইলের লেখা পেস্ট করুন।</li><li>বাঁ দিকে ⚙ <b>Project Settings</b> → "Show appsscript.json manifest file" টিক দিন → সেই ফাইলে <b>appsscript.json</b> ফাইলের লেখা পেস্ট করুন।</li><li>ওপরে ফাংশন বাছাইয়ে <b>setup</b> বেছে <b>Run</b> চাপুন → অনুমতি চাইলে Advanced → Go to project → Allow।</li><li><b>Deploy → New deployment → Web app</b> → Execute as: <b>Me</b> → Who has access: <b>Anyone</b> → Deploy।</li><li>যে <b>Web app URL</b> (শেষে <code>/exec</code>) পাবেন তা এখানে পেস্ট করে <b>লিংক যাচাই করুন</b> চাপুন, তারপর <b>সংরক্ষণ</b>।</li></ol><p style="margin-top:8px;color:var(--muted)">স্ক্রিপ্ট বদলালে Deploy → Manage deployments → ✏ → Version: <b>New version</b> দিয়ে আবার ডিপ্লয় করতে হবে।</p></div></details></section>
-   <section class="card pad set-sec" id="lk3"><h3><i class="fa-solid fa-image"></i>লোগো ও বড় ছবি</h3><p>আপলোড করুন অথবা Google Drive-এর লিংক পেস্ট করুন। ঘর খালি রাখলে ডিফল্ট থাকবে।</p><div class="fgrid">${F('logo')}${F('hero_img')}</div></section>
+   <section class="card pad set-sec" id="lk3"><h3><i class="fa-solid fa-image"></i>লোগো</h3><p>আপলোড করুন অথবা Google Drive/সাধারণ লিংক পেস্ট করুন। ঘর খালি রাখলে ডিফল্ট থাকবে।</p><div class="fgrid">${F('logo')}</div></section>
+   <section class="card pad set-sec" id="lk3b"><h3><i class="fa-solid fa-images"></i>হোমপেজের স্লাইড ছবি</h3><p>একটি ছবি দিলে স্থির থাকবে; একাধিক দিলে নিজে নিজে অ্যানিমেশনসহ স্লাইড হবে এবং দর্শক ডানে-বামে সোয়াইপ করতে পারবে (সর্বোচ্চ ৮টি)।</p><div id="hs-rows">${(Array.isArray(D.site.hero_slides)&&D.site.hero_slides.length?D.site.hero_slides:(D.site.hero_img?[{img:D.site.hero_img}]:[])).map(slideRow).join('')}</div><button type="button" class="btn btn-line btn-sm" data-add-slide><i class="fa-solid fa-plus"></i>স্লাইড ছবি যোগ করুন</button></section>
    <section class="card pad set-sec" id="lk4"><h3><i class="fa-solid fa-share-nodes"></i>সোশ্যাল ও অন্যান্য লিংক</h3><p>এগুলো সাইটের টপবার, ফুটার ও যোগাযোগ পেজে দেখাবে। খালি রাখলে দেখাবে না।</p><div class="fgrid">${F('facebook')}${F('youtube')}${F('whatsapp')}${F('mapEmbed')}${F('notice_link')}</div></section>
+   <section class="card pad set-sec" id="lk5"><h3><i class="fa-solid fa-share-from-square"></i>শেয়ার প্রিভিউ ছবি</h3><p>WhatsApp/Facebook-এ সাইটের লিংক শেয়ার করলে যে ছবি দেখায় সেটি লিংকের HTML থেকে পড়া হয়, তাই এটি GitHub-এ <b>og-image.jpg</b> নামে ফাইল হিসেবে থাকতে হয়। এখানে পছন্দের ছবি বাছুন, ১২০০×৬৩০ মাপের ফাইল বানান, তারপর GitHub-এ আগেরটির জায়গায় আপলোড করুন।</p>
+    <label class="btn btn-line btn-sm up"><i class="fa-solid fa-image"></i><span>ছবি বাছুন</span><input type="file" id="og-file" hidden accept="image/*,.tif,.tiff,.ai,.pdf,.svg"></label>
+    <label class="chk" style="margin:12px 0"><input type="checkbox" id="og-name" checked><span>ছবির ওপর সংস্থার নাম লিখুন</span></label>
+    <canvas id="og-cv" width="1200" height="630" class="ogc"></canvas><div class="tools"><button type="button" class="btn btn-dark btn-sm" data-og-dl><i class="fa-solid fa-download"></i>og-image.jpg ডাউনলোড</button></div>
+    <details class="fq" style="margin-top:12px"><summary>GitHub-এ কীভাবে বসাবেন <i class="fa-solid fa-chevron-down"></i></summary><div><ol class="steps"><li>GitHub-এ আপনার রিপো (<b>Manab-Proyas-Foundation</b>) খুলুন।</li><li><b>Add file → Upload files</b> → ডাউনলোড করা <b>og-image.jpg</b> দিন (আগের ফাইলের একই নাম) → <b>Commit changes</b>।</li><li>নতুন ছবি দেখতে Facebook Sharing Debugger-এ লিংক দিয়ে <b>Scrape Again</b> চাপুন। WhatsApp পুরনো ছবি কয়েকদিন মনে রাখতে পারে।</li></ol></div></details></section>
+   <section class="card pad set-sec" id="lk6"><h3><i class="fa-solid fa-circle-question"></i>কোথায় কোন ফাইল দিলে ভালো</h3><p>এই মাপগুলো মানলে সাইট দ্রুত ও সুন্দর দেখায়।</p>${fileGuide()}</section>
    <div class="savebar"><span id="lk-s">সব তথ্য সংরক্ষিত আছে</span><button class="btn btn-gold" type="submit"><i class="fa-solid fa-floppy-disk"></i>সংরক্ষণ করুন</button></div></form>`;
-  const f=$('#lk-form');wireImgs(f);f.addEventListener('input',()=>{dirty=true;$('#lk-s').textContent='অসংরক্ষিত পরিবর্তন আছে'});
+  const f=$('#lk-form');wireImgs(f);ogImg=null;ogDraw();f.addEventListener('input',()=>{dirty=true;$('#lk-s').textContent='অসংরক্ষিত পরিবর্তন আছে'});
   f.addEventListener('submit',ev=>{ev.preventDefault();saveLinks(f)})}
 function lkMark(root,k,m){const w=$(`[data-fk="${k}"]`,root);if(w){w.classList.add('err');const e=$('.em',w);if(e&&m)e.textContent=m}}
 async function saveLinks(f){const {data,errs}=collect(f,LK);let bad=errs.length>0;
+  const slides=[];$$('[data-row="slide"]',f).forEach(r=>{const inp=$('[data-img]',r),u=(inp.value||'').trim();if(!u)return;if(!imgUrl(u)){const w=inp.closest('.fld');w.classList.add('err');const e=$('.em',w);if(e)e.textContent='সঠিক ছবির লিংক দিন';bad=true;return}slides.push({img:u,cap_bn:$('[data-s="cap_bn"]',r).value.trim(),cap_en:$('[data-s="cap_en"]',r).value.trim()})});
   const su=data.cfg_scriptUrl||'';if(su&&!SCRIPT_RX.test(su)){lkMark(f,'cfg_scriptUrl','এটি Web App লিংক নয়। লিংক https://script.google.com/macros/s/…/exec এর মতো হবে।');bad=true}
   const fu=data.cfg_folderUrl||'',fid=folderId(fu);if(fu&&!fid){lkMark(f,'cfg_folderUrl','এটি Drive ফোল্ডারের লিংক নয় (…/drive/folders/… এর মতো হবে)।');bad=true}
   if(bad){toast('লাল চিহ্নিত ঘরগুলো ঠিক করুন',true);const w=$('.fld.err',f);w&&w.scrollIntoView({behavior:'smooth',block:'center'});return}
   const btn=$('button[type=submit]',f);btn.classList.add('busy');
   const cfg={scriptUrl:su,siteUrl:data.cfg_siteUrl||'',driveFolderUrl:fu,driveFolderId:fid};
-  const beforeHero=(D.site||{}).hero_img,beforeLogo=(D.content.img||{}).logo;
+  const beforeSite=JSON.parse(JSON.stringify(D.site||{})),beforeLogo=(D.content.img||{}).logo;
   try{let local=false;
    try{await setDoc(doc(db,'adminConfig','main'),{...cfg,updatedAt:serverTimestamp()})}catch(e){if(isPerm(e))local=true;else throw e}
    try{localStorage.setItem('mpf_cfg',JSON.stringify(cfg))}catch(_){}
    Object.assign(CFG,cfg,{perm:local?'1':''});updateSiteLinks();
-   await setDoc(doc(db,'settings','site'),{facebook:data.facebook||'',youtube:data.youtube||'',whatsapp:data.whatsapp||'',mapEmbed:data.mapEmbed||'',notice_link:data.notice_link||'',hero_img:data.hero_img||'',updatedAt:serverTimestamp()},{merge:true});
+   await setDoc(doc(db,'settings','site'),{facebook:data.facebook||'',youtube:data.youtube||'',whatsapp:data.whatsapp||'',mapEmbed:data.mapEmbed||'',notice_link:data.notice_link||'',hero_slides:slides,hero_img:(slides[0]&&slides[0].img)||'',updatedAt:serverTimestamp()},{merge:true});
    const imgMap={...(D.content.img||{})};if(data.logo)imgMap.logo=data.logo;else delete imgMap.logo;
    await setDoc(doc(db,'settings','content'),{img:imgMap,updatedAt:serverTimestamp()},{mergeFields:['img','updatedAt']});
-   {const keep=[data.hero_img,...Object.values(imgMap)].join(' '),gone=[beforeHero,beforeLogo].map(driveId).filter(id=>id&&!keep.includes(id)&&!stillUsed(id,{site:true}));trashIds(gone)}
+   {const keep=[...slides.map(x=>x.img),...Object.values(imgMap)].join(' '),gone=[...(beforeSite.hero_slides||[]).map(x=>x.img),beforeSite.hero_img,beforeLogo].map(driveId).filter(id=>id&&!keep.includes(id)&&!stillUsed(id,{site:true}));trashIds(gone)}
    dirty=false;if(FS)FS.saved=true;FS=newFS('site');$('#lk-s').textContent='সংরক্ষিত ✓';
    toast(local?'সংরক্ষিত হয়েছে (শুধু এই ব্রাউজারে — Rules আপডেট করুন)':'সব লিংক সংরক্ষিত হয়েছে ✓');renderNav();
    if(local)renderLinks(true)}
@@ -641,8 +694,8 @@ function ctDirty(){CT.dirty=true;const e=$('#ct-s');if(e)e.textContent='অস�
 function ctCard(k){const d=CT.defs.defs[k],mk=l=>`<div class="fld"><label>${l==='bn'?'বাংলা':'English'}</label><textarea class="ct-ta" data-ctk="${esc(k)}" data-ctl="${l}" rows="${ctRows(ctVal(k,l))}" maxlength="3000">${esc(ctVal(k,l))}</textarea></div>`;
   return `<div class="card pad ct-it" data-ctc="${esc(k)}" style="margin-bottom:12px"><div class="ct-h"><div><b>${esc((d.bn||d.en||k).slice(0,52))}</b><small>${esc(k)}</small></div><span class="pill p-ongoing ct-chg" ${ctChanged(k)?'':'hidden'}>পরিবর্তিত</span></div><div class="fgrid">${d.only!=='en'?mk('bn'):''}${d.only!=='bn'?mk('en'):''}</div><button type="button" class="btn btn-line btn-sm" data-ct-reset="${esc(k)}"><i class="fa-solid fa-rotate-left"></i>ডিফল্টে ফেরান</button></div>`}
 function renderCtBody(){const body=$('#ct-body');if(!body)return;const q=CT.q.trim().toLowerCase();
-  if(CT.cur==='img'&&!q){body.innerHTML=`<div class="card pad"><div class="msg warn" style="margin-bottom:14px"><i class="fa-solid fa-circle-info" style="margin-top:4px"></i><span>ছবি আপলোড বা Drive লিংক দিন। ঘর খালি রাখলে সাইটের ডিফল্ট ছবি থাকবে। <b>হোমপেজের বড় ছবি</b> বদলাতে <a class="link" href="#/settings">সাইট সেটিংস</a> দেখুন; প্রকল্প, গ্যালারি, সংবাদ ও নেতৃত্বের ছবি নিজ নিজ পেজ থেকে।</span></div><div class="fgrid">${CT.defs.images.map(im=>fld({k:'img_'+im.k,label:im.label,type:'image',full:1},CT.img[im.k]||'')).join('')}</div></div>`;
-    wireImgs(body);$$('[data-img]',body).forEach(inp=>inp.addEventListener('input',()=>{CT.img[inp.dataset.k.slice(4)]=inp.value;ctDirty()}));return}
+  if(CT.cur==='img'&&!q){const gs=CT.defs.imageGroups||[{id:'',label:''}];body.innerHTML=`<div class="card pad"><div class="msg warn" style="margin-bottom:14px"><i class="fa-solid fa-circle-info" style="margin-top:4px"></i><span>ছবি আপলোড করুন অথবা Google Drive/সাধারণ লিংক দিন। যেকোনো ফাইল চলে — JPG, PNG, GIF, SVG, WebP, <b>TIFF</b>, <b>AI</b> (সব নিজে নিজে ওয়েবের উপযোগী হয়ে যায়)। ঘর খালি রাখলে ডিফল্ট থাকবে। <b>হোমের স্লাইড ছবি</b> বদলাতে <a class="link" href="#/links">লিংক ও সংযোগ</a> পেজ দেখুন।</span></div>${gs.map(g=>`<h4 class="ct-gh">${esc(g.label)}</h4><div class="fgrid">${CT.defs.images.filter(im=>(im.g||'')===g.id).map(im=>fld({k:'img_'+im.k,label:im.label,type:im.multi?'imglist':'image',full:1,hint:im.hint},CT.img[im.k]||'')).join('')}</div>`).join('')}</div>`;
+    wireImgs(body);$$('[data-img],[data-imglist]',body).forEach(inp=>inp.addEventListener('input',()=>{const k=inp.dataset.k.slice(4);CT.img[k]=inp.hasAttribute('data-imglist')?inp.value.split(/\n+/).map(x=>x.trim()).filter(Boolean):inp.value;ctDirty()}));return}
   const keys=q?Object.keys(CT.defs.defs).filter(k=>k.toLowerCase().includes(q)||['bn','en'].some(l=>ctVal(k,l).toLowerCase().includes(q))):CT.defs.groups.find(g=>g.id===CT.cur).keys;
   body.innerHTML=keys.length?keys.map(ctCard).join(''):'<div class="empty"><i class="fa-regular fa-folder-open"></i>কিছু পাওয়া যায়নি।</div>'}
 function renderContent(force){const v=$('#view');
@@ -659,11 +712,11 @@ function renderContent(force){const v=$('#view');
 async function saveContent(){const btn=$('[data-ct-save]');if(!btn)return;
   const newT={...(D.content.t||{})};
   Object.keys(CT.vals).forEach(k=>{const d=CT.defs.defs[k];if(!d)return;const o={};['bn','en'].forEach(l=>{if(d.only&&d.only!==l)return;const v=String(CT.vals[k][l]??'').trim();if(v&&v!==(d[l]||''))o[l]=v});if(Object.keys(o).length)newT[k]=o;else delete newT[k]});
-  const imgMap={};Object.entries(CT.img||{}).forEach(([k,v])=>{v=String(v||'').trim();if(v)imgMap[k]=v});
-  for(const [k,v] of Object.entries(imgMap)){if(!imgUrl(v)){toast('ছবির লিংক সঠিক নয়',true);return}}
+  const imgMap={};Object.entries(CT.img||{}).forEach(([k,v])=>{if(Array.isArray(v)){const a=v.map(x=>String(x||'').trim()).filter(Boolean);if(a.length)imgMap[k]=a.length===1?a[0]:a}else{v=String(v||'').trim();if(v)imgMap[k]=v}});
+  for(const [k,v] of Object.entries(imgMap)){if(imgList(v).some(u=>!imgUrl(u))){toast('ছবির লিংক সঠিক নয়',true);return}}
   const before=D.content.img||{};btn.classList.add('busy');
   try{await setDoc(doc(db,'settings','content'),{t:newT,img:imgMap,updatedAt:serverTimestamp()},{mergeFields:['t','img','updatedAt']});
-   {const keep=Object.values(imgMap).join(' '),gone=Object.values(before).map(driveId).filter(id=>id&&!keep.includes(id)&&!stillUsed(id,{site:true}));trashIds(gone)}
+   {const keep=JSON.stringify(imgMap),gone=Object.values(before).flatMap(v=>imgList(v)).map(driveId).filter(id=>id&&!keep.includes(id)&&!stillUsed(id,{site:true}));trashIds(gone)}
    if(FS)FS.saved=true;FS=newFS('site');CT.dirty=false;const e=$('#ct-s');if(e)e.textContent='সংরক্ষিত ✓';toast('সাইটে প্রকাশিত হয়েছে ✓')}
   catch(e){fail(e)}finally{btn.classList.remove('busy')}}
 document.addEventListener('input',e=>{const t=e.target;if(t.id==='ct-q'){CT.q=t.value;renderCtBody();return}
@@ -687,6 +740,65 @@ async function runHealth(){const box=$('#hc-res'),btn=$('[data-health]'),rows=[]
   add('y','পরীক্ষা শেষ','পাবলিক সাইট (index.html) লগইন ছাড়াই পড়ে — তাই সেটি আলাদা ব্রাউজারে/ইনকগনিটোতে খুলে দেখুন কনটেন্ট আসছে কি না।');
   btn.classList.remove('busy')}
 document.addEventListener('click',e=>{if(e.target.closest('[data-health]'))runHealth()});
+
+/* ---------- থিম ও ডিজাইন ---------- */
+const THEMES={emerald:{n:'পান্না সবুজ (ডিফল্ট)',p:'#0D2F28',a:'#D6B56D',b:'#FDFBF7'},royal:{n:'রাজকীয় নীল',p:'#0B2A4A',a:'#E3B64F',b:'#F8FAFD'},maroon:{n:'মেরুন',p:'#4A1424',a:'#D9A441',b:'#FDF9F6'},teal:{n:'টিল',p:'#0F3D44',a:'#E8C468',b:'#F7FBFB'},plum:{n:'বেগুনি',p:'#2D1B4E',a:'#E3B75F',b:'#FBF9FD'},charcoal:{n:'চারকোল ও সোনালি',p:'#1B1B1F',a:'#C9A24B',b:'#FAF9F7'}};
+const FONTS={hind:'Hind Siliguri (ডিফল্ট)',noto:'Noto Sans Bengali',anek:'Anek Bangla',mukta:'Mukta',baloo:'Baloo Da 2',tiro:'Tiro Bangla (সেরিফ)'};
+const RADII={sharp:'কম গোলাকার',medium:'মাঝারি (ডিফল্ট)',round:'বেশি গোলাকার'};
+const SEC_LIST=[['stats','পরিসংখ্যান বার'],['intro','পরিচিতি (বাংলা ও English)'],['activities','কার্যক্রম'],['projects','প্রকল্প'],['gallery','গ্যালারি'],['team','নেতৃত্বের কাঠামো'],['stories','মানুষের কথা'],['news','সংবাদ ও ইভেন্ট']];
+const h2r=h=>{h=String(h||'').replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');const n=parseInt(h,16);return isNaN(n)?[0,0,0]:[(n>>16)&255,(n>>8)&255,n&255]};
+const r2h=a=>'#'+a.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');
+const mixc=(a,b,t)=>{const x=h2r(a),y=h2r(b);return r2h([0,1,2].map(i=>x[i]+(y[i]-x[i])*t))};
+const lum=h=>{const c=h2r(h).map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]};
+const contrast=(a,b)=>{const x=lum(a),y=lum(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
+function themeVars(th){th=th||{};const base=THEMES[th.preset]||THEMES.emerald,ok=v=>/^#[0-9a-f]{6}$/i.test(v||''),p=ok(th.primary)?th.primary:base.p,a=ok(th.accent)?th.accent:base.a,b=ok(th.bg)?th.bg:base.b;
+  let gt=mixc(a,'#000000',.38);for(let i=0;i<8&&contrast(gt,'#ffffff')<4.6;i++)gt=mixc(gt,'#000000',.12);const text=mixc(p,'#000000',.55);
+  return{'--dark':p,'--surface':mixc(p,'#ffffff',.1),'--dark2':mixc(p,'#000000',.38),'--gold':a,'--gold-h':mixc(a,'#000000',.14),'--gold-t':gt,'--gold-rgb':h2r(a).join(','),'--cream':b,'--sand':mixc(b,'#000000',.04),'--line':mixc(b,'#000000',.1),'--text':text,'--muted':mixc(text,'#ffffff',.38)}}
+const TH={preset:'emerald',primary:'#0D2F28',accent:'#D6B56D',bg:'#FDFBF7',font:'hind',radius:'medium',sections:{}};
+function thLoad(){const t=D.site.theme||{},base=THEMES[t.preset]||THEMES.emerald;TH.preset=t.preset&&THEMES[t.preset]?t.preset:(t.primary||t.accent||t.bg?'':'emerald');TH.primary=t.primary||base.p;TH.accent=t.accent||base.a;TH.bg=t.bg||base.b;TH.font=t.font||'hind';TH.radius=t.radius||'medium';TH.sections={...(D.site.sections||{})}}
+function thPreview(){const el=$('#th-prev');if(!el)return;const v=themeVars(TH);el.setAttribute('style',Object.entries(v).map(([k,x])=>`${k}:${x}`).join(';')+';--rr:'+({sharp:'8px',medium:'18px',round:'28px'}[TH.radius]));
+  $$('.th-sw[data-tp]').forEach(b=>b.classList.toggle('on',b.dataset.tp===TH.preset));$$('[data-tc]').forEach(i=>{i.value=TH[i.dataset.tc];const h=$('.hex',i.closest('.fld'));if(h)h.textContent=TH[i.dataset.tc].toUpperCase()});$$('[data-tr]').forEach(i=>i.checked=i.dataset.tr===TH.radius)}
+function renderTheme(force,keep){const v=$('#view');if(!L.site){v.innerHTML=`<div class="sec-h"><h2>থিম ও ডিজাইন</h2></div>${skel(2)}`;return}
+  if(!force&&$('#th-form',v))return;if(!keep)thLoad();
+  v.innerHTML=`<div class="sec-h"><div><h2><i class="fa-solid fa-palette" style="color:var(--gold-h)"></i> থিম ও ডিজাইন</h2><small>সাইটের রঙ, ফন্ট, কোণের গোলাকার ভাব এবং হোমপেজে কোন কোন সেকশন দেখাবে — সব এখান থেকে</small></div><button type="button" class="btn btn-line btn-sm" data-th-reset><i class="fa-solid fa-rotate-left"></i>ডিফল্টে ফিরুন</button></div>
+  <div class="two" id="th-form" style="align-items:start"><div>
+   <section class="card pad set-sec"><h3><i class="fa-solid fa-swatchbook"></i>রঙের থিম</h3><p>একটি তৈরি থিম বেছে নিন, অথবা নিচে নিজের রঙ দিন।</p><div class="th-grid">${Object.entries(THEMES).map(([k,t])=>`<button type="button" class="th-sw" data-tp="${k}"><span><i style="background:${t.p}"></i><i style="background:${t.a}"></i><i style="background:${t.b};border:1px solid #ddd"></i></span><b>${t.n}</b></button>`).join('')}</div>
+    <div class="fgrid" style="margin-top:14px">${[['primary','প্রধান রঙ (গাঢ়)'],['accent','অ্যাকসেন্ট (সোনালি)'],['bg','পেজের পটভূমি (হালকা)']].map(([k,l])=>`<div class="fld"><label>${l}</label><div class="clr"><input type="color" data-tc="${k}" value="${TH[k]}"><span class="hex"></span></div></div>`).join('')}</div></section>
+   <section class="card pad set-sec"><h3><i class="fa-solid fa-font"></i>ফন্ট ও আকৃতি</h3><div class="fgrid"><div class="fld"><label>বাংলা ফন্ট</label><select data-tf>${Object.entries(FONTS).map(([k,n])=>`<option value="${k}" ${TH.font===k?'selected':''}>${n}</option>`).join('')}</select></div><div class="fld"><label>কার্ড ও বাটনের কোণ</label><div class="rad">${Object.entries(RADII).map(([k,n])=>`<label class="chk"><input type="radio" name="rad" data-tr="${k}" ${TH.radius===k?'checked':''}><span>${n}</span></label>`).join('')}</div></div></div></section>
+   <section class="card pad set-sec"><h3><i class="fa-solid fa-table-list"></i>হোমপেজে কোন সেকশন দেখাবে</h3><p>বন্ধ করলে সেই সেকশন হোমপেজ থেকে লুকিয়ে যাবে (ডাটা মুছবে না)।</p><div class="secs">${SEC_LIST.map(([k,n])=>`<label class="chk"><input type="checkbox" data-ts="${k}" ${TH.sections[k]===false?'':'checked'}><span>${n}</span></label>`).join('')}</div></section></div>
+   <div style="position:sticky;top:76px"><section class="card pad"><h3 style="color:var(--dark);margin-bottom:10px"><i class="fa-solid fa-eye" style="color:var(--gold-h)"></i> লাইভ প্রিভিউ</h3><div id="th-prev" class="th-prev"><div class="tp-hero"><small>মানব প্রয়াস ফাউন্ডেশন</small><b>মানবতার সেবায়, কল্যাণের পথে</b><span class="tp-btn">সহায়তা করুন</span></div><div class="tp-body"><div class="tp-card"><i></i><b>কার্যক্রমের শিরোনাম</b><p>এখানে কার্ডের বর্ণনা দেখাবে। রঙ ও আকৃতি বদলালে এখানে সাথে সাথে বদলাবে।</p></div></div></div></section>
+   <div class="savebar"><span id="th-s">পরিবর্তন সংরক্ষিত</span><button type="button" class="btn btn-gold" data-th-save><i class="fa-solid fa-floppy-disk"></i>সংরক্ষণ করুন</button></div></div></div>`;
+  thPreview()}
+function thDirty(){const e=$('#th-s');if(e)e.textContent='অসংরক্ষিত পরিবর্তন আছে'}
+async function saveTheme(){const btn=$('[data-th-save]');if(!btn)return;btn.classList.add('busy');
+  const th={};const P=THEMES[TH.preset];if(TH.preset)th.preset=TH.preset;[['primary','p'],['accent','a'],['bg','b']].forEach(([k,c])=>{if(!P||TH[k].toLowerCase()!==P[c].toLowerCase())th[k]=TH[k]});
+  if(TH.font&&TH.font!=='hind')th.font=TH.font;if(TH.radius&&TH.radius!=='medium')th.radius=TH.radius;
+  if(th.preset==='emerald'&&Object.keys(th).length===1)delete th.preset;
+  const secs={};SEC_LIST.forEach(([k])=>{if(TH.sections[k]===false)secs[k]=false});
+  try{await setDoc(doc(db,'settings','site'),{theme:th,sections:secs,updatedAt:serverTimestamp()},{mergeFields:['theme','sections','updatedAt']});const e=$('#th-s');if(e)e.textContent='সংরক্ষিত ✓';toast('থিম সাইটে প্রয়োগ হয়েছে ✓')}catch(e){fail(e)}finally{btn.classList.remove('busy')}}
+document.addEventListener('click',e=>{let b;if(b=e.target.closest('.th-sw[data-tp]')){const t=THEMES[b.dataset.tp];TH.preset=b.dataset.tp;TH.primary=t.p;TH.accent=t.a;TH.bg=t.b;thPreview();thDirty();return}
+  if(e.target.closest('[data-th-save]'))return saveTheme();
+  if(e.target.closest('[data-th-reset]')){TH.preset='emerald';TH.primary=THEMES.emerald.p;TH.accent=THEMES.emerald.a;TH.bg=THEMES.emerald.b;TH.font='hind';TH.radius='medium';TH.sections={};renderTheme(true,true);thPreview();thDirty()}});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.tc){TH[t.dataset.tc]=t.value;TH.preset='';thPreview();thDirty()}});
+document.addEventListener('change',e=>{const t=e.target;if(!t.dataset)return;if('tf' in t.dataset){TH.font=t.value;thPreview();thDirty()}if(t.dataset.tr){TH.radius=t.dataset.tr;thPreview();thDirty()}if(t.dataset.ts){TH.sections[t.dataset.ts]=t.checked?true:false;thDirty()}});
+/* ---------- হিরো স্লাইড, শেয়ার-ছবি, ফাইল গাইড (লিংক ও সংযোগ পেজে) ---------- */
+let hsUid=0;
+const slideRow=(s={})=>{const id='hsl'+(++hsUid);return`<div class="rep hsr" data-row="slide"><div style="grid-column:1/-1">${fld({k:id,label:'স্লাইড ছবি',type:'image',full:1,hint:'হোমপেজের বড় স্লাইডার। JPG, ১২০০×৯৬০ (৫:৪ — সাইটের ছবির বক্সের মাপ), ৫০০ KB-এর কম সবচেয়ে ভালো। ফোনেও সুন্দর দেখাতে ছবির মাঝখানে মূল বিষয় রাখুন।'},s.img||'')}</div><div class="fld"><label>ক্যাপশন (বাংলা, ঐচ্ছিক)</label><input type="text" data-s="cap_bn" maxlength="120" value="${esc(s.cap_bn||'')}"></div><div class="fld"><label>Caption (English, optional)</label><input type="text" data-s="cap_en" maxlength="120" value="${esc(s.cap_en||'')}"></div><div class="rm" style="grid-column:1/-1;display:flex;gap:8px;justify-content:flex-end;align-items:center"><button type="button" class="ib" data-sl-up aria-label="উপরে"><i class="fa-solid fa-arrow-up"></i></button><button type="button" class="ib" data-sl-down aria-label="নিচে"><i class="fa-solid fa-arrow-down"></i></button><button type="button" class="btn btn-line btn-sm" data-rm><i class="fa-solid fa-trash-can"></i>সরান</button></div></div>`};
+const FILE_GUIDE=[['লোগো','SVG বা স্বচ্ছ PNG','৫১২×৫১২, চৌকো','হেডার, ফুটার, মেনু'],['ফেভিকন','চৌকো PNG','২৫৬×২৫৬ বা বড়','ব্রাউজার ট্যাব'],['হোমপেজের স্লাইড ছবি (৩–৬টি)','JPG','১২০০×৯৬০ (৫:৪), <৫০০ KB','হোমপেজের বড় ছবি, নিজে নিজে স্লাইড'],['কার্যক্রমের ছবি (প্রতিটিতে ১–৩টি)','JPG','১২০০×৮০০ (৩:২)','কার্যক্রম কার্ড'],['আইকন (বাটন/কার্ড)','SVG বা স্বচ্ছ PNG','১২৮×১২৮','সহায়তা বাটন, কার্যক্রম কার্ড'],['প্রকল্পের ছবি','JPG','১২০০×৮০০; "আগে" ও "পরে" আলাদা','প্রকল্প কার্ড ও বিস্তারিত'],['গ্যালারির ছবি','JPG / PNG / GIF','১২০০×৯০০ (৪:৩)','গ্যালারি ও হোম স্লাইডার'],['সংবাদের ছবি','JPG','১২০০×৬৭৫ (১৬:৯)','সংবাদ কার্ড'],['নেতৃত্বের ছবি','JPG','৬০০×৬০০, চৌকো, মুখ মাঝখানে','নেতৃত্বের কাঠামো'],['শেয়ার প্রিভিউ ছবি','JPG','১২০০×৬৩০ (এই পেজের টুল বানিয়ে দেয়)','WhatsApp/Facebook-এ লিংক শেয়ার'],['প্রতিবেদন','PDF','≤ ১৫ MB','সহায়তা পেজ'],['ভিডিও','YouTube (Unlisted) লিংক সবচেয়ে ভালো','—','গ্যালারি ও প্রকল্প']];
+const fileGuide=()=>`<table class="guide"><thead><tr><th>কী</th><th>সেরা ফাইল</th><th>মাপ</th><th>কোথায় দেখায়</th></tr></thead><tbody>${FILE_GUIDE.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table><p style="margin-top:10px;color:var(--muted);font-size:13.5px"><b>সব ধরনের ফাইল চলে:</b> JPG, PNG, WebP সরাসরি (ছোট করে নেওয়া হয়); GIF ও SVG হুবহু; <b>TIFF</b> ও <b>AI (PDF-সামঞ্জস্যপূর্ণ)</b> ও PDF আপলোডের সময় নিজে PNG হয়ে যায়। অ্যানিমেটেড GIF বা পরিষ্কার SVG চাইলে সবচেয়ে নিশ্চিত উপায়: ফাইলটি GitHub রিপোর <code>assets/</code> ফোল্ডারে রেখে এখানে <code>assets/নাম.svg</code> লিখে দিন।</p>`;
+let ogImg=null;
+async function ogLoad(file){const p=await prepImage(file),url=URL.createObjectURL(p.file),im=new Image();await new Promise((res,rej)=>{im.onload=res;im.onerror=()=>rej(new Error('ছবি খোলা যায়নি'));im.src=url});ogImg=im;ogDraw()}
+function ogDraw(){const cv=$('#og-cv');if(!cv)return;let cx=null;try{cx=cv.getContext('2d')}catch(e){}if(!cx)return;cx.fillStyle='#0D2F28';cx.fillRect(0,0,1200,630);
+  if(!ogImg){cx.fillStyle='rgba(214,181,109,.8)';cx.font='600 38px "Hind Siliguri",sans-serif';cx.textAlign='center';cx.fillText('ওপরের বাটনে ছবি বাছুন',600,325);cx.textAlign='left';return}
+  const sc=Math.max(1200/ogImg.width,630/ogImg.height),w=ogImg.width*sc,h=ogImg.height*sc;cx.drawImage(ogImg,(1200-w)/2,(630-h)/2,w,h);
+  if($('#og-name')&&$('#og-name').checked){const g=cx.createLinearGradient(0,320,0,630);g.addColorStop(0,'rgba(10,36,31,0)');g.addColorStop(1,'rgba(10,36,31,.9)');cx.fillStyle=g;cx.fillRect(0,300,1200,330);cx.fillStyle='#fff';cx.font='700 64px "Hind Siliguri",sans-serif';cx.fillText('মানব প্রয়াস ফাউন্ডেশন',60,548);cx.fillStyle='#D6B56D';cx.font='600 34px Inter,sans-serif';cx.fillText('Manab Proyas Foundation (MPF)',60,594)}}
+async function ogDownload(){const cv=$('#og-cv');if(!ogImg){toast('আগে একটি ছবি বাছুন',true);return}let q=.92,blob;const mk=()=>new Promise(r=>cv.toBlob(r,'image/jpeg',q));blob=await mk();while(blob.size>290*1024&&q>.5){q-=.07;blob=await mk()}
+  window.__ogBlob=blob;const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='og-image.jpg';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);toast('og-image.jpg তৈরি ('+Math.round(blob.size/1024)+' KB) — এবার GitHub-এ আপলোড করুন')}
+document.addEventListener('change',async e=>{if(e.target.id==='og-file'){const f=e.target.files[0];e.target.value='';if(!f)return;try{await ogLoad(f)}catch(x){toast(x.message,true)}}if(e.target.id==='og-name')ogDraw()});
+document.addEventListener('click',e=>{if(e.target.closest('[data-og-dl]'))ogDownload();
+  if(e.target.closest('[data-add-slide]')){const box=$('#hs-rows');if(!box)return;if($$('[data-row="slide"]',box).length>=8)return toast('সর্বোচ্চ ৮টি স্লাইড',true);box.insertAdjacentHTML('beforeend',slideRow({}));wireImgs(box.lastElementChild);dirty=true;const s=$('#lk-s');if(s)s.textContent='অসংরক্ষিত পরিবর্তন আছে'}
+  let b;if(b=e.target.closest('[data-sl-up]')){const r=b.closest('.hsr'),p=r.previousElementSibling;if(p)r.parentNode.insertBefore(r,p);dirty=true}
+  if(b=e.target.closest('[data-sl-down]')){const r=b.closest('.hsr'),n=r.nextElementSibling;if(n)r.parentNode.insertBefore(n,r);dirty=true}});
 
 /* ---------- settings ---------- */
 const DEF_STATS=[{n:300,suffix:'+',label_bn:'নিরাপদ যাতায়াত পাওয়া পরিবার',label_en:'Families with safe passage'},{n:500,suffix:'+',label_bn:'শিশুকে সহায়তার লক্ষ্য',label_en:'Children targeted for support'},{n:100,suffix:'+',label_bn:'বন্যায় ত্রাণ পাওয়া পরিবার',label_en:'Flood-relief families'},{n:'@projects',suffix:'',label_bn:'মোট প্রকল্প',label_en:'Total projects'}];
@@ -802,8 +914,8 @@ document.addEventListener('click',async e=>{const t=e.target;
  if(b=t.closest('[data-flt]')){const [k,v]=b.dataset.flt.split(':');F[k]=v;return renderView(true)}
  if(t.closest('[data-csv]'))return exportCSV();
  if(b=t.closest('[data-jump]')){const el=$('#'+b.dataset.jump);return el&&el.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'})}
- if(b=t.closest('[data-add]')){const k=b.dataset.add,box=$('#rows-'+k);if(k==='stats'&&$$('[data-row="stats"]',box).length>=6)return toast('সর্বোচ্চ ৬টি',true);box.insertAdjacentHTML('beforeend',k==='stats'?statRow({n:'',suffix:'+'}):repRow({}));dirty=true;$('#sv-s').textContent='অসংরক্ষিত পরিবর্তন আছে';return}
- if(b=t.closest('[data-rm]')){b.closest('.rep').remove();dirty=true;$('#sv-s').textContent='অসংরক্ষিত পরিবর্তন আছে';return}
+ if(b=t.closest('[data-add]')){const k=b.dataset.add,box=$('#rows-'+k);if(k==='stats'&&$$('[data-row="stats"]',box).length>=6)return toast('সর্বোচ্চ ৬টি',true);box.insertAdjacentHTML('beforeend',k==='stats'?statRow({n:'',suffix:'+'}):repRow({}));dirty=true;{const sv=$('#sv-s')||$('#lk-s');if(sv)sv.textContent='অসংরক্ষিত পরিবর্তন আছে'}return}
+ if(b=t.closest('[data-rm]')){b.closest('.rep').remove();dirty=true;{const sv=$('#sv-s')||$('#lk-s');if(sv)sv.textContent='অসংরক্ষিত পরিবর্তন আছে'}return}
  if(t.closest('[data-copy-rules]')){try{await navigator.clipboard.writeText(RULES);toast('Rules কপি হয়েছে')}catch(_){toast('কপি করা যায়নি — নিজে সিলেক্ট করুন',true)}return}
  if(b=t.closest('[data-copy-text-from]')){const txt=$(b.dataset.copyTextFrom).textContent;try{await navigator.clipboard.writeText(txt);toast('কপি হয়েছে')}catch(_){toast(txt)}return}
 });
